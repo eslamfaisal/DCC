@@ -9,8 +9,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class BaseClient {
-    private static Retrofit retrofit = null;
     private static final String BASE_URL = "http://10.0.2.2:5000/";
+    private static Retrofit retrofit = null;
+
     private static OkHttpClient buildClient() {
         return new OkHttpClient
                 .Builder()
@@ -33,7 +34,7 @@ public class BaseClient {
         return retrofit;
     }
 
-    public static Apis getApi(){
+    public static Apis getApi() {
         return getBaseClient().create(Apis.class);
     }
 

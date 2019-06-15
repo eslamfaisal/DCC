@@ -124,6 +124,7 @@ public class LoginActivity extends AppCompatActivity  {
                     LoginRespons loginRespons = response.body();
                     Log.d(TAG, "onResponse: "+response.body().getToken());
                     SharedHelper.putKey(LoginActivity.this, Enums.TOKEN.name(),loginRespons.getToken());
+                    SharedHelper.putKey(LoginActivity.this, Enums.AUTH_TOKEN.name(),"Bearer "+loginRespons.getToken());
                     SharedHelper.putKey(LoginActivity.this, Enums.ID.name(), String.valueOf(loginRespons.getUser().getId()));
                     SharedHelper.putBoolean(LoginActivity.this, Enums.IS_LOG_IN.name(),true);
                     SharedHelper.putKey(LoginActivity.this, Enums.NAME.name(),loginRespons.getUser().getUsername());

@@ -22,26 +22,22 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:titleEnabled="false">
 
-            <ImageView
+            <com.facebook.drawee.view.SimpleDraweeView xmlns:fresco="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_dummy_user"
-                app:layout_collapseMode="parallax" />
+                app:layout_collapseMode="parallax"
+                fresco:actualImageScaleType="centerCrop"
+                fresco:fadeDuration="300"
+                fresco:placeholderImage="@drawable/ic_dummy_user"
+                fresco:progressBarAutoRotateInterval="1000"
+                fresco:progressBarImage="@drawable/ic_refresh" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/overlay_dark_10" />
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -69,24 +65,14 @@
                 android:orientation="vertical"
                 android:padding="@dimen/spacing_large">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/name"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <View
-                        android:layout_width="@dimen/spacing_xmlarge"
-                        android:layout_height="match_parent" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_large"
-                        android:text="Eslam Faisal"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
-                        android:textColor="@color/grey_90" />
-
-                </LinearLayout>
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/_16sdp"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+                    android:textColor="@color/grey_90"
+                    android:textStyle="bold" />
 
                 <View
                     android:layout_width="match_parent"
@@ -114,14 +100,16 @@
                         android:orientation="vertical">
 
                         <TextView
+
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="MeLocation "
+                            android:text="@string/my_location"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                             android:textColor="@color/colorPrimary"
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/location"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/spacing_middle"
@@ -132,6 +120,7 @@
                     </LinearLayout>
 
                 </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/spacing_large" />
@@ -160,13 +149,13 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="About Me"
+                            android:text="@string/introduction"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                             android:textColor="@color/colorPrimary"
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/about"
+                            android:id="@+id/introduction"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/spacing_middle"
@@ -206,16 +195,17 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Looking For"                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                            android:text="@string/looking_for"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                             android:textColor="@color/colorPrimary"
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/looking_for"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/spacing_middle"
                             android:lineSpacingExtra="2dp"
-                            android:text="Swimming, playing tennis, cooking are my favorite hobbies"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
                             android:textColor="@color/grey_60" />
 
@@ -252,11 +242,13 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Interests"                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                            android:text="@string/interests"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                             android:textColor="@color/colorPrimary"
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/interests"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/spacing_middle"
@@ -303,13 +295,12 @@
                             android:textColor="@color/colorPrimary"
                             android:textStyle="bold" />
 
-                        <HorizontalScrollView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/spacing_middle"
-                            android:scrollbarSize="2dp">
-
+                            <android.support.v7.widget.RecyclerView
+                                android:id="@+id/images_recycler_View"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
                             <LinearLayout
+                                android:visibility="gone"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_vertical"
@@ -362,8 +353,6 @@
 
                             </LinearLayout>
 
-                        </HorizontalScrollView>
-
                     </LinearLayout>
 
                 </LinearLayout>
@@ -375,7 +364,7 @@
     </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/edit_profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/spacing_mlarge"

@@ -23,7 +23,7 @@ public class UsersAdapterGridScrollProgress extends RecyclerView.Adapter<Recycle
     private final int VIEW_PROGRESS = 0;
 
     private int item_per_display = 0;
-    private List<User> items = new ArrayList<>();
+    private List<User> items ;
     private boolean loading;
     private OnLoadMoreListener onLoadMoreListener = null;
 
@@ -211,5 +211,13 @@ public class UsersAdapterGridScrollProgress extends RecyclerView.Adapter<Recycle
             message = v.findViewById(R.id.message);
 
         }
+    }
+
+    public List<User> getItems() {
+        return items;
+    }
+
+    public void setItems(List<User> items) {
+        this.items = items;
     }
 }

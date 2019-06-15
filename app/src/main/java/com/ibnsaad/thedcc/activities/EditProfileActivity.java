@@ -1,5 +1,6 @@
-package com.ibnsaad.thedcc;
+package com.ibnsaad.thedcc.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
@@ -10,7 +11,9 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.ParsedRequestListener;
-import com.ibnsaad.thedcc.model.PhotoModel;
+import com.ibnsaad.thedcc.R;
+import com.ibnsaad.thedcc.enums.Enums;
+import com.ibnsaad.thedcc.model.ProfileResponse;
 import com.ibnsaad.thedcc.model.User;
 import com.ibnsaad.thedcc.network.AuthHelper;
 import com.ibnsaad.thedcc.network.RetrofitNetwork.Client;
@@ -30,7 +33,7 @@ import retrofit2.Response;
 
 public class EditProfileActivity extends AppCompatActivity {
 
-    public static final String TAG = EditProfileActivity.class.getSimpleName();
+    public final String TAG = EditProfileActivity.class.getSimpleName();
     private AuthHelper mAuthHelper;
 
     private AppCompatEditText email, userName, userAge, userGender, address, city, phone;
@@ -41,11 +44,10 @@ public class EditProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         ButterKnife.bind(this);
 
-        mAuthHelper = AuthHelper.getInstance(this);
-        if (mAuthHelper.isLoggedIn()) {
-            //getProfileUser(mAuthHelper.getId());
-            getUser(mAuthHelper.getId());
-        }
+        Intent intent = getIntent();
+
+         ProfileResponse profileResponse = (ProfileResponse) intent.getSerializableExtra(Enums.ID.name());
+        Log.d(TAG, "onCreate: "+profileResponse.toString());
 
     }
 

@@ -2,46 +2,55 @@ package com.ibnsaad.thedcc.fragments;
 
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.ibnsaad.thedcc.R;
-import com.ibnsaad.thedcc.activities.HomeActivity;
 import com.ibnsaad.thedcc.adapter.UsersAdapterGridScrollProgress;
+import com.ibnsaad.thedcc.enums.Enums;
+import com.ibnsaad.thedcc.heper.SharedHelper;
 import com.ibnsaad.thedcc.model.User;
+import com.ibnsaad.thedcc.network.RetrofitNetwork.BaseClient;
 import com.ibnsaad.thedcc.utils.Tools;
 import com.ibnsaad.thedcc.widget.SpacingItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class DoctorsFragment extends Fragment {
 
-    private int item_per_display = 10;
+    private static final String TAG = "DoctorsFragment";
+    public static DoctorsFragment doctorsFragment;
+    private int item_per_display = 5;
+    private int pageCount = 1;
     private UsersAdapterGridScrollProgress mAdapter;
     private RecyclerView recyclerView;
     private List<User> users;
+    private String token;
 
-    public static DoctorsFragment doctorsFragment;
     public DoctorsFragment() {
         // Required empty public constructor
     }
 
     public static Fragment getInstance() {
-        if (doctorsFragment==null){
+        if (doctorsFragment == null) {
             return new DoctorsFragment();
-        }else return doctorsFragment;
+        } else return doctorsFragment;
     }
 
 
@@ -55,6 +64,7 @@ public class DoctorsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        pageCount = 1;
         initComponent(view);
     }
 
@@ -67,7 +77,7 @@ public class DoctorsFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         //set data and list adapter
-        mAdapter = new UsersAdapterGridScrollProgress(getActivity(), item_per_display, generateListItems(item_per_display));
+        mAdapter = new UsersAdapterGridScrollProgress(getActivity(), item_per_display, users);
         recyclerView.setAdapter(mAdapter);
 
         mAdapter.setOnLoadMoreListener(new UsersAdapterGridScrollProgress.OnLoadMoreListener() {
@@ -84,32 +94,55 @@ public class DoctorsFragment extends Fragment {
             }
         });
 
-    }
+        token = SharedHelper.getKey(getActivity(), Enums.AUTH_TOKEN.name());
 
+        BaseClient.getApi().getUsersPaging(token, pageCount, item_per_display).enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                Log.d(TAG, "onResponse: " + response.body().size());
+                recyclerView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        pageCount += 1;
+                        mAdapter.setItems(response.body());
+                        mAdapter.notifyDataSetChanged();
+                    }
+                });
 
-    private List<User> generateListItems(int count) {
-        List<User> users = new ArrayList<>();
-        users.add(new User("Bassel faisal"));
-        users.add(new User("Bassel faisal"));
-        users.add(new User("eslam faisal"));
-        users.add(new User("Bassel faisal"));
-        users.add(new User("eslam faisal"));
-        users.add(new User("Bassel faisal"));
-        users.add(new User("Bassel faisal"));
-        users.add(new User("eslam faisal"));
-        users.add(new User("Bassel faisal"));
-        users.add(new User("eslam faisal"));
+            }
 
-        return users;
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+
+            }
+        });
     }
 
     private void loadNextData() {
-        mAdapter.setLoading();
-        new Handler().postDelayed(new Runnable() {
+        recyclerView.post(new Runnable() {
             @Override
             public void run() {
-                mAdapter.insertData(generateListItems(item_per_display));
+                mAdapter.setLoading();
             }
-        }, 2000);
+        });
+
+        BaseClient.getApi().getUsersPaging(token, pageCount, item_per_display).enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                recyclerView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        pageCount += 1;
+                        mAdapter.insertData(response.body());
+                    }
+                });
+
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+
+            }
+        });
     }
 }

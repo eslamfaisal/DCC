@@ -1,11 +1,14 @@
 package com.ibnsaad.thedcc;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,16 +23,30 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
-import com.ibnsaad.thedcc.activities.LoginActivity;
 import com.ibnsaad.thedcc.network.AuthHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,45 +77,44 @@ public class OldRegisterActivity extends AppCompatActivity {
     EditText mBirthDay;
     @BindView(R.id.radio_group_gander)
     RadioGroup mRadioGroupGender;
-
-    private RadioButton mRadioSexButton;
     Calendar myCalendar;
-
+    private RadioButton mRadioSexButton;
     private AuthHelper mAuthHelper;
+    private String backupPath;
+    private String outputPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         ButterKnife.bind(this);
-        mAuthHelper=AuthHelper.getInstance(this);
-
-        AndroidNetworking.initialize(getApplicationContext());
-
-        mSignupButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                signup();
-
-
-            }
-        });
-
-        mLoginLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Finish the registration screen and return to the Login activity
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(intent);
-                finish();
-                overridePendingTransition(R.anim.push_left, R.anim.push_left_out);
-            }
-        });
-
-        getBirthDay();
+//        mAuthHelper=AuthHelper.getInstance(this);
+//
+//        AndroidNetworking.initialize(getApplicationContext());
+//
+//        mSignupButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                signup();
+//
+//
+//            }
+//        });
+//
+//        mLoginLink.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // Finish the registration screen and return to the Login activity
+//                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+//                startActivity(intent);
+//                finish();
+//                overridePendingTransition(R.anim.push_left, R.anim.push_left_out);
+//            }
+//        });
+//
+//        getBirthDay();
     }
-
 
     private void signup() {
 
@@ -120,9 +136,9 @@ public class OldRegisterActivity extends AppCompatActivity {
 
         String city = mCityText.getText().toString();
         String password = mPasswordText.getText().toString();
-        String country=mCountryText.getText().toString();
+        String country = mCountryText.getText().toString();
         String birthday = mBirthDay.getText().toString();
-        String knowAs=mKnowAs.getText().toString();
+        String knowAs = mKnowAs.getText().toString();
         int selectedId = mRadioGroupGender.getCheckedRadioButtonId();
         mRadioSexButton = (RadioButton) findViewById(selectedId);
         String gender = mRadioSexButton.getText().toString();
@@ -132,9 +148,8 @@ public class OldRegisterActivity extends AppCompatActivity {
         String currentDateandTime = sdf.format(new Date());
         //register method
 
-        registerWithNetworkFaster(name,password,gender,knowAs,
-                birthday,city,country,currentDateandTime,currentDateandTime);
-
+        registerWithNetworkFaster(name, password, gender, knowAs,
+                birthday, city, country, currentDateandTime, currentDateandTime);
 
 
         // TODO: Implement your own signup logic here.
@@ -169,11 +184,11 @@ public class OldRegisterActivity extends AppCompatActivity {
 
         String name = mNameText.getText().toString();
         String city = mCityText.getText().toString();
-        String country=mCountryText.getText().toString();
+        String country = mCountryText.getText().toString();
         String password = mPasswordText.getText().toString();
         String reEnterPassword = mReEnterPasswordText.getText().toString();
         String birthday = mBirthDay.getText().toString();
-        String knowAs=mKnowAs.getText().toString();
+        String knowAs = mKnowAs.getText().toString();
 
         if (name.isEmpty() || name.length() < 3 || name.length() > 14) {
             mNameText.setError("at least 3 characters");
@@ -236,8 +251,7 @@ public class OldRegisterActivity extends AppCompatActivity {
 
     }
 
-    private void getBirthDay()
-    {
+    private void getBirthDay() {
         myCalendar = Calendar.getInstance();
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
@@ -274,10 +288,10 @@ public class OldRegisterActivity extends AppCompatActivity {
 
     }
 
-    private void saveSessionDetails(@NonNull String token,int id) {
+    private void saveSessionDetails(@NonNull String token, int id) {
         mAuthHelper.setIdToken(token);
         mAuthHelper.setIdUser(id);
-        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 //        intent.putExtra("token",token);
         startActivity(intent);
     }
@@ -285,26 +299,26 @@ public class OldRegisterActivity extends AppCompatActivity {
     private void registerWithNetworkFaster(final String userName, final String password, String gender, String KnowAs,
                                            String birthday, String city, String country
 
-                                           , String created, String lastSeen) {
+            , String created, String lastSeen) {
 
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("username",userName);
-            jsonObject.put("password",password);
-            jsonObject.put("gender",gender);
-            jsonObject.put("knownAs",KnowAs);
-            jsonObject.put("dateOfBirth",birthday);
-            jsonObject.put("city",city);
-            jsonObject.put("country",country);
-            jsonObject.put("created",created);
-            jsonObject.put("lastActive",lastSeen);
+            jsonObject.put("username", userName);
+            jsonObject.put("password", password);
+            jsonObject.put("gender", gender);
+            jsonObject.put("knownAs", KnowAs);
+            jsonObject.put("dateOfBirth", birthday);
+            jsonObject.put("city", city);
+            jsonObject.put("country", country);
+            jsonObject.put("created", created);
+            jsonObject.put("lastActive", lastSeen);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         AndroidNetworking.post("http://thedccapp.com/api/Auth/register")
                 .addJSONObjectBody(jsonObject)// posting json
                 .setTag("test")
-                .addHeaders("Bearer","hamadasaad")
+                .addHeaders("Bearer", "hamadasaad")
                 .setPriority(Priority.MEDIUM)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
@@ -314,25 +328,27 @@ public class OldRegisterActivity extends AppCompatActivity {
 
 //                        Toast.makeText(OldRegisterActivity.this, "Done Register",
 //                                Toast.LENGTH_SHORT).show();
-                       // startActivity(new Intent(OldRegisterActivity.this,MainActivity.class));
+                        // startActivity(new Intent(OldRegisterActivity.this,MainActivity.class));
 
                         loginWithNetworkFaster(userName, password);
                     }
+
                     @Override
                     public void onError(ANError error) {
                         // handle error
-                        Log.d("hamada",error.getErrorBody());
-                        Log.d("hamadade",error.getErrorDetail());
+                        Log.d("hamada", error.getErrorBody());
+                        Log.d("hamadade", error.getErrorDetail());
                     }
                 });
 
     }
+
     private void loginWithNetworkFaster(String userName, String password) {
 
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("username",userName);
-            jsonObject.put("password",password);
+            jsonObject.put("username", userName);
+            jsonObject.put("password", password);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -349,16 +365,16 @@ public class OldRegisterActivity extends AppCompatActivity {
 
                         try {
                             //set token between activity
-                            String token=response.getString("token");
-                            Log.d(TAG,token);
+                            String token = response.getString("token");
+                            Log.d(TAG, token);
 //                            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
 //                            intent.putExtra("token",token);
 //                            startActivity(intent);
-                            JSONObject object=response.getJSONObject("user");
-                            int id=object.getInt("id");
-                            saveSessionDetails( token,id);
+                            JSONObject object = response.getJSONObject("user");
+                            int id = object.getInt("id");
+                            saveSessionDetails(token, id);
                             Toast.makeText(OldRegisterActivity.this, "Done Register",
-                                Toast.LENGTH_SHORT).show();
+                                    Toast.LENGTH_SHORT).show();
                         } catch (JSONException e) {
                             Toast.makeText(OldRegisterActivity.this,
                                     "some thing happen register later  ",
@@ -370,7 +386,7 @@ public class OldRegisterActivity extends AppCompatActivity {
                     @Override
                     public void onError(ANError anError) {
 
-                       Log.d(TAG,anError.getErrorDetail());
+                        Log.d(TAG, anError.getErrorDetail());
                     }
                 });
     }

@@ -260,10 +260,10 @@ public class RegisterActivity extends AppCompatActivity implements ConnectivityL
     }
     private void showUserTypeDialog(final View v) {
         final String[] array = new String[]{
-                getString(R.string.doctor), getString(R.string.patient)
+                getString(R.string.doctors), getString(R.string.patient)
         };
         AlertDialog.Builder builder = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_LIGHT);
-        builder.setTitle(getString(R.string.gender));
+        builder.setTitle(getString(R.string.accunt_type));
         builder.setSingleChoiceItems(array, -1, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {

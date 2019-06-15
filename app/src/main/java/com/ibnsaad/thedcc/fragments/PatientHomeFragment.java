@@ -9,37 +9,31 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.ibnsaad.thedcc.R;
-import com.ibnsaad.thedcc.network.RetrofitNetwork.BaseClient;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment {
+public class PatientHomeFragment extends Fragment {
 
-    private static final String TAG = "HomeFragment";
+    private static final String TAG = "PatientHomeFragment";
     private ViewPager view_pager;
     private TabLayout tab_layout;
-    public static HomeFragment instance;
-    public HomeFragment() {
+
+    public PatientHomeFragment() {
         // Required empty public constructor
     }
-
-    public static HomeFragment getInstance() {
+    public static PatientHomeFragment instance;
+    public static PatientHomeFragment getInstance() {
         if (instance==null){
-            return new HomeFragment();
+            return new PatientHomeFragment();
         }else
         return instance;
     }
@@ -68,8 +62,8 @@ public class HomeFragment extends Fragment {
 
     private void setupViewPager(ViewPager viewPager) {
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getChildFragmentManager());
-        adapter.addFragment(DoctorsFragment.getInstance(), "Talk To Doctor");
-        adapter.addFragment(DiagnosisFragment.getInstance(), "Diagnosis");
+        adapter.addFragment(DoctorsFragment.getInstance(), getString(R.string.talk_to));
+        adapter.addFragment(DiagnosisFragment.getInstance(), getString(R.string.diagnosis));
 
         viewPager.setAdapter(adapter);
     }

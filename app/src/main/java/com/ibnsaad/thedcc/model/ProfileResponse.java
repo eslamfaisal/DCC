@@ -3,9 +3,11 @@ package com.ibnsaad.thedcc.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class User {
+import java.io.Serializable;
+import java.util.List;
 
-    public boolean progress;
+public class ProfileResponse implements Serializable {
+
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -30,41 +32,43 @@ public class User {
     @SerializedName("lastActive")
     @Expose
     private String lastActive;
+    @SerializedName("introducation")
+    @Expose
+    private String introducation;
+    @SerializedName("lookingFor")
+    @Expose
+    private String lookingFor;
+    @SerializedName("interests")
+    @Expose
+    private String interests;
     @SerializedName("city")
     @Expose
     private String city;
     @SerializedName("country")
     @Expose
     private String country;
+    @SerializedName("userType")
+    @Expose
+    private String userType;
     @SerializedName("photoUrl")
     @Expose
     private String photoUrl;
+    @SerializedName("likerCount")
+    @Expose
+    private int likerCount;
+    @SerializedName("specialization")
+    @Expose
+    private String specialization;
+    @SerializedName("photos")
+    @Expose
+    private List<Photo> photos = null;
 
-    public User(boolean progress) {
-        this.progress = progress;
-    }
-
-    public User() {
-    }
-
-    public User(String knownAs) {
-        this.knownAs = knownAs;
-    }
-
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
-    }
-
-    public boolean isProgress() {
-        return progress;
-    }
-
-    public void setProgress(boolean progress) {
-        this.progress = progress;
     }
 
     public String getUsername() {
@@ -123,6 +127,30 @@ public class User {
         this.lastActive = lastActive;
     }
 
+    public String getIntroducation() {
+        return introducation;
+    }
+
+    public void setIntroducation(String introducation) {
+        this.introducation = introducation;
+    }
+
+    public String getLookingFor() {
+        return lookingFor;
+    }
+
+    public void setLookingFor(String lookingFor) {
+        this.lookingFor = lookingFor;
+    }
+
+    public String getInterests() {
+        return interests;
+    }
+
+    public void setInterests(String interests) {
+        this.interests = interests;
+    }
+
     public String getCity() {
         return city;
     }
@@ -139,6 +167,14 @@ public class User {
         this.country = country;
     }
 
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
     public String getPhotoUrl() {
         return photoUrl;
     }
@@ -147,11 +183,34 @@ public class User {
         this.photoUrl = photoUrl;
     }
 
+    public Integer getLikerCount() {
+        return likerCount;
+    }
+
+    public void setLikerCount(Integer likerCount) {
+        this.likerCount = likerCount;
+    }
+
+    public String getSpecialization() {
+        return specialization;
+    }
+
+    public void setSpecialization(String specialization) {
+        this.specialization = specialization;
+    }
+
+    public List<Photo> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(List<Photo> photos) {
+        this.photos = photos;
+    }
+
     @Override
     public String toString() {
-        return "User{" +
-                "progress=" + progress +
-                ", id=" + id +
+        return "ProfileResponse{" +
+                "id=" + id +
                 ", username='" + username + '\'' +
                 ", gender='" + gender + '\'' +
                 ", age=" + age +
@@ -159,9 +218,16 @@ public class User {
                 ", knownAs='" + knownAs + '\'' +
                 ", created='" + created + '\'' +
                 ", lastActive='" + lastActive + '\'' +
+                ", introducation='" + introducation + '\'' +
+                ", lookingFor='" + lookingFor + '\'' +
+                ", interests='" + interests + '\'' +
                 ", city='" + city + '\'' +
                 ", country='" + country + '\'' +
+                ", userType='" + userType + '\'' +
                 ", photoUrl='" + photoUrl + '\'' +
+                ", likerCount=" + likerCount +
+                ", specialization='" + specialization + '\'' +
+                ", photos=" + photos +
                 '}';
     }
 }

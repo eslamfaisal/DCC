@@ -90,6 +90,14 @@
     <string name="navigation_drawer_open">open</string>
     <string name="navigation_drawer_close">close</string>
     <string name="doctor">Doctor</string>
+    <string name="doctors">Doctors</string>
     <string name="patient">Patient</string>
+    <string name="accunt_type">Account type</string>
+    <string name="talk_to">Talk To Doctor</string>
+    <string name="diagnosis">Diagnosis</string>
+    <string name="my_location">My Location</string>
+    <string name="introduction">Introduction</string>
+    <string name="looking_for">Looking For</string>
+    <string name="interests">Interests</string>
 
 </resources>

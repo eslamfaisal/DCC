@@ -3,15 +3,15 @@ package com.ibnsaad.thedcc.activities;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -21,18 +21,19 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.ibnsaad.thedcc.R;
 import com.ibnsaad.thedcc.adapter.UsersAdapterGridScrollProgress;
 import com.ibnsaad.thedcc.enums.Enums;
-import com.ibnsaad.thedcc.fragments.HomeFragment;
+import com.ibnsaad.thedcc.fragments.PatientHomeFragment;
+import com.ibnsaad.thedcc.fragments.ProfileFragment;
 import com.ibnsaad.thedcc.heper.SharedHelper;
 import com.ibnsaad.thedcc.model.User;
 import com.ibnsaad.thedcc.utils.Tools;
 import com.ibnsaad.thedcc.widget.SpacingItemDecoration;
-import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeActivity extends SplashActivity {
 
+    private static final String TAG = "HomeActivity";
     private int item_per_display = 10;
     private UsersAdapterGridScrollProgress mAdapter;
     private RecyclerView recyclerView;
@@ -46,12 +47,21 @@ public class HomeActivity extends SplashActivity {
         setContentView(R.layout.activity_home);
         initToolbar();
         initNavigationMenu();
-       // initComponent();
+        // initComponent();
 
+
+        replaceFragment(PatientHomeFragment.getInstance());
+    }
+
+    private void replaceFragment(Fragment fragment) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment, HomeFragment.getInstance());
+        ft.replace(R.id.fragment, fragment);
         ft.commit();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
 
     }
 
@@ -79,20 +89,42 @@ public class HomeActivity extends SplashActivity {
         nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(final MenuItem item) {
-                Toast.makeText(getApplicationContext(), item.getTitle() + " Selected", Toast.LENGTH_SHORT).show();
-                actionBar.setTitle(item.getTitle());
                 drawer.closeDrawers();
+                onSelected(item);
+                actionBar.setTitle(item.getTitle());
+                Log.d(TAG, "onNavigationItemSelected: " + item.getTitle());
                 return true;
             }
         });
+
         nav_view.setCheckedItem(R.id.nav_home);
         View header = nav_view.getHeaderView(0);
         TextView userName = header.findViewById(R.id.user_name);
         SimpleDraweeView userImage = header.findViewById(R.id.user_image);
-        userName.setText(SharedHelper.getKey(this,Enums.KnownAs.name()));
-        userImage.setImageURI(SharedHelper.getKey(this,Enums.PhotoUrl.name()));
+        userName.setText(SharedHelper.getKey(this, Enums.KnownAs.name()));
+        userImage.setImageURI(SharedHelper.getKey(this, Enums.PhotoUrl.name()));
         // open drawer at start
-     //   drawer.openDrawer(GravityCompat.START);
+        //   drawer.openDrawer(GravityCompat.START);
+
+    }
+
+    public void onSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+
+            case R.id.nav_home:
+                replaceFragment(PatientHomeFragment.getInstance());
+                break;
+            case R.id.nav_profile:
+                replaceFragment(ProfileFragment.getInstance());
+                break;
+            case R.id.nav_out:
+                SharedHelper.putBoolean(this, Enums.IS_LOG_IN.name(), false);
+                recreate();
+                break;
+
+        }
+
     }
 
     private void initComponent() {
