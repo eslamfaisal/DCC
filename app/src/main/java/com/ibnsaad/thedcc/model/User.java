@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 public class User {
 
     public boolean progress;
+
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -39,12 +40,45 @@ public class User {
     @SerializedName("photoUrl")
     @Expose
     private String photoUrl;
+    @SerializedName("userType")
+    @Expose
+    private String userType;
+    @SerializedName("specialization")
+    @Expose
+    private String specialization;
+    @SerializedName("likerCount")
+    @Expose
+    private Integer likerCount;
 
     public User(boolean progress) {
         this.progress = progress;
     }
 
     public User() {
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
+    public String getSpecialization() {
+        return specialization;
+    }
+
+    public void setSpecialization(String specialization) {
+        this.specialization = specialization;
+    }
+
+    public Integer getLikerCount() {
+        return likerCount;
+    }
+
+    public void setLikerCount(Integer likerCount) {
+        this.likerCount = likerCount;
     }
 
     public User(String knownAs) {

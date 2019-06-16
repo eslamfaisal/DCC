@@ -8,11 +8,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.core.view.ViewCompat;
+import androidx.core.widget.NestedScrollView;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -28,8 +28,6 @@ import com.ibnsaad.thedcc.utils.Dialogs;
 import com.ibnsaad.thedcc.utils.Tools;
 import com.ibnsaad.thedcc.widget.EslamDatePickerDialog;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-
-import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;

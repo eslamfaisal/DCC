@@ -1,8 +1,8 @@
 package com.ibnsaad.thedcc.activities;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 
 public class GuiManger {

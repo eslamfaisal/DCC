@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="260dp"
+        android:layout_height="300dp"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <android.support.design.widget.CollapsingToolbarLayout
+        <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -34,16 +34,77 @@
                 fresco:progressBarAutoRotateInterval="1000"
                 fresco:progressBarImage="@drawable/ic_refresh" />
 
-            <View
+            <LinearLayout
+                android:layout_marginEnd="@dimen/spacing_smlarge"
+                android:layout_marginBottom="26dp"
+                android:gravity="end|bottom"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/overlay_dark_10" />
+                android:orientation="vertical">
 
-        </android.support.design.widget.CollapsingToolbarLayout>
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/new_image"
+                    style="@style/fab_buttons_CardView_Style"
+                    android:layout_gravity="end"
+                    app:cardBackgroundColor="@color/colorPrimary"
+                    app:cardCornerRadius="3dp"
+                    app:cardElevation="2dp"
+                    app:contentPadding="@dimen/spacing_medium">
 
-    </android.support.design.widget.AppBarLayout>
+                    <TextView
+                        style="@style/fab_buttons_TextView_Style"
+                        android:text="New Image" />
 
-    <android.support.v4.widget.NestedScrollView
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/message"
+                    style="@style/fab_buttons_CardView_Style"
+                    android:layout_gravity="end"
+                    app:cardBackgroundColor="@color/colorPrimary"
+                    app:cardCornerRadius="3dp"
+                    app:cardElevation="2dp"
+                    app:contentPadding="@dimen/spacing_medium">
+
+                    <TextView
+                        style="@style/fab_buttons_TextView_Style"
+                        android:text="@string/message" />
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/like"
+                    style="@style/fab_buttons_CardView_Style"
+                    android:layout_gravity="end"
+                    app:cardBackgroundColor="@color/colorPrimary"
+                    app:cardCornerRadius="3dp"
+                    app:cardElevation="2dp"
+                    app:contentPadding="@dimen/spacing_medium">
+
+                    <TextView
+                        style="@style/fab_buttons_TextView_Style"
+                        android:text="@string/like" />
+
+                </androidx.cardview.widget.CardView>
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/userAction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:tint="@android:color/white"
+                    app:backgroundTint="@color/deep_orange_500"
+                    app:fabSize="normal"
+                    app:layout_anchor="@id/lyt_form"
+                    app:rippleColor="@android:color/white"
+                    app:srcCompat="@drawable/ic_fab_add" />
+            </LinearLayout>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"
@@ -295,63 +356,63 @@
                             android:textColor="@color/colorPrimary"
                             android:textStyle="bold" />
 
-                            <android.support.v7.widget.RecyclerView
-                                android:id="@+id/images_recycler_View"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"/>
-                            <LinearLayout
-                                android:visibility="gone"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_vertical"
-                                android:orientation="horizontal">
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/images_recycler_View"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                        <LinearLayout
+                            android:visibility="gone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
 
-                                <ImageView
-                                    android:id="@+id/image_1"
-                                    android:layout_width="90dp"
-                                    android:layout_height="90dp"
-                                    android:layout_marginEnd="@dimen/spacing_medium"
-                                    android:layout_marginRight="@dimen/spacing_medium"
-                                    android:scaleType="centerCrop"
-                                    android:src="@color/grey_20" />
+                            <ImageView
+                                android:id="@+id/image_1"
+                                android:layout_width="90dp"
+                                android:layout_height="90dp"
+                                android:layout_marginEnd="@dimen/spacing_medium"
+                                android:layout_marginRight="@dimen/spacing_medium"
+                                android:scaleType="centerCrop"
+                                android:src="@color/grey_20" />
 
-                                <ImageView
-                                    android:id="@+id/image_2"
-                                    android:layout_width="90dp"
-                                    android:layout_height="90dp"
-                                    android:layout_marginEnd="@dimen/spacing_medium"
-                                    android:layout_marginRight="@dimen/spacing_medium"
-                                    android:scaleType="centerCrop"
-                                    android:src="@color/grey_20" />
+                            <ImageView
+                                android:id="@+id/image_2"
+                                android:layout_width="90dp"
+                                android:layout_height="90dp"
+                                android:layout_marginEnd="@dimen/spacing_medium"
+                                android:layout_marginRight="@dimen/spacing_medium"
+                                android:scaleType="centerCrop"
+                                android:src="@color/grey_20" />
 
-                                <ImageView
-                                    android:id="@+id/image_3"
-                                    android:layout_width="90dp"
-                                    android:layout_height="90dp"
-                                    android:layout_marginEnd="@dimen/spacing_medium"
-                                    android:layout_marginRight="@dimen/spacing_medium"
-                                    android:scaleType="centerCrop"
-                                    android:src="@color/grey_20" />
+                            <ImageView
+                                android:id="@+id/image_3"
+                                android:layout_width="90dp"
+                                android:layout_height="90dp"
+                                android:layout_marginEnd="@dimen/spacing_medium"
+                                android:layout_marginRight="@dimen/spacing_medium"
+                                android:scaleType="centerCrop"
+                                android:src="@color/grey_20" />
 
-                                <ImageView
-                                    android:id="@+id/image_4"
-                                    android:layout_width="90dp"
-                                    android:layout_height="90dp"
-                                    android:layout_marginEnd="@dimen/spacing_medium"
-                                    android:layout_marginRight="@dimen/spacing_medium"
-                                    android:scaleType="centerCrop"
-                                    android:src="@color/grey_20" />
+                            <ImageView
+                                android:id="@+id/image_4"
+                                android:layout_width="90dp"
+                                android:layout_height="90dp"
+                                android:layout_marginEnd="@dimen/spacing_medium"
+                                android:layout_marginRight="@dimen/spacing_medium"
+                                android:scaleType="centerCrop"
+                                android:src="@color/grey_20" />
 
-                                <ImageView
-                                    android:id="@+id/image_5"
-                                    android:layout_width="90dp"
-                                    android:layout_height="90dp"
-                                    android:layout_marginEnd="@dimen/spacing_medium"
-                                    android:layout_marginRight="@dimen/spacing_medium"
-                                    android:scaleType="centerCrop"
-                                    android:src="@color/grey_20" />
+                            <ImageView
+                                android:id="@+id/image_5"
+                                android:layout_width="90dp"
+                                android:layout_height="90dp"
+                                android:layout_marginEnd="@dimen/spacing_medium"
+                                android:layout_marginRight="@dimen/spacing_medium"
+                                android:scaleType="centerCrop"
+                                android:src="@color/grey_20" />
 
-                            </LinearLayout>
+                        </LinearLayout>
 
                     </LinearLayout>
 
@@ -361,19 +422,7 @@
 
         </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/edit_profile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/spacing_mlarge"
-        android:clickable="true"
-        android:tint="@android:color/white"
-        app:backgroundTint="@color/deep_orange_500"
-        app:fabSize="normal"
-        app:layout_anchor="@id/app_bar_layout"
-        app:layout_anchorGravity="bottom|right|end"
-        app:srcCompat="@drawable/ic_create" />
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

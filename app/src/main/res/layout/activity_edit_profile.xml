@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_above="@id/saveButn"
+        android:id="@+id/nested_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:clipToPadding="false"
+        android:scrollbars="none"
+        android:scrollingCache="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="@color/grey_10">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/ic_person" />
+
+                <com.ibnsaad.thedcc.slider.SliderView
+                    android:id="@+id/imageSlider"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <View
+                    android:id="@+id/back_drop"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#4D000000"
+                    android:clickable="true"
+                    android:fitsSystemWindows="true"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:orientation="vertical"
+                    app:layout_anchorGravity="top|end|right">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/new_image"
+                        style="@style/fab_buttons_CardView_Style"
+                        android:layout_gravity="end"
+                        app:cardBackgroundColor="@color/colorPrimary"
+                        app:cardCornerRadius="3dp"
+                        app:cardElevation="2dp"
+                        app:contentPadding="@dimen/spacing_medium">
+
+                        <TextView
+                            style="@style/fab_buttons_TextView_Style"
+                            android:text="New Image" />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/delete"
+                        style="@style/fab_buttons_CardView_Style"
+                        android:layout_gravity="end"
+                        app:cardBackgroundColor="@color/colorPrimary"
+                        app:cardCornerRadius="3dp"
+                        app:cardElevation="2dp"
+                        app:contentPadding="@dimen/spacing_medium">
+                        <TextView
+                            style="@style/fab_buttons_TextView_Style"
+                            android:text="Delete" />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/main"
+                        style="@style/fab_buttons_CardView_Style"
+                        android:layout_gravity="end"
+                        app:cardBackgroundColor="@color/colorPrimary"
+                        app:cardCornerRadius="3dp"
+                        app:cardElevation="2dp"
+                        app:contentPadding="@dimen/spacing_medium">
+
+                        <TextView
+                            style="@style/fab_buttons_TextView_Style"
+                            android:text="Main" />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/pick_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_margin="@dimen/spacing_smlarge"
+                        android:clickable="true"
+                        android:tint="@android:color/white"
+                        app:backgroundTint="@color/colorPrimary"
+                        app:fabSize="normal"
+                        app:layout_anchor="@id/lyt_form"
+                        app:layout_anchorGravity="top|end|right"
+                        app:rippleColor="@android:color/white"
+                        app:srcCompat="@drawable/ic_fab_add" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/lyt_form"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_large">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:layout_width="@dimen/spacing_mxlarge"
+                        android:layout_height="@dimen/spacing_mxlarge"
+                        android:layout_marginTop="@dimen/spacing_mlarge"
+                        android:background="@android:color/transparent"
+                        android:tint="@color/grey_60"
+                        app:srcCompat="@drawable/ic_person" />
+
+                    <View
+                        android:layout_width="@dimen/spacing_large"
+                        android:layout_height="match_parent" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColorHint="@color/grey_40">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/name" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/spacing_large" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:layout_width="@dimen/spacing_mxlarge"
+                        android:layout_height="@dimen/spacing_mxlarge"
+                        android:layout_marginTop="@dimen/spacing_mlarge"
+                        android:background="@android:color/transparent"
+                        android:tint="@color/grey_60"
+                        app:srcCompat="@drawable/ic_person" />
+
+                    <View
+                        android:layout_width="@dimen/spacing_large"
+                        android:layout_height="match_parent" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColorHint="@color/grey_40">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/userType"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:editable="false"
+                            android:hint="@string/userType" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/spacing_large" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:layout_width="@dimen/spacing_mxlarge"
+                        android:layout_height="@dimen/spacing_mxlarge"
+                        android:layout_marginTop="@dimen/spacing_mlarge"
+                        android:background="@android:color/transparent"
+                        android:tint="@color/grey_60"
+                        app:srcCompat="@drawable/ic_account" />
+
+                    <View
+                        android:layout_width="@dimen/spacing_large"
+                        android:layout_height="match_parent" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColorHint="@color/grey_40">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/gender"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:editable="false"
+                            android:hint="@string/gender" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/spacing_large" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:layout_width="@dimen/spacing_mxlarge"
+                        android:layout_height="@dimen/spacing_mxlarge"
+                        android:layout_marginTop="@dimen/spacing_mlarge"
+                        android:background="@android:color/transparent"
+                        android:tint="@color/grey_60"
+                        app:srcCompat="@drawable/ic_date" />
+
+                    <View
+                        android:layout_width="@dimen/spacing_large"
+                        android:layout_height="match_parent" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColorHint="@color/grey_40">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/date_of_birth"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:editable="false"
+                            android:hint="@string/birthday" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/spacing_large" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:layout_width="@dimen/spacing_mxlarge"
+                        android:layout_height="@dimen/spacing_mxlarge"
+                        android:layout_marginTop="@dimen/spacing_mlarge"
+                        android:background="@android:color/transparent"
+                        android:tint="@color/grey_60"
+                        app:srcCompat="@drawable/ic_location" />
+
+                    <View
+                        android:layout_width="@dimen/spacing_large"
+                        android:layout_height="match_parent" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColorHint="@color/grey_40">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/city"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/city" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/spacing_large" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/imageButton2"
+                        android:layout_width="@dimen/spacing_mxlarge"
+                        android:layout_height="@dimen/spacing_mxlarge"
+                        android:layout_marginTop="@dimen/spacing_mlarge"
+                        android:background="@android:color/transparent"
+                        android:tint="@color/grey_60"
+                        app:srcCompat="@drawable/ic_location" />
+
+                    <View
+                        android:layout_width="@dimen/spacing_large"
+                        android:layout_height="match_parent" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColorHint="@color/grey_40">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/country"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/country" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/spacing_large" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:layout_width="@dimen/spacing_mxlarge"
+                        android:layout_height="@dimen/spacing_mxlarge"
+                        android:layout_marginTop="@dimen/spacing_mlarge"
+                        android:background="@android:color/transparent"
+                        android:tint="@color/grey_60"
+                        app:srcCompat="@drawable/ic_person" />
+
+                    <View
+                        android:layout_width="@dimen/spacing_large"
+                        android:layout_height="match_parent" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColorHint="@color/grey_40">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/introduction"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/introduction" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/spacing_large" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:layout_width="@dimen/spacing_mxlarge"
+                        android:layout_height="@dimen/spacing_mxlarge"
+                        android:layout_marginTop="@dimen/spacing_mlarge"
+                        android:background="@android:color/transparent"
+                        android:tint="@color/grey_60"
+                        app:srcCompat="@drawable/ic_directions_bike" />
+
+                    <View
+                        android:layout_width="@dimen/spacing_large"
+                        android:layout_height="match_parent" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColorHint="@color/grey_40">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/looking_for"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/looking_for" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/spacing_large" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:layout_width="@dimen/spacing_mxlarge"
+                        android:layout_height="@dimen/spacing_mxlarge"
+                        android:layout_marginTop="@dimen/spacing_mlarge"
+                        android:background="@android:color/transparent"
+                        android:tint="@color/grey_60"
+                        app:srcCompat="@drawable/ic_thumb_up" />
+
+                    <View
+                        android:layout_width="@dimen/spacing_large"
+                        android:layout_height="match_parent" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColorHint="@color/grey_40">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/interests"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/interests" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/spacing_large" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:layout_width="@dimen/spacing_mxlarge"
+                        android:layout_height="@dimen/spacing_mxlarge"
+                        android:layout_marginTop="@dimen/spacing_mlarge"
+                        android:background="@android:color/transparent"
+                        android:tint="@color/grey_60"
+                        app:srcCompat="@drawable/ic_thumb_up" />
+
+                    <View
+                        android:layout_width="@dimen/spacing_large"
+                        android:layout_height="match_parent" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColorHint="@color/grey_40">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/specialization"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:editable="false"
+                            android:hint="@string/specialization" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/spacing_large" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+
+    <com.balysv.materialripple.MaterialRippleLayout
+        android:id="@+id/saveButn"
+        style="@style/RippleStyleWhite"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentBottom="true"
+        android:background="@color/blue_600">
+
+        <TextView
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/save"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/_16sdp" />
+    </com.balysv.materialripple.MaterialRippleLayout>
+
+</RelativeLayout>

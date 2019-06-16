@@ -1,7 +1,7 @@
 package com.ibnsaad.thedcc;
 
 
-import android.support.test.InstrumentationRegistry;
+import androidx.test.InstrumentationRegistry;
 import android.util.Log;
 
 import com.ibnsaad.thedcc.enums.Enums;

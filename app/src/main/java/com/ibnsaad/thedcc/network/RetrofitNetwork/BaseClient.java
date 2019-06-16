@@ -7,6 +7,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class BaseClient {
     private static final String BASE_URL = "http://10.0.2.2:5000/";
@@ -27,6 +28,7 @@ public class BaseClient {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .client(buildClient())
+                    .addConverterFactory(ScalarsConverterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .baseUrl(BASE_URL)
                     .build();

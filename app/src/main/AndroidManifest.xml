@@ -34,8 +34,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.SplashScreen.Base"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activities.DoctorProfileActivity">
-        </activity>
+        <activity android:name=".activities.OthersProfileActivity"></activity>
+        <activity android:name=".activities.DoctorProfileActivity"></activity>
         <activity android:name=".activities.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,12 +44,15 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.RegisterActivity" />
-        <activity android:name=".activities.LoginActivity">
-        </activity>
+        <activity android:name=".activities.LoginActivity"></activity>
         <activity android:name=".activities.EditProfileActivity"></activity>
         <activity android:name=".DetailsActivity" />
         <activity android:name=".OldRegisterActivity" />
         <activity android:name=".MainActivity" />
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/UCrop" />
     </application>
 
 </manifest>

@@ -17,14 +17,14 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
-import android.support.annotation.ColorInt;
-import android.support.annotation.ColorRes;
-import android.support.annotation.DrawableRes;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
+import androidx.annotation.DrawableRes;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
+import androidx.core.widget.NestedScrollView;
+import androidx.appcompat.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.View;
@@ -121,31 +121,6 @@ public class Tools {
     public static void displayImageOriginal(Context ctx, ImageView img, @DrawableRes int drawable) {
         try {
             Glide.with(ctx).load(drawable)
-                    .crossFade()
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .into(img);
-        } catch (Exception e) {
-        }
-    }
-
-    public void displayImageRound(final Context ctx, final ImageView img, @DrawableRes int drawable) {
-        try {
-            Glide.with(ctx).load(drawable).asBitmap().centerCrop().into(new BitmapImageViewTarget(img) {
-                @Override
-                protected void setResource(Bitmap resource) {
-                    RoundedBitmapDrawable circularBitmapDrawable = RoundedBitmapDrawableFactory.create(ctx.getResources(), resource);
-                    circularBitmapDrawable.setCircular(true);
-                    img.setImageDrawable(circularBitmapDrawable);
-                }
-            });
-        } catch (Exception e) {
-        }
-    }
-
-    public static void displayImageOriginal(Context ctx, ImageView img, String url) {
-        try {
-            Glide.with(ctx).load(url)
-                    .crossFade()
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(img);
         } catch (Exception e) {
