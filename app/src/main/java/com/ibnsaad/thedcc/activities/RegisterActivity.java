@@ -13,6 +13,8 @@ import androidx.core.widget.NestedScrollView;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -20,14 +22,20 @@ import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 import com.ibnsaad.thedcc.R;
+import com.ibnsaad.thedcc.enums.Enums;
+import com.ibnsaad.thedcc.heper.SharedHelper;
 import com.ibnsaad.thedcc.listeners.ConnectivityListener;
 import com.ibnsaad.thedcc.model.RegisterResponse;
+import com.ibnsaad.thedcc.model.SpecializationsResponse;
 import com.ibnsaad.thedcc.network.RetrofitNetwork.BaseClient;
 import com.ibnsaad.thedcc.utils.Connectivity;
 import com.ibnsaad.thedcc.utils.Dialogs;
 import com.ibnsaad.thedcc.utils.Tools;
 import com.ibnsaad.thedcc.widget.EslamDatePickerDialog;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -96,6 +104,8 @@ public class RegisterActivity extends AppCompatActivity implements ConnectivityL
                 Toast.makeText(RegisterActivity.this, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
+
     }
 
     private void scrollToTop() {
@@ -164,6 +174,7 @@ public class RegisterActivity extends AppCompatActivity implements ConnectivityL
 //                    noInternetDialog = Dialogs.getInstance().showWorningDialog(RegisterActivity.this, getString(R.string.no_internet_connection));
 //            }
 //        });
+        connectivity = new Connectivity(this, this);
         (findViewById(R.id.register)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -195,7 +206,41 @@ public class RegisterActivity extends AppCompatActivity implements ConnectivityL
                 goLogIn();
             }
         });
-        connectivity = new Connectivity(this, this);
+        getSpecialization();
+        specialization.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showSpecialDialog(v);
+            }
+        });
+
+    }
+
+    List<SpecializationsResponse> specializations;
+    private void getSpecialization() {
+        BaseClient.getApi().getSpecializations(
+                SharedHelper.getKey(this, Enums.AUTH_TOKEN.name())
+        ).enqueue(new Callback<List<SpecializationsResponse>>() {
+            @Override
+            public void onResponse(Call<List<SpecializationsResponse>> call, Response<List<SpecializationsResponse>> response) {
+
+                specializations =  response.body();
+                Log.d(TAG, "onResponse: "+response.toString());
+                if (specializations==null){
+                    specializations = new ArrayList<>();
+
+                    SpecializationsResponse specializationsResponse = new SpecializationsResponse();
+                    specializationsResponse.setSpecialize("Fragkh");
+                    specializations.add(specializationsResponse);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<SpecializationsResponse>> call, Throwable t) {
+
+                Log.d(TAG, "onFailure: "+t.getMessage());
+            }
+        });
     }
 
     private void showProgress() {
@@ -244,6 +289,24 @@ public class RegisterActivity extends AppCompatActivity implements ConnectivityL
         final String[] array = new String[]{
                 getString(R.string.male), getString(R.string.female)
         };
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_LIGHT);
+        builder.setTitle(getString(R.string.gender));
+        builder.setSingleChoiceItems(array, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                ((EditText) v).setText(array[i]);
+                dialogInterface.dismiss();
+            }
+        });
+        alertDialog = builder.create();
+        alertDialog.show();
+    }
+    private void showSpecialDialog(final View v) {
+
+        final String[] array = new String[specializations.size()];
+        for (int i = 0;i<specializations.size();i++){
+            array[i] = specializations.get(i).getSpecialize();
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_LIGHT);
         builder.setTitle(getString(R.string.gender));
         builder.setSingleChoiceItems(array, -1, new DialogInterface.OnClickListener() {

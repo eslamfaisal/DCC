@@ -2,7 +2,9 @@ package com.ibnsaad.thedcc.IndicatorView.draw.drawer.type;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+
 import androidx.annotation.NonNull;
+
 import com.ibnsaad.thedcc.IndicatorView.animation.data.Value;
 import com.ibnsaad.thedcc.IndicatorView.animation.data.type.DropAnimationValue;
 import com.ibnsaad.thedcc.IndicatorView.draw.data.Indicator;

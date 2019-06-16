@@ -116,7 +116,7 @@ public class HomeActivity extends SplashActivity {
                 replaceFragment(PatientHomeFragment.getInstance());
                 break;
             case R.id.nav_profile:
-                replaceFragment(ProfileFragment.getInstance());
+                replaceFragment(new ProfileFragment(SharedHelper.getKey(this,Enums.ID.name()),true));
                 break;
             case R.id.nav_out:
                 SharedHelper.putBoolean(this, Enums.IS_LOG_IN.name(), false);
@@ -127,60 +127,5 @@ public class HomeActivity extends SplashActivity {
 
     }
 
-    private void initComponent() {
-
-
-        users = new ArrayList<>();
-
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        recyclerView.addItemDecoration(new SpacingItemDecoration(2, Tools.dpToPx(this, 8), true));
-        recyclerView.setHasFixedSize(true);
-
-        //set data and list adapter
-        mAdapter = new UsersAdapterGridScrollProgress(this, item_per_display, generateListItems(item_per_display));
-        recyclerView.setAdapter(mAdapter);
-
-        mAdapter.setOnLoadMoreListener(new UsersAdapterGridScrollProgress.OnLoadMoreListener() {
-            @Override
-            public void onLoadMore(int current_page) {
-                loadNextData();
-            }
-        });
-
-        mAdapter.setOnItemClickListener(new UsersAdapterGridScrollProgress.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, User obj, int position) {
-                Toast.makeText(HomeActivity.this, obj.getKnownAs(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
-
-    private List<User> generateListItems(int count) {
-        List<User> users = new ArrayList<>();
-        users.add(new User("Bassel faisal"));
-        users.add(new User("Bassel faisal"));
-        users.add(new User("eslam faisal"));
-        users.add(new User("Bassel faisal"));
-        users.add(new User("eslam faisal"));
-        users.add(new User("Bassel faisal"));
-        users.add(new User("Bassel faisal"));
-        users.add(new User("eslam faisal"));
-        users.add(new User("Bassel faisal"));
-        users.add(new User("eslam faisal"));
-
-        return users;
-    }
-
-    private void loadNextData() {
-        mAdapter.setLoading();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mAdapter.insertData(generateListItems(item_per_display));
-            }
-        }, 2000);
-    }
 
 }

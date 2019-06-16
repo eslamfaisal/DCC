@@ -2,7 +2,9 @@ package com.ibnsaad.thedcc.IndicatorView.animation.type;
 
 import android.animation.IntEvaluator;
 import android.animation.PropertyValuesHolder;
+
 import androidx.annotation.NonNull;
+
 import com.ibnsaad.thedcc.IndicatorView.animation.controller.ValueController;
 
 public class ScaleDownAnimation extends ScaleAnimation {

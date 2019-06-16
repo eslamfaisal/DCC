@@ -67,10 +67,11 @@ public class UsersAdapterGridScrollProgress extends RecyclerView.Adapter<Recycle
                 @Override
                 public void onClick(View view) {
                     if (mOnItemClickListener == null) return;
-                    mOnItemClickListener.onItemClick(view, s, position);
+                    mOnItemClickListener.onItemClick(view, s.getId().toString(), position);
                 }
             });
             view.user_name.setText(s.getKnownAs());
+            view.likes.setText(""+s.getLikerCount());
             setAnimation(view.itemView, position);
         } else {
             ((ProgressViewHolder) holder).progress_bar.setIndeterminate(true);
@@ -177,7 +178,7 @@ public class UsersAdapterGridScrollProgress extends RecyclerView.Adapter<Recycle
     }
 
     public interface OnItemClickListener {
-        void onItemClick(View view, User obj, int position);
+        void onItemClick(View view, String id, int position);
     }
 
 
@@ -198,7 +199,7 @@ public class UsersAdapterGridScrollProgress extends RecyclerView.Adapter<Recycle
         CircularImageView image;
         View like, message;
         View parent;
-        TextView user_name;
+        TextView user_name,likes;
         TextView bio;
 
         public OriginalViewHolder(View v) {
@@ -209,6 +210,8 @@ public class UsersAdapterGridScrollProgress extends RecyclerView.Adapter<Recycle
             bio = v.findViewById(R.id.bio);
 
             message = v.findViewById(R.id.message);
+            like = v.findViewById(R.id.like);
+            likes = v.findViewById(R.id.likes);
 
         }
     }

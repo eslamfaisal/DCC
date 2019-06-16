@@ -2,11 +2,13 @@ package com.ibnsaad.thedcc.IndicatorView.draw;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Pair;
 import android.view.MotionEvent;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.ibnsaad.thedcc.IndicatorView.animation.data.Value;
 import com.ibnsaad.thedcc.IndicatorView.draw.controller.AttributeController;
 import com.ibnsaad.thedcc.IndicatorView.draw.controller.DrawController;

@@ -3,16 +3,25 @@ package com.ibnsaad.thedcc.IndicatorView.draw.controller;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
-import com.ibnsaad.thedcc.IndicatorView.utils.DensityUtils;
-import com.ibnsaad.thedcc.IndicatorView.animation.type.*;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.ibnsaad.thedcc.IndicatorView.animation.type.AnimationType;
+import com.ibnsaad.thedcc.IndicatorView.animation.type.BaseAnimation;
+import com.ibnsaad.thedcc.IndicatorView.animation.type.ColorAnimation;
+import com.ibnsaad.thedcc.IndicatorView.animation.type.FillAnimation;
+import com.ibnsaad.thedcc.IndicatorView.animation.type.ScaleAnimation;
 import com.ibnsaad.thedcc.IndicatorView.draw.data.Indicator;
-import com.ibnsaad.thedcc.IndicatorView.draw.data.Orientation;;
+import com.ibnsaad.thedcc.IndicatorView.draw.data.Orientation;
 import com.ibnsaad.thedcc.IndicatorView.draw.data.RtlMode;
-import com.ibnsaad.thedcc.R;;
+import com.ibnsaad.thedcc.IndicatorView.utils.DensityUtils;
+import com.ibnsaad.thedcc.R;
+
+;
+;
 
 public class AttributeController {
 

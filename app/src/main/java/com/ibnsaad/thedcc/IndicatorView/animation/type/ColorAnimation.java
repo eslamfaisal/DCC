@@ -3,9 +3,11 @@ package com.ibnsaad.thedcc.IndicatorView.animation.type;
 import android.animation.ArgbEvaluator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
+import android.view.animation.AccelerateDecelerateInterpolator;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import android.view.animation.AccelerateDecelerateInterpolator;
+
 import com.ibnsaad.thedcc.IndicatorView.animation.controller.ValueController;
 import com.ibnsaad.thedcc.IndicatorView.animation.data.type.ColorAnimationValue;
 

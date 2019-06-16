@@ -1,6 +1,7 @@
 package com.ibnsaad.thedcc.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.ibnsaad.thedcc.R;
+import com.ibnsaad.thedcc.activities.OthersProfileActivity;
 import com.ibnsaad.thedcc.adapter.UsersAdapterGridScrollProgress;
 import com.ibnsaad.thedcc.enums.Enums;
 import com.ibnsaad.thedcc.heper.SharedHelper;
@@ -89,21 +91,23 @@ public class DoctorsFragment extends Fragment {
 
         mAdapter.setOnItemClickListener(new UsersAdapterGridScrollProgress.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, User obj, int position) {
-                Toast.makeText(getActivity(), obj.getKnownAs(), Toast.LENGTH_SHORT).show();
+            public void onItemClick(View view, String  obj, int position) {
+                Intent intent = new Intent(getActivity(), OthersProfileActivity.class);
+                intent.putExtra(Enums.ID.name(),obj);
+                startActivity(intent);
             }
         });
 
         token = SharedHelper.getKey(getActivity(), Enums.AUTH_TOKEN.name());
 
-        BaseClient.getApi().getUsersPaging(token, pageCount, item_per_display).enqueue(new Callback<List<User>>() {
+        BaseClient.getApi().getUsers(token).enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                 Log.d(TAG, "onResponse: " + response.body().size());
                 recyclerView.post(new Runnable() {
                     @Override
                     public void run() {
-                        pageCount += 1;
+//                        pageCount += 1;
                         mAdapter.setItems(response.body());
                         mAdapter.notifyDataSetChanged();
                     }

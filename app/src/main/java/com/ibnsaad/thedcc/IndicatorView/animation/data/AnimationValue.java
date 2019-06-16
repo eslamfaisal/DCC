@@ -1,7 +1,14 @@
 package com.ibnsaad.thedcc.IndicatorView.animation.data;
 
 import androidx.annotation.NonNull;
-import com.ibnsaad.thedcc.IndicatorView.animation.data.type.*;
+
+import com.ibnsaad.thedcc.IndicatorView.animation.data.type.ColorAnimationValue;
+import com.ibnsaad.thedcc.IndicatorView.animation.data.type.DropAnimationValue;
+import com.ibnsaad.thedcc.IndicatorView.animation.data.type.FillAnimationValue;
+import com.ibnsaad.thedcc.IndicatorView.animation.data.type.ScaleAnimationValue;
+import com.ibnsaad.thedcc.IndicatorView.animation.data.type.SwapAnimationValue;
+import com.ibnsaad.thedcc.IndicatorView.animation.data.type.ThinWormAnimationValue;
+import com.ibnsaad.thedcc.IndicatorView.animation.data.type.WormAnimationValue;
 
 public class AnimationValue {
 

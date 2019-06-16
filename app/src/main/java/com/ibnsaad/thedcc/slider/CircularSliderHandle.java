@@ -1,4 +1,4 @@
-package com.ibnsaad.thedcc;
+package com.ibnsaad.thedcc.slider;
 
 import androidx.viewpager.widget.ViewPager;
 

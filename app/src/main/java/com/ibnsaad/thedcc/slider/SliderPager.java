@@ -1,10 +1,12 @@
-package com.ibnsaad.thedcc;
+package com.ibnsaad.thedcc.slider;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Scroller;
+
 import androidx.viewpager.widget.ViewPager;
+
 import java.lang.reflect.Field;
 
 public class SliderPager extends ViewPager {

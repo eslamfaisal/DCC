@@ -1,7 +1,9 @@
 package com.ibnsaad.thedcc.IndicatorView.draw.data;
 
-import androidx.annotation.NonNull;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+
 import com.ibnsaad.thedcc.IndicatorView.animation.type.AnimationType;
 
 public class Indicator {

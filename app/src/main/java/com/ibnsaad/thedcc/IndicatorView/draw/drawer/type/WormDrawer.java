@@ -3,7 +3,9 @@ package com.ibnsaad.thedcc.IndicatorView.draw.drawer.type;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
+
 import androidx.annotation.NonNull;
+
 import com.ibnsaad.thedcc.IndicatorView.animation.data.Value;
 import com.ibnsaad.thedcc.IndicatorView.animation.data.type.WormAnimationValue;
 import com.ibnsaad.thedcc.IndicatorView.draw.data.Indicator;

@@ -69,7 +69,7 @@ public class ProfileImagesAdapter extends RecyclerView.Adapter<ProfileImagesAdap
     }
 
     public void setPhotoList(List<Photo> photoList) {
-        this.photoList.addAll(photoList);
+        this.photoList =(photoList);
 
         Log.d(TAG, "setPhotoList: " + photoList.size());
     }

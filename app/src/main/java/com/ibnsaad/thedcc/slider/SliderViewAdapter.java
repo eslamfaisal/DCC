@@ -1,9 +1,10 @@
-package com.ibnsaad.thedcc;
+package com.ibnsaad.thedcc.slider;
+
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
-import android.view.View;
-import android.view.ViewGroup;
 
 import java.util.LinkedList;
 import java.util.Queue;

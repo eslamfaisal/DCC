@@ -1,18 +1,21 @@
-package com.ibnsaad.thedcc;
+package com.ibnsaad.thedcc.slider;
 
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.os.Handler;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
+
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import com.ibnsaad.thedcc.IndicatorView.PageIndicatorView;
 import com.ibnsaad.thedcc.IndicatorView.animation.type.AnimationType;
 import com.ibnsaad.thedcc.IndicatorView.draw.controller.DrawController;
 import com.ibnsaad.thedcc.IndicatorView.draw.data.Orientation;
+import com.ibnsaad.thedcc.R;
 import com.ibnsaad.thedcc.Transformations.AntiClockSpinTransformation;
 import com.ibnsaad.thedcc.Transformations.Clock_SpinTransformation;
 import com.ibnsaad.thedcc.Transformations.CubeInDepthTransformation;

@@ -1,8 +1,10 @@
 package com.ibnsaad.thedcc.IndicatorView.draw.controller;
 
-import androidx.annotation.NonNull;
 import android.util.Pair;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+
 import com.ibnsaad.thedcc.IndicatorView.animation.type.AnimationType;
 import com.ibnsaad.thedcc.IndicatorView.draw.data.Indicator;
 import com.ibnsaad.thedcc.IndicatorView.draw.data.Orientation;

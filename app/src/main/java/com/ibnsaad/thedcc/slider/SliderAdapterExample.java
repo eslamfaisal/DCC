@@ -1,23 +1,27 @@
 package com.ibnsaad.thedcc.slider;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.ibnsaad.thedcc.R;
+import com.ibnsaad.thedcc.model.Photo;
+
+import java.util.List;
 
 public class SliderAdapterExample extends
         SliderViewAdapter<SliderAdapterExample.SliderAdapterVH> {
 
     private Context context;
+    private List<Photo> photoList;
 
-    public SliderAdapterExample(Context context) {
+    public SliderAdapterExample(Context context, List<Photo> photoList) {
         this.context = context;
+        this.photoList = photoList;
     }
 
     @Override
@@ -29,79 +33,37 @@ public class SliderAdapterExample extends
     @Override
     public void onBindViewHolder(SliderAdapterVH viewHolder, int position) {
 
-
-
-        switch (position) {
-            case 0:
-                viewHolder.textViewDescription.setText("This is slider item " + position);
-                viewHolder.textViewDescription.setTextSize(16);
-                viewHolder.textViewDescription.setTextColor(Color.WHITE);
-                viewHolder.imageGifContainer.setVisibility(View.GONE);
-                Glide.with(viewHolder.itemView)
-                        .load("https://images.pexels.com/photos/218983/pexels-photo-218983.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260")
-                        .fitCenter()
-                        .into(viewHolder.imageViewBackground);
-                break;
-            case 2:
-                viewHolder.textViewDescription.setText("This is slider item " + position);
-                viewHolder.textViewDescription.setTextSize(16);
-                viewHolder.textViewDescription.setTextColor(Color.WHITE);
-                viewHolder.imageGifContainer.setVisibility(View.GONE);
-                Glide.with(viewHolder.itemView)
-                        .load("https://images.pexels.com/photos/747964/pexels-photo-747964.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260")
-                        .fitCenter()
-                        .into(viewHolder.imageViewBackground);
-                break;
-            case 4:
-                viewHolder.textViewDescription.setText("This is slider item " + position);
-                viewHolder.textViewDescription.setTextSize(16);
-                viewHolder.textViewDescription.setTextColor(Color.WHITE);
-                viewHolder.imageGifContainer.setVisibility(View.GONE);
-                Glide.with(viewHolder.itemView)
-                        .load("https://images.pexels.com/photos/929778/pexels-photo-929778.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260")
-                        .fitCenter()
-                        .into(viewHolder.imageViewBackground);
-                break;
-            default:
-                viewHolder.textViewDescription.setTextSize(29);
-                viewHolder.textViewDescription.setTextColor(Color.WHITE);
-                viewHolder.textViewDescription.setText("Ohhhh! look at this!");
-                viewHolder.imageGifContainer.setVisibility(View.VISIBLE);
-                Glide.with(viewHolder.itemView)
-                        .load(R.drawable.puma_offer)
-                        .fitCenter()
-                        .into(viewHolder.imageViewBackground);
-                Glide.with(viewHolder.itemView)
-                        .asGif()
-                        .load(R.drawable.oh_look_at_this)
-                        .into(viewHolder.imageGifContainer);
-                break;
-
-        }
+        Photo photo = photoList.get(position);
+        viewHolder.imageView.setImageURI(photo.getUrl());
 
     }
 
     @Override
     public int getCount() {
         //slider view count could be dynamic size
-        return 4;
+        return photoList.size();
     }
 
     class SliderAdapterVH extends SliderViewAdapter.ViewHolder {
 
         View itemView;
-        ImageView imageViewBackground;
-        ImageView imageGifContainer;
-        TextView textViewDescription;
+        SimpleDraweeView imageView;
 
         public SliderAdapterVH(View itemView) {
             super(itemView);
-            imageViewBackground = itemView.findViewById(R.id.iv_auto_image_slider);
-            imageGifContainer = itemView.findViewById(R.id.iv_gif_container);
-            textViewDescription = itemView.findViewById(R.id.tv_auto_image_slider);
+            imageView = itemView.findViewById(R.id.image);
             this.itemView = itemView;
         }
     }
 
+    public List<Photo> getPhotoList() {
+        return photoList;
+    }
 
+    public void setPhotoList(List<Photo> photoList) {
+        this.photoList = photoList;
+    }
+    public void addImage(Photo image){
+        photoList.add(image);
+    }
 }

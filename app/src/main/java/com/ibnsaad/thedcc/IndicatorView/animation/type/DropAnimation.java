@@ -3,8 +3,10 @@ package com.ibnsaad.thedcc.IndicatorView.animation.type;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
-import androidx.annotation.NonNull;
 import android.view.animation.AccelerateDecelerateInterpolator;
+
+import androidx.annotation.NonNull;
+
 import com.ibnsaad.thedcc.IndicatorView.animation.controller.ValueController;
 import com.ibnsaad.thedcc.IndicatorView.animation.data.type.DropAnimationValue;
 

@@ -4,7 +4,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.ibnsaad.thedcc.IndicatorView.animation.data.Value;
-import com.ibnsaad.thedcc.IndicatorView.animation.type.*;
+import com.ibnsaad.thedcc.IndicatorView.animation.type.ColorAnimation;
+import com.ibnsaad.thedcc.IndicatorView.animation.type.DropAnimation;
+import com.ibnsaad.thedcc.IndicatorView.animation.type.FillAnimation;
+import com.ibnsaad.thedcc.IndicatorView.animation.type.ScaleAnimation;
+import com.ibnsaad.thedcc.IndicatorView.animation.type.ScaleDownAnimation;
+import com.ibnsaad.thedcc.IndicatorView.animation.type.SlideAnimation;
+import com.ibnsaad.thedcc.IndicatorView.animation.type.SwapAnimation;
+import com.ibnsaad.thedcc.IndicatorView.animation.type.ThinWormAnimation;
+import com.ibnsaad.thedcc.IndicatorView.animation.type.WormAnimation;
 
 public class ValueController {
 
