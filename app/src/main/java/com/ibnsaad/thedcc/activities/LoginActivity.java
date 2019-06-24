@@ -21,6 +21,10 @@ import com.ibnsaad.thedcc.network.RetrofitNetwork.BaseClient;
 import com.ibnsaad.thedcc.utils.Connectivity;
 import com.ibnsaad.thedcc.utils.Dialogs;
 import com.ibnsaad.thedcc.utils.Tools;
+import com.onesignal.OneSignal;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -47,6 +51,12 @@ public class LoginActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_signin);
         initToolbar();
         initViews();
+        OneSignal.setInFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification);
+        try {
+            OneSignal.postNotification(new JSONObject("{'contents': {'en':'Test Message'}, 'include_player_ids': ['" + OneSignal.getPermissionSubscriptionState().getSubscriptionStatus().getUserId() + "']}"), null);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void initViews() {
@@ -106,7 +116,7 @@ public class LoginActivity extends AppCompatActivity  {
             Log.d(TAG, "creatNewUser: " + getString(R.string.password_is_required));
             return;
         }
-
+        OneSignal.sendTag("User_ID", email.getText().toString());
         showProgress();
 
         JsonObject jsonObject1 = new JsonObject();

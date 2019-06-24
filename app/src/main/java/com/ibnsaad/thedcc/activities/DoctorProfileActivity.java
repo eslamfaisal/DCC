@@ -29,11 +29,11 @@ public class DoctorProfileActivity extends AppCompatActivity {
     }
 
     private void initComponent() {
-        Tools.displayImageOriginal(this, (ImageView) findViewById(R.id.image_1), R.drawable.image_8);
-        Tools.displayImageOriginal(this, (ImageView) findViewById(R.id.image_2), R.drawable.image_8);
-        Tools.displayImageOriginal(this, (ImageView) findViewById(R.id.image_3), R.drawable.image_8);
-        Tools.displayImageOriginal(this, (ImageView) findViewById(R.id.image_4), R.drawable.image_8);
-        Tools.displayImageOriginal(this, (ImageView) findViewById(R.id.image_5), R.drawable.image_8);
+//        Tools.displayImageOriginal(this, (ImageView) findViewById(R.id.image_1), R.drawable.image_8);
+//        Tools.displayImageOriginal(this, (ImageView) findViewById(R.id.image_2), R.drawable.image_8);
+//        Tools.displayImageOriginal(this, (ImageView) findViewById(R.id.image_3), R.drawable.image_8);
+//        Tools.displayImageOriginal(this, (ImageView) findViewById(R.id.image_4), R.drawable.image_8);
+//        Tools.displayImageOriginal(this, (ImageView) findViewById(R.id.image_5), R.drawable.image_8);
     }
 
 

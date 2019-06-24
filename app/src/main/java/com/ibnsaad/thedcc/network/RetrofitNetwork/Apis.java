@@ -2,9 +2,11 @@ package com.ibnsaad.thedcc.network.RetrofitNetwork;
 
 import com.google.gson.JsonObject;
 import com.ibnsaad.thedcc.model.LoginRespons;
+import com.ibnsaad.thedcc.model.Message;
 import com.ibnsaad.thedcc.model.Photo;
 import com.ibnsaad.thedcc.model.ProfileResponse;
 import com.ibnsaad.thedcc.model.RegisterResponse;
+import com.ibnsaad.thedcc.model.ResponseMessagesWithId;
 import com.ibnsaad.thedcc.model.SpecializationsResponse;
 import com.ibnsaad.thedcc.model.User;
 
@@ -14,8 +16,6 @@ import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
@@ -73,4 +73,21 @@ public interface Apis {
 
     @GET("api/Users/getspecil")
     Call<List<SpecializationsResponse>> getSpecializations(@Header("Authorization") String header);
+
+
+    //for message with user id and message id
+    @GET("api/users/{userId}/Messages/{id}")
+    Call<ResponseMessagesWithId> getMessages(@Path("userId") int userId,
+                                             @Path("id") int idMessage);
+    //for sent message with content
+    @POST("api/users/{userId}/Messages")
+    Call<Message> senMessage(@Header("Authorization") String header,@Path("userId") int userId,
+                                         @Body Message message);
+
+    @GET("api/users/{userId}/Messages/thread/{recipientId}")
+    Call<List<Message>>getAllMessages(@Header("Authorization") String header,@Path("userId") int userId,@Path("recipientId") int recipientId);
+
+    @POST("api/Users/{id}/like/{recipientId}")
+    Call<Void> like(@Header("Authorization") String header
+            ,@Path("id") int userId,@Path("recipientId") int recipientId);
 }

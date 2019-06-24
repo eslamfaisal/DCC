@@ -103,7 +103,7 @@ public class DoctorsFragment extends Fragment {
         BaseClient.getApi().getUsers(token).enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                Log.d(TAG, "onResponse: " + response.body().size());
+//                Log.d(TAG, "onResponse: " + response.body().size());
                 recyclerView.post(new Runnable() {
                     @Override
                     public void run() {
