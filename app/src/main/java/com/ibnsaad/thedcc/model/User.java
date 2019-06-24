@@ -3,7 +3,9 @@ package com.ibnsaad.thedcc.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
 
     public boolean progress;
 

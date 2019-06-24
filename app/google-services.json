@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "166237222957",
+    "firebase_url": "https://dccproject-3a55b.firebaseio.com",
+    "project_id": "dccproject-3a55b",
+    "storage_bucket": "dccproject-3a55b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:166237222957:android:967e82d8f057c8b7",
+        "android_client_info": {
+          "package_name": "com.ibnsaad.thedcc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "166237222957-rv1573re78aolig24o9nasas9cplkhac.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBS6hku0KPcyuynCSybg7j2H7b4MVtDJ8g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "166237222957-rv1573re78aolig24o9nasas9cplkhac.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

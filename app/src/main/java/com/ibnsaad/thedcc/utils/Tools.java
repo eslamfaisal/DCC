@@ -118,7 +118,7 @@ public class Tools {
         }
     }
 
-    public static void displayImageOriginal(Context ctx, ImageView img, @DrawableRes int drawable) {
+    public static void displayImageOriginal(Context ctx, ImageView img,String  drawable) {
         try {
             Glide.with(ctx).load(drawable)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -142,7 +142,7 @@ public class Tools {
         return newFormat.format(new Date(dateTime));
     }
 
-    public String getFormattedTimeEvent(Long time) {
+    public static String getFormattedTimeEvent(Long time) {
         SimpleDateFormat newFormat = new SimpleDateFormat("h:mm a");
         return newFormat.format(new Date(time));
     }

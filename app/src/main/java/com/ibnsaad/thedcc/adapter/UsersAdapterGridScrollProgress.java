@@ -1,32 +1,42 @@
 package com.ibnsaad.thedcc.adapter;
 
 import android.content.Context;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.ibnsaad.thedcc.R;
+import com.ibnsaad.thedcc.activities.ChatActivity;
+import com.ibnsaad.thedcc.enums.Enums;
+import com.ibnsaad.thedcc.heper.SharedHelper;
 import com.ibnsaad.thedcc.model.User;
+import com.ibnsaad.thedcc.network.RetrofitNetwork.BaseClient;
 import com.ibnsaad.thedcc.utils.ItemAnimation;
-import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class UsersAdapterGridScrollProgress extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final int VIEW_ITEM = 1;
     private final int VIEW_PROGRESS = 0;
-
+    private final String TAG = "UsersAdapterGridScrollP";
     private int item_per_display = 0;
-    private List<User> items ;
+    private List<User> items;
     private boolean loading;
     private OnLoadMoreListener onLoadMoreListener = null;
-
     private Context ctx;
     private OnItemClickListener mOnItemClickListener;
     private int animation_type = 1;
@@ -62,7 +72,18 @@ public class UsersAdapterGridScrollProgress extends RecyclerView.Adapter<Recycle
         final User s = items.get(position);
         if (holder instanceof OriginalViewHolder) {
             OriginalViewHolder view = (OriginalViewHolder) holder;
-//            Tools.displayImageOriginal(ctx, view.image, s.getPhotoUrl());
+            view.image.setImageURI(s.getPhotoUrl());
+
+            view.likes.setText(String.valueOf(s.getLikerCount()));
+            view.message.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(ctx, ChatActivity.class);
+                    intent.putExtra(Enums.USER.name(), s);
+                    ctx.startActivity(intent);
+
+                }
+            });
             view.parent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -70,8 +91,33 @@ public class UsersAdapterGridScrollProgress extends RecyclerView.Adapter<Recycle
                     mOnItemClickListener.onItemClick(view, s.getId().toString(), position);
                 }
             });
+            view.like.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    BaseClient.getApi().like(
+                            SharedHelper.getKey(ctx, Enums.AUTH_TOKEN.name()),
+                            Integer.parseInt(SharedHelper.getKey(ctx, Enums.ID.name())),
+                            s.getId()
+                    ).enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                            if (response.code() == 200) {
+                                int count = Integer.parseInt(view.likes.getText().toString());
+                                count += 1;
+                                view.likes.setText(String.valueOf(count));
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+                            Log.d(TAG, "onFailure: " + t.getMessage());
+                        }
+                    });
+                }
+            });
             view.user_name.setText(s.getKnownAs());
-            view.likes.setText(""+s.getLikerCount());
+            view.likes.setText("" + s.getLikerCount());
             setAnimation(view.itemView, position);
         } else {
             ((ProgressViewHolder) holder).progress_bar.setIndeterminate(true);
@@ -177,10 +223,17 @@ public class UsersAdapterGridScrollProgress extends RecyclerView.Adapter<Recycle
         }
     }
 
+    public List<User> getItems() {
+        return items;
+    }
+
+    public void setItems(List<User> items) {
+        this.items = items;
+    }
+
     public interface OnItemClickListener {
         void onItemClick(View view, String id, int position);
     }
-
 
     public interface OnLoadMoreListener {
         void onLoadMore(int current_page);
@@ -196,10 +249,10 @@ public class UsersAdapterGridScrollProgress extends RecyclerView.Adapter<Recycle
     }
 
     public class OriginalViewHolder extends RecyclerView.ViewHolder {
-        CircularImageView image;
+        SimpleDraweeView image;
         View like, message;
         View parent;
-        TextView user_name,likes;
+        TextView user_name, likes;
         TextView bio;
 
         public OriginalViewHolder(View v) {
@@ -214,13 +267,5 @@ public class UsersAdapterGridScrollProgress extends RecyclerView.Adapter<Recycle
             likes = v.findViewById(R.id.likes);
 
         }
-    }
-
-    public List<User> getItems() {
-        return items;
-    }
-
-    public void setItems(List<User> items) {
-        this.items = items;
     }
 }

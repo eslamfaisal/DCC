@@ -34,8 +34,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.SplashScreen.Base"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activities.OthersProfileActivity"></activity>
-        <activity android:name=".activities.DoctorProfileActivity"></activity>
+
+        <meta-data
+            android:name="com.onesignal.NotificationOpened.DEFAULT"
+            android:value="DISABLE" />
+
+        <activity android:name=".activities.ChatActivity">
+
+
+        </activity>
+        <activity android:name=".activities.OthersProfileActivity" />
+        <activity android:name=".activities.DoctorProfileActivity" />
         <activity android:name=".activities.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,8 +53,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.RegisterActivity" />
-        <activity android:name=".activities.LoginActivity"></activity>
-        <activity android:name=".activities.EditProfileActivity"></activity>
+        <activity android:name=".activities.LoginActivity" />
+        <activity android:name=".activities.EditProfileActivity" />
         <activity android:name=".DetailsActivity" />
         <activity android:name=".OldRegisterActivity" />
         <activity android:name=".MainActivity" />
