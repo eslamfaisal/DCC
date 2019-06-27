@@ -11,6 +11,7 @@ import com.ibnsaad.thedcc.model.ProfileResponse;
 import com.ibnsaad.thedcc.model.RegisterResponse;
 import com.ibnsaad.thedcc.model.ResponseMessagesWithId;
 import com.ibnsaad.thedcc.model.SpecializationsResponse;
+import com.ibnsaad.thedcc.model.SymptomByIdResponse;
 import com.ibnsaad.thedcc.model.User;
 
 import java.util.List;
@@ -104,10 +105,17 @@ public interface Apis {
     @GET("api/Diagnosis/GetAllDrugs")
     Call<List<DrugsResponse>> getAllDrugs(@Header("Authorization") String header);
 
+    @GET("api/Diagnosis/GetDrugById")
+    Call<DrugsResponse> getDrugById(@Header("Authorization") String header,@Query("drugId") int drugId);
+
+    @GET("api/Diagnosis/GetDrugBySyptomId")
+    Call<List<DrugsResponse>> getDrugBySyptomId(@Header("Authorization") String header,@Query("symptomId") int symptomId);
+
     @GET("api/Diagnosis/getAllBulletin")
     Call<List<BulletinResponse>> getAllBulletin(@Header("Authorization") String header);
 
-
+    @GET("api/Diagnosis/GetSympotByBodyAreasId")
+    Call<List<SymptomByIdResponse>> getSympotByBodyAreasId(@Header("Authorization") String header,@Query("BodyId") int BodyId);
 
 
 }

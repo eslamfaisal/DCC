@@ -46,12 +46,12 @@ public class HomeActivity extends SplashActivity {
         initToolbar();
         initNavigationMenu();
         // initComponent();
-        if (SharedHelper.getKey(this, Enums.UserType.name()).equals(getString(R.string.doctors))) {
-            replaceFragment(DoctorsFragment.getInstance());
-        } else {
+//        if (SharedHelper.getKey(this, Enums.UserType.name()).equals(getString(R.string.doctors))) {
+//            replaceFragment(DoctorsFragment.getInstance());
+//        } else {
 
             replaceFragment(PatientHomeFragment.getInstance());
-        }
+        //}
 
 
     }

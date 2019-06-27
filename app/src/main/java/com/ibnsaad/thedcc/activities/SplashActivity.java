@@ -15,10 +15,10 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        if (!SharedHelper.getboolean(this, Enums.IS_LOG_IN.name())) {
-
-            startActivityForResult(new Intent(this, LoginActivity.class), ACTIVITY_AUTH);
-        }
+//        if (!SharedHelper.getboolean(this, Enums.IS_LOG_IN.name())) {
+//
+//            startActivityForResult(new Intent(this, LoginActivity.class), ACTIVITY_AUTH);
+//        }
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
     }

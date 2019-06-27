@@ -9,7 +9,7 @@
 
     <ImageView
         android:layout_above="@id/diagnosis_"
-        android:id="@+id/textView"
+        android:id="@+id/bodyView"
         android:scaleType="centerCrop"
         android:src="@drawable/full_body"
         android:layout_width="match_parent"

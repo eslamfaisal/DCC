@@ -1,11 +1,16 @@
 package com.ibnsaad.thedcc.fragments;
 
 
+import android.annotation.SuppressLint;
+import android.graphics.Matrix;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +22,7 @@ import com.ibnsaad.thedcc.heper.SharedHelper;
 import com.ibnsaad.thedcc.model.BodyAreasResponse;
 import com.ibnsaad.thedcc.model.BulletinResponse;
 import com.ibnsaad.thedcc.model.DrugsResponse;
+import com.ibnsaad.thedcc.model.SymptomByIdResponse;
 import com.ibnsaad.thedcc.server.BaseClient;
 
 import java.util.ArrayList;
@@ -36,6 +42,9 @@ public class DiagnosisFragment extends Fragment {
     private List<BodyAreasResponse> bodyAreasResponseList = new ArrayList<>();
     private List<DrugsResponse> drugsResponseArrayList = new ArrayList<>();
     private List<BulletinResponse> bulletinResponseList = new ArrayList<>();
+    private List<SymptomByIdResponse> symptomByIdResponseList = new ArrayList<>();
+
+    private ImageView bodyView;
 
     public DiagnosisFragment() {
         // Required empty public constructor
@@ -54,19 +63,104 @@ public class DiagnosisFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_diagnosis, container, false);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 //        showBodyDetectionDialog();
 //        getAllDrugs();
-        getAllBulletin();
-        view.findViewById(R.id.textView).setOnClickListener(new View.OnClickListener() {
+//        getAllBulletin();
+//        getSypmotByBodyAreasId();
+//        getDrugBySyptomId();
+//        getDrugById();
+
+        bodyView = view.findViewById(R.id.bodyView);
+
+        bodyView.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+
+//                    // calculate inverse matrix
+//                    int[] viewCoords = new int[2];
+//                    bodyView.getLocationOnScreen(viewCoords);
+//
+//                    int touchX = (int) event.getX();
+//                    int touchY = (int) event.getY();
+//
+//                    int imageX = touchX - viewCoords[0]; // viewCoords[0] is the X coordinate
+//                    int imageY = touchY - viewCoords[1];
+//                    ((TextView)view.findViewById(R.id.diagnosis)).setText("touch coords="+imageX + " - " + imageY);
+//
+//                    Matrix inverse = new Matrix();
+//                    bodyView.getImageMatrix().invert(inverse);
+//
+
+//
+//                    // map touch point from ImageView to image
+//                    float[] touchPoint = new float[] {event.getX(), event.getY()};
+//                    inverse.mapPoints(touchPoint);
+
+                    float[] point = new float[]{event.getX(), event.getY()};
+
+                    Matrix inverse = new Matrix();
+                    bodyView.getImageMatrix().invert(inverse);
+                    inverse.mapPoints(point);
+
+                    float density = getResources().getDisplayMetrics().density;
+
+                    float x = point[0] /= density;
+                    float y = point[1] /= density;
+                    Log.d(TAG, "touch inverse=" + x + " - " + y);
+
+                    ((TextView) view.findViewById(R.id.diagnosis)).setText("touch coords=" + x + " - " + y);
+
+                    // check legs
+                    if (x >= 420 && x <= 575 && y >= 500 && y <= 930) {
+                        bodyView.setImageDrawable(getResources().getDrawable(R.drawable.legs_pain));
+                    } else if (x >= 1100 && x <= 1550 && y <= 1400 && y >= 860) {
+                        bodyView.setImageDrawable(getResources().getDrawable(R.drawable.stomach));
+                    } else if (x >= 1100 && x <= 1550 && y >= 600 && y <= 800) {
+                        bodyView.setImageDrawable(getResources().getDrawable(R.drawable.chest));
+                    } else if (x >= 1500 && x <= 1750 && y >= 600 && y <= 1550) {
+                        bodyView.setImageDrawable(getResources().getDrawable(R.drawable.arms));
+                    } else if (x >= 920 && x <= 1110 && y >= 600 && y <= 1550) {
+                        bodyView.setImageDrawable(getResources().getDrawable(R.drawable.arms));
+                    }
+
+
+//                ((TextView)view.findViewById(R.id.diagnosis)).setText("Touch coordinates : "
+//                        + String.valueOf(event.getX()) + "x"
+//                        + String.valueOf(event.getY()));
+                    return true;
+                } else {
+                    return false;
+                }
+
+            }
+        });
+
+    }
+
+    private void getSypmotByBodyAreasId() {
+        BaseClient.getApi().getSympotByBodyAreasId(
+                SharedHelper.getKey(getActivity(), Enums.AUTH_TOKEN.name()),
+                1
+        ).enqueue(new Callback<List<SymptomByIdResponse>>() {
+            @Override
+            public void onResponse(Call<List<SymptomByIdResponse>> call, Response<List<SymptomByIdResponse>> response) {
+
+                if (response.body() != null) {
+                    symptomByIdResponseList = response.body();
+                    Log.d(TAG, "onResponse: " + symptomByIdResponseList.toString());
+                }
 
             }
 
+            @Override
+            public void onFailure(Call<List<SymptomByIdResponse>> call, Throwable t) {
 
+            }
         });
     }
 
@@ -99,6 +193,47 @@ public class DiagnosisFragment extends Fragment {
                 if (response.body() != null) {
                     drugsResponseArrayList = response.body();
                     Log.d(TAG, "onResponse: " + drugsResponseArrayList.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<DrugsResponse>> call, Throwable t) {
+
+            }
+        });
+    }
+
+
+    private void getDrugById() {
+        BaseClient.getApi().getDrugById(
+                SharedHelper.getKey(getActivity(), Enums.AUTH_TOKEN.name()),
+                1
+        ).enqueue(new Callback<DrugsResponse>() {
+            @Override
+            public void onResponse(Call<DrugsResponse> call, Response<DrugsResponse> response) {
+                if (response.body() != null) {
+                    Log.d(TAG, "onResponse: " + response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DrugsResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+
+    private void getDrugBySyptomId() {
+        BaseClient.getApi().getDrugBySyptomId(
+                SharedHelper.getKey(getActivity(), Enums.AUTH_TOKEN.name())
+                , 1
+        ).enqueue(new Callback<List<DrugsResponse>>() {
+            @Override
+            public void onResponse(Call<List<DrugsResponse>> call, Response<List<DrugsResponse>> response) {
+                if (response.body() != null) {
+
+                    Log.d(TAG, "onResponse: " + response.body());
                 }
             }
 
