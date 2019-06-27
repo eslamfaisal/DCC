@@ -8,11 +8,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.ibnsaad.thedcc.R;
 import com.ibnsaad.thedcc.activities.OthersProfileActivity;
@@ -20,7 +19,7 @@ import com.ibnsaad.thedcc.adapter.UsersAdapterGridScrollProgress;
 import com.ibnsaad.thedcc.enums.Enums;
 import com.ibnsaad.thedcc.heper.SharedHelper;
 import com.ibnsaad.thedcc.model.User;
-import com.ibnsaad.thedcc.network.RetrofitNetwork.BaseClient;
+import com.ibnsaad.thedcc.server.BaseClient;
 import com.ibnsaad.thedcc.utils.Tools;
 import com.ibnsaad.thedcc.widget.SpacingItemDecoration;
 

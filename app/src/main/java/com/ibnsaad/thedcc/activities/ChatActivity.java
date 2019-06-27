@@ -22,7 +22,7 @@ import com.ibnsaad.thedcc.enums.Enums;
 import com.ibnsaad.thedcc.heper.SharedHelper;
 import com.ibnsaad.thedcc.model.Message;
 import com.ibnsaad.thedcc.model.User;
-import com.ibnsaad.thedcc.network.RetrofitNetwork.BaseClient;
+import com.ibnsaad.thedcc.server.BaseClient;
 import com.ibnsaad.thedcc.utils.Tools;
 
 import java.text.SimpleDateFormat;

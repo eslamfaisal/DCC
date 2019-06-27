@@ -1,6 +1,9 @@
-package com.ibnsaad.thedcc.network.RetrofitNetwork;
+package com.ibnsaad.thedcc.server;
 
 import com.google.gson.JsonObject;
+import com.ibnsaad.thedcc.model.BodyAreasResponse;
+import com.ibnsaad.thedcc.model.BulletinResponse;
+import com.ibnsaad.thedcc.model.DrugsResponse;
 import com.ibnsaad.thedcc.model.LoginRespons;
 import com.ibnsaad.thedcc.model.Message;
 import com.ibnsaad.thedcc.model.Photo;
@@ -26,6 +29,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface Apis {
+
     @GET("api/User/{id}")
     Call<User> getUser(@Path("id") int id);
 
@@ -71,8 +75,8 @@ public interface Apis {
                             @Path("userId") String userId,
                             @Path("id") String id);
 
-    @GET("api/Users/getspecil")
-    Call<List<SpecializationsResponse>> getSpecializations(@Header("Authorization") String header);
+    @GET("api/Diagnosis/getspecil")
+    Call<List<String >> getSpecializations(@Header("Authorization") String header);
 
 
     //for message with user id and message id
@@ -90,4 +94,20 @@ public interface Apis {
     @POST("api/Users/{id}/like/{recipientId}")
     Call<Void> like(@Header("Authorization") String header
             ,@Path("id") int userId,@Path("recipientId") int recipientId);
+
+
+    // diagonsis
+
+    @GET("api/Diagnosis/getBodyAreas")
+    Call<List<BodyAreasResponse>> getBodyAreas(@Header("Authorization") String header);
+
+    @GET("api/Diagnosis/GetAllDrugs")
+    Call<List<DrugsResponse>> getAllDrugs(@Header("Authorization") String header);
+
+    @GET("api/Diagnosis/getAllBulletin")
+    Call<List<BulletinResponse>> getAllBulletin(@Header("Authorization") String header);
+
+
+
+
 }

@@ -17,7 +17,7 @@ import com.ibnsaad.thedcc.R;
 import com.ibnsaad.thedcc.enums.Enums;
 import com.ibnsaad.thedcc.heper.SharedHelper;
 import com.ibnsaad.thedcc.model.LoginRespons;
-import com.ibnsaad.thedcc.network.RetrofitNetwork.BaseClient;
+import com.ibnsaad.thedcc.server.BaseClient;
 import com.ibnsaad.thedcc.utils.Connectivity;
 import com.ibnsaad.thedcc.utils.Dialogs;
 import com.ibnsaad.thedcc.utils.Tools;
@@ -52,11 +52,11 @@ public class LoginActivity extends AppCompatActivity  {
         initToolbar();
         initViews();
         OneSignal.setInFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification);
-        try {
-            OneSignal.postNotification(new JSONObject("{'contents': {'en':'Test Message'}, 'include_player_ids': ['" + OneSignal.getPermissionSubscriptionState().getSubscriptionStatus().getUserId() + "']}"), null);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            OneSignal.postNotification(new JSONObject("{'contents': {'en':'Test Message'}, 'include_player_ids': ['" + OneSignal.getPermissionSubscriptionState().getSubscriptionStatus().getUserId() + "']}"), null);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
     }
 
     private void initViews() {
@@ -141,6 +141,8 @@ public class LoginActivity extends AppCompatActivity  {
                     SharedHelper.putKey(LoginActivity.this,Enums.KnownAs.name(),loginRespons.getUser().getKnownAs());
                     SharedHelper.putKey(LoginActivity.this,Enums.PhotoUrl.name(),loginRespons.getUser().getPhotoUrl());
                     SharedHelper.putKey(LoginActivity.this,Enums.Age.name(), String.valueOf(loginRespons.getUser().getAge()));
+                    SharedHelper.putKey(LoginActivity.this,Enums.UserType.name(), String.valueOf(loginRespons.getUser().getUserType()));
+                    SharedHelper.putKey(LoginActivity.this,Enums.Spetialization.name(), String.valueOf(loginRespons.getUser().getSpecialization()));
 
                     setResult(RESULT_OK);
                     finish();
@@ -154,8 +156,10 @@ public class LoginActivity extends AppCompatActivity  {
 
             @Override
             public void onFailure(Call<LoginRespons> call, Throwable t) {
+                hideProgress();
                 noInternetDialog = Dialogs.getInstance().showWorningDialog(LoginActivity.this, t.getMessage());
                 Log.d(TAG, "onFailure: " + t.getMessage());
+
             }
         });
     }

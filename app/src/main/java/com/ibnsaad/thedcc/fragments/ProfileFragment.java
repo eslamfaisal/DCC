@@ -24,7 +24,7 @@ import com.ibnsaad.thedcc.adapter.ProfileImagesAdapter;
 import com.ibnsaad.thedcc.enums.Enums;
 import com.ibnsaad.thedcc.heper.SharedHelper;
 import com.ibnsaad.thedcc.model.ProfileResponse;
-import com.ibnsaad.thedcc.network.RetrofitNetwork.BaseClient;
+import com.ibnsaad.thedcc.server.BaseClient;
 import com.ibnsaad.thedcc.utils.ViewAnimation;
 
 import java.util.ArrayList;
@@ -65,7 +65,10 @@ public class ProfileFragment extends Fragment {
     private boolean myProfile;
     private boolean rotate;
 
-    public ProfileFragment(String id,boolean myProfile) {
+    public ProfileFragment() {
+    }
+
+    public ProfileFragment(String id, boolean myProfile) {
         // Required empty public constructor
         this.myProfile = myProfile;
         userId=id;

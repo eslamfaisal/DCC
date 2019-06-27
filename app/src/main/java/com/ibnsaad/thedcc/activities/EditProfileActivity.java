@@ -24,7 +24,7 @@ import com.ibnsaad.thedcc.enums.Enums;
 import com.ibnsaad.thedcc.heper.SharedHelper;
 import com.ibnsaad.thedcc.model.Photo;
 import com.ibnsaad.thedcc.model.ProfileResponse;
-import com.ibnsaad.thedcc.network.RetrofitNetwork.BaseClient;
+import com.ibnsaad.thedcc.server.BaseClient;
 import com.ibnsaad.thedcc.slider.IndicatorAnimations;
 import com.ibnsaad.thedcc.slider.SliderAdapterExample;
 import com.ibnsaad.thedcc.slider.SliderAnimations;

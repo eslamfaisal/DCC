@@ -54,6 +54,10 @@ public class PatientHomeFragment extends Fragment {
 
     private void initComponent(View view) {
         view_pager = (ViewPager) view.findViewById(R.id.view_pager);
+        view_pager.setOffscreenPageLimit(2);
+
+
+        // view_pager.
         setupViewPager(view_pager);
 
         tab_layout = (TabLayout)view. findViewById(R.id.tab_layout);
@@ -62,6 +66,8 @@ public class PatientHomeFragment extends Fragment {
 
     private void setupViewPager(ViewPager viewPager) {
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getChildFragmentManager());
+
+
         adapter.addFragment(DoctorsFragment.getInstance(), getString(R.string.talk_to));
         adapter.addFragment(DiagnosisFragment.getInstance(), getString(R.string.diagnosis));
 

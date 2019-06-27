@@ -1,4 +1,4 @@
-package com.ibnsaad.thedcc.network.RetrofitNetwork;
+package com.ibnsaad.thedcc.server;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

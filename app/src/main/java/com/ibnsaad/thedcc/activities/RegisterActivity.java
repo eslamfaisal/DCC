@@ -8,17 +8,17 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
-import androidx.core.view.ViewCompat;
-import androidx.core.widget.NestedScrollView;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.ViewCompat;
+import androidx.core.widget.NestedScrollView;
 
 import com.google.gson.JsonObject;
 import com.ibnsaad.thedcc.R;
@@ -26,15 +26,13 @@ import com.ibnsaad.thedcc.enums.Enums;
 import com.ibnsaad.thedcc.heper.SharedHelper;
 import com.ibnsaad.thedcc.listeners.ConnectivityListener;
 import com.ibnsaad.thedcc.model.RegisterResponse;
-import com.ibnsaad.thedcc.model.SpecializationsResponse;
-import com.ibnsaad.thedcc.network.RetrofitNetwork.BaseClient;
+import com.ibnsaad.thedcc.server.BaseClient;
 import com.ibnsaad.thedcc.utils.Connectivity;
 import com.ibnsaad.thedcc.utils.Dialogs;
 import com.ibnsaad.thedcc.utils.Tools;
 import com.ibnsaad.thedcc.widget.EslamDatePickerDialog;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -46,7 +44,8 @@ public class RegisterActivity extends AppCompatActivity implements ConnectivityL
     private static final String TAG = "RegisterActivity";
     Location location;
     boolean gpsReq = false;
-    private EditText email, password, userName, userAge, userGender,  city, country, userType,specialization;
+    List<String> specializations;
+    private EditText email, password, userName, userAge, userGender, city, country, userType, specialization;
     private View progress;
     private RelativeLayout rootView;
     private NestedScrollView mNestedScrollView;
@@ -64,13 +63,13 @@ public class RegisterActivity extends AppCompatActivity implements ConnectivityL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register2);
+        setContentView(R.layout.activity_register);
         initToolbar();
         initViews();
         initComponent();
     }
 
-    private void registerNewUser(){
+    private void registerNewUser() {
 
         showProgress();
         JsonObject jsonObject1 = new JsonObject();
@@ -82,17 +81,19 @@ public class RegisterActivity extends AppCompatActivity implements ConnectivityL
         jsonObject1.addProperty("city", city.getText().toString().trim());
         jsonObject1.addProperty("country", country.getText().toString().trim());
         jsonObject1.addProperty("created", "2019-06-12T20:55:50.063Z");
-        jsonObject1.addProperty("lastActive","2019-06-12T20:55:50.063Z");
+        jsonObject1.addProperty("lastActive", "2019-06-12T20:55:50.063Z");
         jsonObject1.addProperty("userType", userType.getText().toString().trim());
-        jsonObject1.addProperty("specialization", specialization.getText().toString().trim());
-
+        if (userType.getText().toString().trim().equals(getString(R.string.doctors)))
+            jsonObject1.addProperty("specialization", specialization.getText().toString().trim());
+        else
+            jsonObject1.addProperty("specialization", "null");
         BaseClient.getApi().registerNewUser(jsonObject1).enqueue(new Callback<RegisterResponse>() {
             @Override
             public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
 
                 hideProgress();
-                if (response.body()!=null){
-                    if (response.body().getId()>0){
+                if (response.body() != null) {
+                    if (response.body().getId() > 0) {
                         onBackPressed();
                     }
                 }
@@ -101,7 +102,7 @@ public class RegisterActivity extends AppCompatActivity implements ConnectivityL
             @Override
             public void onFailure(Call<RegisterResponse> call, Throwable t) {
                 hideProgress();
-                Toast.makeText(RegisterActivity.this, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterActivity.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -187,13 +188,13 @@ public class RegisterActivity extends AppCompatActivity implements ConnectivityL
                 showAgeDialog();
             }
         });
-       userGender.setOnClickListener(new View.OnClickListener() {
+        userGender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showGenderDialog(v);
             }
         });
-       userType.setOnClickListener(new View.OnClickListener() {
+        userType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showUserTypeDialog(v);
@@ -216,29 +217,21 @@ public class RegisterActivity extends AppCompatActivity implements ConnectivityL
 
     }
 
-    List<SpecializationsResponse> specializations;
     private void getSpecialization() {
         BaseClient.getApi().getSpecializations(
                 SharedHelper.getKey(this, Enums.AUTH_TOKEN.name())
-        ).enqueue(new Callback<List<SpecializationsResponse>>() {
+        ).enqueue(new Callback<List<String>>() {
             @Override
-            public void onResponse(Call<List<SpecializationsResponse>> call, Response<List<SpecializationsResponse>> response) {
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
 
-                specializations =  response.body();
-                Log.d(TAG, "onResponse: "+response.toString());
-                if (specializations==null){
-                    specializations = new ArrayList<>();
+                specializations = response.body();
 
-                    SpecializationsResponse specializationsResponse = new SpecializationsResponse();
-                    specializationsResponse.setSpecialize("Fragkh");
-                    specializations.add(specializationsResponse);
-                }
             }
 
             @Override
-            public void onFailure(Call<List<SpecializationsResponse>> call, Throwable t) {
+            public void onFailure(Call<List<String>> call, Throwable t) {
 
-                Log.d(TAG, "onFailure: "+t.getMessage());
+                Log.d(TAG, "onFailure: " + t.getMessage());
             }
         });
     }
@@ -301,11 +294,12 @@ public class RegisterActivity extends AppCompatActivity implements ConnectivityL
         alertDialog = builder.create();
         alertDialog.show();
     }
+
     private void showSpecialDialog(final View v) {
 
         final String[] array = new String[specializations.size()];
-        for (int i = 0;i<specializations.size();i++){
-            array[i] = specializations.get(i).getSpecialize();
+        for (int i = 0; i < specializations.size(); i++) {
+            array[i] = specializations.get(i);
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_LIGHT);
         builder.setTitle(getString(R.string.gender));
@@ -319,6 +313,7 @@ public class RegisterActivity extends AppCompatActivity implements ConnectivityL
         alertDialog = builder.create();
         alertDialog.show();
     }
+
     private void showUserTypeDialog(final View v) {
         final String[] array = new String[]{
                 getString(R.string.doctors), getString(R.string.patient)
@@ -329,6 +324,11 @@ public class RegisterActivity extends AppCompatActivity implements ConnectivityL
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 ((EditText) v).setText(array[i]);
+                if (array[i].equals(getString(R.string.patient))) {
+                    specialization.setVisibility(View.GONE);
+                } else {
+                    specialization.setVisibility(View.VISIBLE);
+                }
                 dialogInterface.dismiss();
             }
         });
@@ -403,7 +403,4 @@ public class RegisterActivity extends AppCompatActivity implements ConnectivityL
 
     }
 
-    public void goHome(View view) {
-        startActivity(new Intent(this, HomeActivity.class));
-    }
 }
