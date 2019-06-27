@@ -116,15 +116,15 @@ public class DiagnosisFragment extends Fragment {
                     ((TextView) view.findViewById(R.id.diagnosis)).setText("touch coords=" + x + " - " + y);
 
                     // check legs
-                    if (x >= 420 && x <= 575 && y >= 500 && y <= 930) {
+                    if (x >= 420 && x <= 580 && y >= 520 && y <= 930) {
                         bodyView.setImageDrawable(getResources().getDrawable(R.drawable.legs_pain));
-                    } else if (x >= 1100 && x <= 1550 && y <= 1400 && y >= 860) {
+                    } else if (x >= 420 && x <= 580 && y >=320 && y <=520) {
                         bodyView.setImageDrawable(getResources().getDrawable(R.drawable.stomach));
-                    } else if (x >= 1100 && x <= 1550 && y >= 600 && y <= 800) {
+                    } else if (x >= 420 && x <= 580 && y >=215 && y <=320) {
                         bodyView.setImageDrawable(getResources().getDrawable(R.drawable.chest));
-                    } else if (x >= 1500 && x <= 1750 && y >= 600 && y <= 1550) {
+                    } else if (x >= 350 && x <= 420 && y >= 210 && y <= 580) {
                         bodyView.setImageDrawable(getResources().getDrawable(R.drawable.arms));
-                    } else if (x >= 920 && x <= 1110 && y >= 600 && y <= 1550) {
+                    } else if (x >= 580 && x <= 650 && y >= 210 && y <= 580) {
                         bodyView.setImageDrawable(getResources().getDrawable(R.drawable.arms));
                     }
 
