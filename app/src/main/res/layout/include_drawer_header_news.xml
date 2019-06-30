@@ -25,7 +25,9 @@
             android:layout_height="80dp"
             android:layout_marginBottom="8dp"
             fresco:fadeDuration="300"
-            fresco:placeholderImage="@drawable/ic_dummy_user"
+            fresco:progressBarAutoRotateInterval="1000"
+            fresco:progressBarImage="@drawable/ic_refresh"
+            fresco:backgroundImage="@color/green_100"
             fresco:roundAsCircle="true"
             fresco:roundingBorderColor="@color/white"
             fresco:roundingBorderWidth="2dp" />

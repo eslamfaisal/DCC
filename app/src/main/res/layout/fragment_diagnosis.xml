@@ -8,29 +8,10 @@
     tools:context=".fragments.DiagnosisFragment">
 
     <ImageView
-        android:layout_above="@id/diagnosis_"
         android:id="@+id/bodyView"
         android:scaleType="centerCrop"
         android:src="@drawable/full_body"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.balysv.materialripple.MaterialRippleLayout
-        android:id="@+id/diagnosis_"
-        style="@style/RippleStyleWhite"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_alignParentBottom="true"
-        android:background="@color/blue_600">
-
-        <TextView
-            android:id="@+id/diagnosis"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/diagnosis"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/_16sdp" />
-    </com.balysv.materialripple.MaterialRippleLayout>
 </RelativeLayout>

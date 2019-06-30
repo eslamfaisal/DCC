@@ -24,6 +24,9 @@ import com.ibnsaad.thedcc.model.Message;
 import com.ibnsaad.thedcc.model.User;
 import com.ibnsaad.thedcc.server.BaseClient;
 import com.ibnsaad.thedcc.utils.Tools;
+import com.microsoft.signalr.Action;
+import com.microsoft.signalr.HubConnection;
+import com.microsoft.signalr.HubConnectionBuilder;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -63,7 +66,11 @@ public class ChatActivity extends AppCompatActivity {
         userName.setText(user.getKnownAs());
         userImage.setImageURI(user.getPhotoUrl());
         getOldMessages();
-
+//        HubConnection hubConnection = HubConnectionBuilder.create(input).build();
+//        hubConnection.send("eslam",new Message());
+//        hubConnection.on("Send", (message) -> {
+//            System.out.println("New Message: " + message.getMessageSent());
+//        }, Message.class);
 
     }
 

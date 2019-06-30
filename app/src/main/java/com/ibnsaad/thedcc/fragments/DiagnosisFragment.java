@@ -10,7 +10,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,11 +18,13 @@ import androidx.fragment.app.Fragment;
 import com.ibnsaad.thedcc.R;
 import com.ibnsaad.thedcc.enums.Enums;
 import com.ibnsaad.thedcc.heper.SharedHelper;
+import com.ibnsaad.thedcc.listeners.ChangeBodyAreaListener;
 import com.ibnsaad.thedcc.model.BodyAreasResponse;
 import com.ibnsaad.thedcc.model.BulletinResponse;
 import com.ibnsaad.thedcc.model.DrugsResponse;
 import com.ibnsaad.thedcc.model.SymptomByIdResponse;
 import com.ibnsaad.thedcc.server.BaseClient;
+import com.ibnsaad.thedcc.widget.FragmentBottomSheetDialogFull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,7 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DiagnosisFragment extends Fragment {
+public class DiagnosisFragment extends Fragment implements ChangeBodyAreaListener {
 
     public static DiagnosisFragment diagnosisFragment;
     private final String TAG = "DiagnosisFragment";
@@ -67,6 +68,7 @@ public class DiagnosisFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
 //        showBodyDetectionDialog();
 //        getAllDrugs();
 //        getAllBulletin();
@@ -81,25 +83,6 @@ public class DiagnosisFragment extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
 
-//                    // calculate inverse matrix
-//                    int[] viewCoords = new int[2];
-//                    bodyView.getLocationOnScreen(viewCoords);
-//
-//                    int touchX = (int) event.getX();
-//                    int touchY = (int) event.getY();
-//
-//                    int imageX = touchX - viewCoords[0]; // viewCoords[0] is the X coordinate
-//                    int imageY = touchY - viewCoords[1];
-//                    ((TextView)view.findViewById(R.id.diagnosis)).setText("touch coords="+imageX + " - " + imageY);
-//
-//                    Matrix inverse = new Matrix();
-//                    bodyView.getImageMatrix().invert(inverse);
-//
-
-//
-//                    // map touch point from ImageView to image
-//                    float[] touchPoint = new float[] {event.getX(), event.getY()};
-//                    inverse.mapPoints(touchPoint);
 
                     float[] point = new float[]{event.getX(), event.getY()};
 
@@ -111,27 +94,30 @@ public class DiagnosisFragment extends Fragment {
 
                     float x = point[0] /= density;
                     float y = point[1] /= density;
-                    Log.d(TAG, "touch inverse=" + x + " - " + y);
 
-                    ((TextView) view.findViewById(R.id.diagnosis)).setText("touch coords=" + x + " - " + y);
+                    Log.d(TAG, "touch inverse=" + x + " - " + y);
 
                     // check legs
                     if (x >= 420 && x <= 580 && y >= 520 && y <= 930) {
                         bodyView.setImageDrawable(getResources().getDrawable(R.drawable.legs_pain));
-                    } else if (x >= 420 && x <= 580 && y >=320 && y <=520) {
+                        showBottomSheetDialog(Enums.Legs);
+                    } else if (x >= 420 && x <= 580 && y >= 320 && y <= 520) {
                         bodyView.setImageDrawable(getResources().getDrawable(R.drawable.stomach));
-                    } else if (x >= 420 && x <= 580 && y >=215 && y <=320) {
+                        showBottomSheetDialog(Enums.Stomach);
+                    } else if (x >= 420 && x <= 580 && y >= 215 && y <= 320) {
                         bodyView.setImageDrawable(getResources().getDrawable(R.drawable.chest));
+                        showBottomSheetDialog(Enums.Chest);
                     } else if (x >= 350 && x <= 420 && y >= 210 && y <= 580) {
                         bodyView.setImageDrawable(getResources().getDrawable(R.drawable.arms));
+                        showBottomSheetDialog(Enums.Arms);
                     } else if (x >= 580 && x <= 650 && y >= 210 && y <= 580) {
                         bodyView.setImageDrawable(getResources().getDrawable(R.drawable.arms));
+                        showBottomSheetDialog(Enums.Arms);
+                    } else if (x >= 450 && x <= 550 && y >= 70 && y <= 200) {
+                        bodyView.setImageDrawable(getResources().getDrawable(R.drawable.head_pain));
+                        showBottomSheetDialog(Enums.Head);
                     }
 
-
-//                ((TextView)view.findViewById(R.id.diagnosis)).setText("Touch coordinates : "
-//                        + String.valueOf(event.getX()) + "x"
-//                        + String.valueOf(event.getY()));
                     return true;
                 } else {
                     return false;
@@ -203,7 +189,6 @@ public class DiagnosisFragment extends Fragment {
         });
     }
 
-
     private void getDrugById() {
         BaseClient.getApi().getDrugById(
                 SharedHelper.getKey(getActivity(), Enums.AUTH_TOKEN.name()),
@@ -222,7 +207,6 @@ public class DiagnosisFragment extends Fragment {
             }
         });
     }
-
 
     private void getDrugBySyptomId() {
         BaseClient.getApi().getDrugBySyptomId(
@@ -244,7 +228,6 @@ public class DiagnosisFragment extends Fragment {
         });
     }
 
-
     private void showBodyDetectionDialog() {
 
         BaseClient.getApi().getBodyAreas(
@@ -265,5 +248,25 @@ public class DiagnosisFragment extends Fragment {
         });
     }
 
+    private void showBottomSheetDialog(Enums enums) {
+        // display first sheet
+        FragmentBottomSheetDialogFull fragment = new FragmentBottomSheetDialogFull();
+        fragment.setChangeBodyAreaListener(this::setBodyArea);
+        fragment.setBodyAreaEnum(enums);
+        fragment.show(getChildFragmentManager(), fragment.getTag());
+    }
 
+    public void setBodyArea(Enums enums) {
+        if (enums.equals(Enums.Head)) {
+            bodyView.setImageDrawable(getResources().getDrawable(R.drawable.head_pain));
+        } else if (enums.equals(Enums.Arms)) {
+            bodyView.setImageDrawable(getResources().getDrawable(R.drawable.arms));
+        } else if (enums.equals(Enums.Stomach)) {
+            bodyView.setImageDrawable(getResources().getDrawable(R.drawable.stomach));
+        } else if (enums.equals(Enums.Chest)) {
+            bodyView.setImageDrawable(getResources().getDrawable(R.drawable.chest));
+        } else if (enums.equals(Enums.Legs)) {
+            bodyView.setImageDrawable(getResources().getDrawable(R.drawable.legs_pain));
+        }
+    }
 }

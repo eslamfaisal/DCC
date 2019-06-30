@@ -5,6 +5,10 @@ import com.google.gson.annotations.SerializedName;
 
 public class DrugsResponse {
 
+
+    public boolean expanded = false;
+    public boolean parent = false;
+
     @SerializedName("drugId")
     @Expose
     private Integer drugId;

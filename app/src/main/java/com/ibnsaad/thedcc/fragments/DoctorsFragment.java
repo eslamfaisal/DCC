@@ -107,8 +107,11 @@ public class DoctorsFragment extends Fragment {
                     @Override
                     public void run() {
 //                        pageCount += 1;
-                        mAdapter.setItems(response.body());
-                        mAdapter.notifyDataSetChanged();
+                        if (response.body()!=null){
+                            mAdapter.setItems(response.body());
+                            mAdapter.notifyDataSetChanged();
+                        }
+
                     }
                 });
 

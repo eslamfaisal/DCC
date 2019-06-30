@@ -39,23 +39,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RegisterActivity extends AppCompatActivity implements ConnectivityListener {
+public class RegisterActivity extends AppCompatActivity  {
 
     private static final String TAG = "RegisterActivity";
-    Location location;
-    boolean gpsReq = false;
     List<String> specializations;
     private EditText email, password, userName, userAge, userGender, city, country, userType, specialization;
     private View progress;
     private RelativeLayout rootView;
     private NestedScrollView mNestedScrollView;
-    // internet
-    private Connectivity connectivity;
-    private boolean internetConnected;
+
     //dialogs
-    private DatePickerDialog datePicker;
-    private Dialog noInternetDialog;
-    private Dialog worningDialog;
     private AlertDialog alertDialog;
     private ActionBar actionBar;
     private int REQUEST_PHONE_VERIFICATION = 1258;
@@ -166,16 +159,7 @@ public class RegisterActivity extends AppCompatActivity implements ConnectivityL
     }
 
     private void initComponent() {
-//        (findViewById(R.id.register)).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (internetConnected)
-//                    creatNewUser();
-//                else
-//                    noInternetDialog = Dialogs.getInstance().showWorningDialog(RegisterActivity.this, getString(R.string.no_internet_connection));
-//            }
-//        });
-        connectivity = new Connectivity(this, this);
+
         (findViewById(R.id.register)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -337,54 +321,13 @@ public class RegisterActivity extends AppCompatActivity implements ConnectivityL
     }
 
     @Override
-    public void getConnectionType(String connectionType) {
-
-    }
-
-    @Override
-    public void isConnected(boolean isConnected) {
-
-        if (worningDialog != null) {
-            worningDialog.dismiss();
-        }
-        if (datePicker != null) {
-            datePicker.dismiss();
-        }
-        if (alertDialog != null) {
-            alertDialog.dismiss();
-        }
-        if (!isConnected) {
-            internetConnected = false;
-            noInternetDialog = Dialogs.getInstance().showWorningDialog(this, getString(R.string.no_internet_connection));
-
-        } else {
-            internetConnected = true;
-            if (noInternetDialog != null) {
-                if (noInternetDialog.isShowing()) {
-                    noInternetDialog.dismiss();
-                }
-            }
-        }
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
-        connectivity = null;
-
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (noInternetDialog != null) {
-            if (noInternetDialog.isShowing())
-                noInternetDialog.dismiss();
-        }
-        if (worningDialog != null) {
-            if (worningDialog.isShowing())
-                worningDialog.dismiss();
-        }
     }
 
     @Override

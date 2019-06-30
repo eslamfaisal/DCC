@@ -26,6 +26,7 @@
         android:required="true" />
 
     <application
+        android:usesCleartextTraffic="true"
         android:name=".ThisApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -39,10 +40,7 @@
             android:name="com.onesignal.NotificationOpened.DEFAULT"
             android:value="DISABLE" />
 
-        <activity android:name=".activities.ChatActivity">
-
-
-        </activity>
+        <activity android:name=".activities.ChatActivity"></activity>
         <activity android:name=".activities.OthersProfileActivity" />
         <activity android:name=".activities.DoctorProfileActivity" />
         <activity android:name=".activities.HomeActivity">

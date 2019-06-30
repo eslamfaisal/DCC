@@ -196,7 +196,7 @@ public class Tools {
         }
     }
 
-    public boolean toggleArrow(boolean show, View view) {
+    public static boolean toggleArrow(boolean show, View view) {
         return toggleArrow(show, view, true);
     }
 
@@ -238,7 +238,7 @@ public class Tools {
         return Resources.getSystem().getDisplayMetrics().widthPixels;
     }
 
-    public int getScreenHeight() {
+    public static int getScreenHeight() {
         return Resources.getSystem().getDisplayMetrics().heightPixels;
     }
 

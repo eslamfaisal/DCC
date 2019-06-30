@@ -18,6 +18,11 @@ public enum Enums {
     SAVE_LOGIN ,
     USER,
     Spetialization,
-    UserType;
+    UserType,
+    Head,
+    Arms,
+    Legs,
+    Stomach,
+    Chest;
 }
 

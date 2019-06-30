@@ -114,4 +114,14 @@
     <string name="week_ago">" week ago"</string>
     <string name="weeks_ago">" weeks ago"</string>
     <string name="username">Username</string>
+    <string name="head">Head</string>
+    <string name="arms">Arms</string>
+    <string name="legs">Legs</string>
+    <string name="chest">Chest</string>
+    <string name="stomach">Stomach</string>
+    <string name="composition">Composition</string>
+    <string name="indications">Indications</string>
+    <string name="dosing">Dosing</string>
+    <string name="sideEffects">Side Effects</string>
+    <string name="login_fail_type">UnCorrect UserName Or Password</string>
 </resources>
