@@ -11,7 +11,7 @@ public class User implements Serializable {
 
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private String id;
     @SerializedName("username")
     @Expose
     private String username;
@@ -42,9 +42,9 @@ public class User implements Serializable {
     @SerializedName("photoUrl")
     @Expose
     private String photoUrl;
-    @SerializedName("userType")
+    @SerializedName("typeOfUser")
     @Expose
-    private String userType;
+    private String typeOfUser;
     @SerializedName("specialization")
     @Expose
     private String specialization;
@@ -59,12 +59,16 @@ public class User implements Serializable {
     public User() {
     }
 
+    public User(String knownAs) {
+        this.knownAs = knownAs;
+    }
+
     public String getUserType() {
-        return userType;
+        return typeOfUser;
     }
 
     public void setUserType(String userType) {
-        this.userType = userType;
+        this.typeOfUser = userType;
     }
 
     public String getSpecialization() {
@@ -83,15 +87,11 @@ public class User implements Serializable {
         this.likerCount = likerCount;
     }
 
-    public User(String knownAs) {
-        this.knownAs = knownAs;
-    }
-
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

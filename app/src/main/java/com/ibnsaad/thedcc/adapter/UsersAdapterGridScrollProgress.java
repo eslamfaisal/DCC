@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import com.facebook.drawee.drawable.ScalingUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.ibnsaad.thedcc.R;
 import com.ibnsaad.thedcc.activities.ChatActivity;
@@ -72,6 +73,12 @@ public class UsersAdapterGridScrollProgress extends RecyclerView.Adapter<Recycle
         final User s = items.get(position);
         if (holder instanceof OriginalViewHolder) {
             OriginalViewHolder view = (OriginalViewHolder) holder;
+            if (SharedHelper.getKey(ctx,Enums.UserType.name()).equals(ctx.getString(R.string.doctors)))
+            {
+                view.image.getHierarchy().setPlaceholderImage(ctx.getDrawable(R.drawable.doctor));
+            }else {
+                view.image.getHierarchy().setPlaceholderImage(ctx.getDrawable(R.drawable.patient));
+            }
             view.image.setImageURI(s.getPhotoUrl());
 
             view.likes.setText(String.valueOf(s.getLikerCount()));
@@ -97,7 +104,7 @@ public class UsersAdapterGridScrollProgress extends RecyclerView.Adapter<Recycle
 
                     BaseClient.getApi().like(
                             SharedHelper.getKey(ctx, Enums.AUTH_TOKEN.name()),
-                            Integer.parseInt(SharedHelper.getKey(ctx, Enums.ID.name())),
+                            SharedHelper.getKey(ctx, Enums.ID.name()),
                             s.getId()
                     ).enqueue(new Callback<Void>() {
                         @Override

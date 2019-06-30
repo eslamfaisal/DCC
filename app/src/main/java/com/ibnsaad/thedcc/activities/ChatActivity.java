@@ -24,9 +24,6 @@ import com.ibnsaad.thedcc.model.Message;
 import com.ibnsaad.thedcc.model.User;
 import com.ibnsaad.thedcc.server.BaseClient;
 import com.ibnsaad.thedcc.utils.Tools;
-import com.microsoft.signalr.Action;
-import com.microsoft.signalr.HubConnection;
-import com.microsoft.signalr.HubConnectionBuilder;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,6 +39,8 @@ import retrofit2.Response;
 public class ChatActivity extends AppCompatActivity {
 
 
+    public static String dateFormat = "dd-MM-yyyy hh:mm";
+    private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
     private final String TAG = "ChatActivity";
     private FloatingActionButton btn_send;
     private EditText et_content;
@@ -53,6 +52,12 @@ public class ChatActivity extends AppCompatActivity {
     private TextView userName;
     private SimpleDraweeView userImage;
     private FloatingActionButton sendBtn;
+
+    public static String ConvertMilliSecondsToFormattedDate(String milliSeconds) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(Long.parseLong(milliSeconds));
+        return simpleDateFormat.format(calendar.getTime());
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +83,7 @@ public class ChatActivity extends AppCompatActivity {
 
         BaseClient.getApi().getAllMessages(
                 SharedHelper.getKey(this, Enums.AUTH_TOKEN.name()),
-                Integer.parseInt(SharedHelper.getKey(this, Enums.ID.name())),
+                SharedHelper.getKey(this, Enums.ID.name()),
                 user.getId()
 
         ).enqueue(new Callback<List<Message>>() {
@@ -164,28 +169,20 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
-    public static String dateFormat = "dd-MM-yyyy hh:mm";
-    private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
-
-    public static String ConvertMilliSecondsToFormattedDate(String milliSeconds){
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(Long.parseLong(milliSeconds));
-        return simpleDateFormat.format(calendar.getTime());
-    }
-
     //for make message with content
     private void makeMessage(String messageContent) {
 
-        int recipientId = user.getId();
+
+        String recipientId = user.getId();
         SimpleDateFormat output = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm", Locale.getDefault());
         String time = output.format(new Date());
 
-        Message message = new Message(Integer.parseInt(SharedHelper.getKey(this, Enums.ID.name())),
+        Message message = new Message(SharedHelper.getKey(this, Enums.ID.name()),
                 recipientId, time, messageContent);
 
         BaseClient.getApi().senMessage(
                 SharedHelper.getKey(this, Enums.AUTH_TOKEN.name()),
-                Integer.parseInt(SharedHelper.getKey(this, Enums.ID.name())),
+                SharedHelper.getKey(this, Enums.ID.name()),
                 message)
                 .enqueue(new Callback<Message>() {
                     @Override

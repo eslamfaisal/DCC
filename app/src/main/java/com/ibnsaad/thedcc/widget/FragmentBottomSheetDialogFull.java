@@ -219,6 +219,7 @@ public class FragmentBottomSheetDialogFull extends BottomSheetDialogFragment {
                     }
                     break;
                     case 2:
+                        changeBodyAreaListener.setBodyArea(Enums.Legs);
                         bodyView.setImageDrawable(getResources().getDrawable(R.drawable.legs_pain));
                         break;
                     case 3: {
@@ -249,13 +250,13 @@ public class FragmentBottomSheetDialogFull extends BottomSheetDialogFragment {
             shap_body_area_btn.setSelection(1);
         } else if (enums.equals(Enums.Stomach)) {
             bodyView.setImageDrawable(getResources().getDrawable(R.drawable.stomach));
-            shap_body_area_btn.setSelection(2);
+            shap_body_area_btn.setSelection(4);
         } else if (enums.equals(Enums.Chest)) {
             bodyView.setImageDrawable(getResources().getDrawable(R.drawable.chest));
             shap_body_area_btn.setSelection(3);
         } else if (enums.equals(Enums.Legs)) {
             bodyView.setImageDrawable(getResources().getDrawable(R.drawable.legs_pain));
-            shap_body_area_btn.setSelection(4);
+            shap_body_area_btn.setSelection(2);
         }
     }
 

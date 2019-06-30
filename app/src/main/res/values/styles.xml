@@ -9,7 +9,7 @@
         <item name="android:dialogTheme">@style/Dialog.Theme</item>
     </style>
     <style name="AppTheme.SplashScreen" parent="AppTheme">
-        <item name="android:windowBackground">@drawable/doctor</item>
+        <item name="android:windowBackground">@drawable/splash</item>
     </style>
 
     <style name="AppTheme.SplashScreen.Base" parent="AppTheme.SplashScreen" />

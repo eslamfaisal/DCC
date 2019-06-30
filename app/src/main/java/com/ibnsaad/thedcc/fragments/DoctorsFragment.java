@@ -3,15 +3,15 @@ package com.ibnsaad.thedcc.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.ibnsaad.thedcc.R;
 import com.ibnsaad.thedcc.activities.OthersProfileActivity;
@@ -72,7 +72,7 @@ public class DoctorsFragment extends Fragment {
     private void initComponent(View view) {
         users = new ArrayList<>();
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         recyclerView.addItemDecoration(new SpacingItemDecoration(2, Tools.dpToPx(getActivity(), 8), true));
         recyclerView.setHasFixedSize(true);
@@ -90,9 +90,9 @@ public class DoctorsFragment extends Fragment {
 
         mAdapter.setOnItemClickListener(new UsersAdapterGridScrollProgress.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, String  obj, int position) {
+            public void onItemClick(View view, String obj, int position) {
                 Intent intent = new Intent(getActivity(), OthersProfileActivity.class);
-                intent.putExtra(Enums.ID.name(),obj);
+                intent.putExtra(Enums.ID.name(), obj);
                 startActivity(intent);
             }
         });
@@ -107,7 +107,7 @@ public class DoctorsFragment extends Fragment {
                     @Override
                     public void run() {
 //                        pageCount += 1;
-                        if (response.body()!=null){
+                        if (response.body() != null) {
                             mAdapter.setItems(response.body());
                             mAdapter.notifyDataSetChanged();
                         }
@@ -125,30 +125,30 @@ public class DoctorsFragment extends Fragment {
     }
 
     private void loadNextData() {
-        recyclerView.post(new Runnable() {
-            @Override
-            public void run() {
-                mAdapter.setLoading();
-            }
-        });
-
-        BaseClient.getApi().getUsersPaging(token, pageCount, item_per_display).enqueue(new Callback<List<User>>() {
-            @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                recyclerView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        pageCount += 1;
-                        mAdapter.insertData(response.body());
-                    }
-                });
-
-            }
-
-            @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
-
-            }
-        });
+//        recyclerView.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                mAdapter.setLoading();
+//            }
+//        });
+//
+//        BaseClient.getApi().getUsersPaging(token, pageCount, item_per_display).enqueue(new Callback<List<User>>() {
+//            @Override
+//            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+//                recyclerView.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        pageCount += 1;
+//                        mAdapter.insertData(response.body());
+//                    }
+//                });
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<User>> call, Throwable t) {
+//
+//            }
+//        });
     }
 }

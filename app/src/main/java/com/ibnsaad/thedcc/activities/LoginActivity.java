@@ -17,14 +17,11 @@ import com.google.gson.JsonObject;
 import com.ibnsaad.thedcc.R;
 import com.ibnsaad.thedcc.enums.Enums;
 import com.ibnsaad.thedcc.heper.SharedHelper;
-import com.ibnsaad.thedcc.model.LoginRespons;
+import com.ibnsaad.thedcc.model.LoginResponse;
 import com.ibnsaad.thedcc.server.BaseClient;
 import com.ibnsaad.thedcc.utils.Dialogs;
 import com.ibnsaad.thedcc.utils.Tools;
 import com.onesignal.OneSignal;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -116,14 +113,14 @@ public class LoginActivity extends AppCompatActivity {
         jsonObject1.addProperty("username", email_);
         jsonObject1.addProperty("password", password_);
 
-        BaseClient.getApi().logIn(jsonObject1).enqueue(new Callback<LoginRespons>() {
+        BaseClient.getApi().logIn(jsonObject1).enqueue(new Callback<LoginResponse>() {
             @Override
-            public void onResponse(Call<LoginRespons> call, Response<LoginRespons> response) {
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.body() != null) {
-                    LoginRespons loginRespons = response.body();
+                    LoginResponse loginRespons = response.body();
                     Log.d(TAG, "onResponse: " + response.body().getToken());
-                    SharedHelper.putKey(LoginActivity.this, Enums.TOKEN.name(), loginRespons.getToken());
-                    SharedHelper.putKey(LoginActivity.this, Enums.AUTH_TOKEN.name(), "Bearer " + loginRespons.getToken());
+                    SharedHelper.putKey(LoginActivity.this, Enums.TOKEN.name(), loginRespons.getToken().getResult());
+                    SharedHelper.putKey(LoginActivity.this, Enums.AUTH_TOKEN.name(), "Bearer " + loginRespons.getToken().getResult());
                     SharedHelper.putKey(LoginActivity.this, Enums.ID.name(), String.valueOf(loginRespons.getUser().getId()));
                     SharedHelper.putBoolean(LoginActivity.this, Enums.IS_LOG_IN.name(), true);
                     SharedHelper.putKey(LoginActivity.this, Enums.NAME.name(), loginRespons.getUser().getUsername());
@@ -136,11 +133,11 @@ public class LoginActivity extends AppCompatActivity {
                     SharedHelper.putKey(LoginActivity.this, Enums.Age.name(), String.valueOf(loginRespons.getUser().getAge()));
                     SharedHelper.putKey(LoginActivity.this, Enums.UserType.name(), String.valueOf(loginRespons.getUser().getUserType()));
                     SharedHelper.putKey(LoginActivity.this, Enums.Spetialization.name(), String.valueOf(loginRespons.getUser().getSpecialization()));
-                    String onsignalid = OneSignal.getPermissionSubscriptionState().getSubscriptionStatus().getUserId();
-                    while (onsignalid == null) {
-                        onsignalid = null;
-                    }
-                    Log.d(TAG, "onResponse: " + onsignalid);
+//                    String onsignalid = OneSignal.getPermissionSubscriptionState().getSubscriptionStatus().getUserId();
+//                    while (onsignalid == null) {
+//                        onsignalid = null;
+//                    }
+//                    Log.d(TAG, "onResponse: " + onsignalid);
                     startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                     finish();
                 } else {
@@ -155,7 +152,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<LoginRespons> call, Throwable t) {
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
                 hideProgress();
                 if (t.getMessage().contains("Unauthorized")) {
                     noInternetDialog = Dialogs.getInstance().showWorningDialog(LoginActivity.this, getString(R.string.login_fail_type));

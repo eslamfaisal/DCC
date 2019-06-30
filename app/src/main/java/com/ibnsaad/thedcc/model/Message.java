@@ -3,25 +3,28 @@ package com.ibnsaad.thedcc.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Message {
+import java.io.Serializable;
+
+public class Message implements Serializable {
+
     @SerializedName("id")
     @Expose
     private Integer id;
     @SerializedName("senderId")
     @Expose
-    private Integer senderId;
+    private String senderId;
     @SerializedName("senderKnownAs")
     @Expose
     private String senderKnownAs;
     @SerializedName("senderPhotoUrl")
     @Expose
-    private Object senderPhotoUrl;
+    private String senderPhotoUrl;
     @SerializedName("recipientPhotoUrl")
     @Expose
-    private String recipientPhotoUrl;
+    private Object recipientPhotoUrl;
     @SerializedName("recipientId")
     @Expose
-    private Integer recipientId;
+    private String recipientId;
     @SerializedName("recipientKnownAs")
     @Expose
     private String recipientKnownAs;
@@ -39,16 +42,15 @@ public class Message {
     private String messageSent;
 
 
-    public Message() {
-    }
-
-    public Message(Integer senderId, Integer recipientId,
+    public Message(String  senderId, String recipientId,
                    String messageSent, String content ) {
         this.senderId = senderId;
         this.recipientId = recipientId;
         this.content = content;
         this.messageSent = messageSent;
     }
+
+
 
     public Integer getId() {
         return id;
@@ -58,11 +60,11 @@ public class Message {
         this.id = id;
     }
 
-    public Integer getSenderId() {
+    public String getSenderId() {
         return senderId;
     }
 
-    public void setSenderId(Integer senderId) {
+    public void setSenderId(String senderId) {
         this.senderId = senderId;
     }
 
@@ -74,27 +76,27 @@ public class Message {
         this.senderKnownAs = senderKnownAs;
     }
 
-    public Object getSenderPhotoUrl() {
+    public String getSenderPhotoUrl() {
         return senderPhotoUrl;
     }
 
-    public void setSenderPhotoUrl(Object senderPhotoUrl) {
+    public void setSenderPhotoUrl(String senderPhotoUrl) {
         this.senderPhotoUrl = senderPhotoUrl;
     }
 
-    public String getRecipientPhotoUrl() {
+    public Object getRecipientPhotoUrl() {
         return recipientPhotoUrl;
     }
 
-    public void setRecipientPhotoUrl(String recipientPhotoUrl) {
+    public void setRecipientPhotoUrl(Object recipientPhotoUrl) {
         this.recipientPhotoUrl = recipientPhotoUrl;
     }
 
-    public Integer getRecipientId() {
+    public String getRecipientId() {
         return recipientId;
     }
 
-    public void setRecipientId(Integer recipientId) {
+    public void setRecipientId(String recipientId) {
         this.recipientId = recipientId;
     }
 
@@ -137,4 +139,5 @@ public class Message {
     public void setMessageSent(String messageSent) {
         this.messageSent = messageSent;
     }
+
 }

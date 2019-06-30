@@ -107,7 +107,6 @@ public class HomeActivity extends SplashActivity {
         SimpleDraweeView userImage = header.findViewById(R.id.user_image);
         userName.setText(SharedHelper.getKey(this, Enums.KnownAs.name()));
         userImage.setImageURI(SharedHelper.getKey(this, Enums.PhotoUrl.name()));
-        userImage.setImageURI(SharedHelper.getKey(this, Enums.PhotoUrl.name()));
         specialization.setText(SharedHelper.getKey(this, Enums.Spetialization.name()));
         // open drawer at start
         //   drawer.openDrawer(GravityCompat.START);

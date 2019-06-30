@@ -32,7 +32,7 @@
                 fresco:fadeDuration="300"
                 fresco:progressBarAutoRotateInterval="1000"
                 fresco:progressBarImage="@drawable/ic_refresh"
-                fresco:backgroundImage="@color/green_100" />
+                fresco:backgroundImage="@color/white" />
 
             <LinearLayout
                 android:paddingEnd="16dp"

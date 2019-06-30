@@ -8,12 +8,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
-
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -31,11 +29,9 @@ import com.ibnsaad.thedcc.slider.SliderAnimations;
 import com.ibnsaad.thedcc.slider.SliderView;
 import com.ibnsaad.thedcc.utils.ViewAnimation;
 import com.yalantis.ucrop.UCrop;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.Arrays;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -103,18 +99,18 @@ public class EditProfileActivity extends AppCompatActivity {
         options.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary));
         options.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
         BaseClient.getApi().getProfile(SharedHelper.getKey(this, Enums.AUTH_TOKEN.name()),
-               SharedHelper.getKey(this, Enums.ID.name())).enqueue(new Callback<ProfileResponse>() {
+                SharedHelper.getKey(this, Enums.ID.name())).enqueue(new Callback<ProfileResponse>() {
             @Override
             public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
                 Log.d(TAG, "onResponse: " + response.body().toString());
                 profileResponse = response.body();
-               runOnUiThread(new Runnable() {
-                   @Override
-                   public void run() {
-                       fillFields();
-                       initSlider();
-                   }
-               });
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        fillFields();
+                        initSlider();
+                    }
+                });
             }
 
             @Override
@@ -122,7 +118,6 @@ public class EditProfileActivity extends AppCompatActivity {
 
             }
         });
-
 
 
     }
@@ -224,7 +219,7 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.delete)
-    void deleteImage(){
+    void deleteImage() {
         BaseClient.getApi().deleteImage(
                 SharedHelper.getKey(this, Enums.AUTH_TOKEN.name()),
                 SharedHelper.getKey(this, Enums.ID.name()),
@@ -232,34 +227,33 @@ public class EditProfileActivity extends AppCompatActivity {
         ).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.code()==200||response.code()==204){
+                if (response.code() == 200 || response.code() == 204) {
                     recreate();
-                }else {
-                    Toast.makeText(EditProfileActivity.this, ""+response.toString(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(EditProfileActivity.this, "" + response.toString(), Toast.LENGTH_SHORT).show();
                 }
-                Log.d(TAG, "onResponse: "+response.toString());
+                Log.d(TAG, "onResponse: " + response.toString());
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
 
-                if (t.getMessage()!=null)
-                {
-                    if (t.getMessage().equals("End of input at line 1 column 1 path $")){
+                if (t.getMessage() != null) {
+                    if (t.getMessage().equals("End of input at line 1 column 1 path $")) {
                         recreate();
-                    }else {
-                        Toast.makeText(EditProfileActivity.this, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(EditProfileActivity.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
-                }else {
+                } else {
                     recreate();
                 }
-                Log.d(TAG, "onFailure: "+t.getMessage());
+                Log.d(TAG, "onFailure: " + t.getMessage());
             }
         });
     }
 
     @OnClick(R.id.main)
-    void setMainImage(){
+    void setMainImage() {
         BaseClient.getApi().setMainImage(
                 SharedHelper.getKey(this, Enums.AUTH_TOKEN.name()),
                 SharedHelper.getKey(this, Enums.ID.name()),
@@ -267,24 +261,23 @@ public class EditProfileActivity extends AppCompatActivity {
         ).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.code()==200||response.code()==204){
+                if (response.code() == 200 || response.code() == 204) {
                     recreate();
-                }else {
-                    Toast.makeText(EditProfileActivity.this, ""+response.toString(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(EditProfileActivity.this, "" + response.toString(), Toast.LENGTH_SHORT).show();
                 }
-                Log.d(TAG, "onResponse: "+response.toString());
+                Log.d(TAG, "onResponse: " + response.toString());
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                if (t.getMessage()!=null)
-                {
-                    if (t.getMessage().equals("End of input at line 1 column 1 path $")){
+                if (t.getMessage() != null) {
+                    if (t.getMessage().equals("End of input at line 1 column 1 path $")) {
                         recreate();
-                    }else {
-                        Toast.makeText(EditProfileActivity.this, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(EditProfileActivity.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
-                }else {
+                } else {
                     recreate();
                 }
             }
@@ -376,7 +369,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private void upLoadImae(Uri imageUri) {
         File file2 = new File(imageUri.getPath());
         RequestBody surveyBody = RequestBody.create(MediaType.parse("image/*"), file2);
-        MultipartBody.Part image = MultipartBody.Part.createFormData("File", String.valueOf(System.currentTimeMillis() + ".jpg"), surveyBody);
+        MultipartBody.Part image = MultipartBody.Part.createFormData("File", System.currentTimeMillis() + ".jpg", surveyBody);
 
         BaseClient.getApi().uploadImage(
                 SharedHelper.getKey(this, Enums.AUTH_TOKEN.name()),
@@ -389,7 +382,7 @@ public class EditProfileActivity extends AppCompatActivity {
         ).enqueue(new Callback<Photo>() {
             @Override
             public void onResponse(Call<Photo> call, Response<Photo> response) {
-              recreate();
+                recreate();
             }
 
             @Override

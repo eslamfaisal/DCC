@@ -20,7 +20,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.ibnsaad.thedcc"
-        minSdkVersion 18
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 230
         versionName "2.3"

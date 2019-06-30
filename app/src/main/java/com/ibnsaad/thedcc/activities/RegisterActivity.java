@@ -6,7 +6,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,22 +23,22 @@ import com.google.gson.JsonObject;
 import com.ibnsaad.thedcc.R;
 import com.ibnsaad.thedcc.enums.Enums;
 import com.ibnsaad.thedcc.heper.SharedHelper;
-import com.ibnsaad.thedcc.listeners.ConnectivityListener;
+import com.ibnsaad.thedcc.model.LoginResponse;
 import com.ibnsaad.thedcc.model.RegisterResponse;
 import com.ibnsaad.thedcc.server.BaseClient;
-import com.ibnsaad.thedcc.utils.Connectivity;
 import com.ibnsaad.thedcc.utils.Dialogs;
 import com.ibnsaad.thedcc.utils.Tools;
 import com.ibnsaad.thedcc.widget.EslamDatePickerDialog;
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RegisterActivity extends AppCompatActivity  {
+public class RegisterActivity extends AppCompatActivity {
 
     private static final String TAG = "RegisterActivity";
     List<String> specializations;
@@ -47,7 +46,7 @@ public class RegisterActivity extends AppCompatActivity  {
     private View progress;
     private RelativeLayout rootView;
     private NestedScrollView mNestedScrollView;
-
+    private Dialog noInternetDialog;
     //dialogs
     private AlertDialog alertDialog;
     private ActionBar actionBar;
@@ -62,7 +61,75 @@ public class RegisterActivity extends AppCompatActivity  {
         initComponent();
     }
 
+    private boolean validations() {
+
+        String name = userName.getText().toString().trim();
+        String age = userAge.getText().toString().trim();
+        String passwordTesxt = password.getText().toString().trim();
+        String user_gender = userGender.getText().toString().trim();
+        String email_ = email.getText().toString().trim();
+
+        Pattern p = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
+        Matcher m = p.matcher(passwordTesxt);
+
+        if (email_.equals("")) {
+            scrollToView(email);
+            email.setError(getString(R.string.user_name_is_required));
+            Dialogs.getInstance().showSnack(RegisterActivity.this, getString(R.string.not_valid_email));
+            Log.d(TAG, "creatNewUser: " + getString(R.string.not_valid_email));
+            return false;
+        } else if (passwordTesxt.equals("") && passwordTesxt.length() >= 6&&m.matches()) {
+            scrollToView(password);
+            password.setError(getString(R.string.password_is_required));
+            noInternetDialog = Dialogs.getInstance().showWorningDialog(RegisterActivity.this, getString(R.string.password_is_required));
+
+            Dialogs.getInstance().showSnack(RegisterActivity.this, getString(R.string.password_is_required));
+            Log.d(TAG, "creatNewUser: " + getString(R.string.password_is_required));
+            return false;
+        } else if (name.equals("")) {
+            scrollToView(userName);
+            userName.setError(getString(R.string.name_is_required));
+            Dialogs.getInstance().showSnack(RegisterActivity.this, getString(R.string.name_is_required));
+            Log.d(TAG, "creatNewUser: " + getString(R.string.name_is_required));
+            return false;
+        } else if (city.getText().toString().trim().equals("")) {
+            scrollToView(city);
+            city.setError(getString(R.string.city_is_required));
+            Dialogs.getInstance().showSnack(RegisterActivity.this, getString(R.string.name_is_required));
+            Log.d(TAG, "creatNewUser: " + getString(R.string.city_is_required));
+            return false;
+        } else if (country.getText().toString().trim().equals("")) {
+            scrollToView(city);
+            country.setError(getString(R.string.country_is_required));
+            Dialogs.getInstance().showSnack(RegisterActivity.this, getString(R.string.name_is_required));
+            Log.d(TAG, "creatNewUser: " + getString(R.string.city_is_required));
+            return false;
+        } else if (age.equals("")) {
+            scrollToView(userAge);
+            userAge.setError(getString(R.string.age_is_required));
+            Dialogs.getInstance().showSnack(RegisterActivity.this, getString(R.string.age_is_required));
+            Log.d(TAG, "creatNewUser: " + getString(R.string.age_is_required));
+            return false;
+        } else if (user_gender.equals("")) {
+            scrollToView(userGender);
+            userGender.setError(getString(R.string.user_gender));
+            Dialogs.getInstance().showSnack(RegisterActivity.this, getString(R.string.user_gender));
+            Log.d(TAG, "creatNewUser: " + getString(R.string.user_gender));
+            return false;
+        } else if (userType.getText().toString().trim().equals("")) {
+            scrollToView(userGender);
+            userType.setError(getString(R.string.userType_is_required));
+            Dialogs.getInstance().showSnack(RegisterActivity.this, getString(R.string.user_gender));
+            Log.d(TAG, "creatNewUser: " + getString(R.string.userType_is_required));
+            return false;
+        } else
+            return true;
+    }
+
     private void registerNewUser() {
+
+        if (!validations())
+            return;
 
         showProgress();
         JsonObject jsonObject1 = new JsonObject();
@@ -79,15 +146,66 @@ public class RegisterActivity extends AppCompatActivity  {
         if (userType.getText().toString().trim().equals(getString(R.string.doctors)))
             jsonObject1.addProperty("specialization", specialization.getText().toString().trim());
         else
-            jsonObject1.addProperty("specialization", "null");
+            jsonObject1.addProperty("specialization", "Patient");
         BaseClient.getApi().registerNewUser(jsonObject1).enqueue(new Callback<RegisterResponse>() {
             @Override
             public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
-
                 hideProgress();
                 if (response.body() != null) {
-                    if (response.body().getId() > 0) {
-                        onBackPressed();
+                    if (response.body().getId()!=null) {
+
+                        JsonObject jsonObject1 = new JsonObject();
+                        jsonObject1.addProperty("username", response.body().getUsername());
+                        jsonObject1.addProperty("password", password.getText().toString().trim());
+
+                        BaseClient.getApi().logIn(jsonObject1).enqueue(new Callback<LoginResponse>() {
+                            @Override
+                            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                                if (response.body() != null) {
+                                    LoginResponse loginRespons = response.body();
+                                    Log.d(TAG, "onResponse: " + response.body().getToken());
+                                    SharedHelper.putKey(RegisterActivity.this, Enums.TOKEN.name(), loginRespons.getToken().getResult());
+                                    SharedHelper.putKey(RegisterActivity.this, Enums.AUTH_TOKEN.name(), "Bearer " + loginRespons.getToken().getResult());
+                                    SharedHelper.putKey(RegisterActivity.this, Enums.ID.name(), String.valueOf(loginRespons.getUser().getId()));
+                                    SharedHelper.putBoolean(RegisterActivity.this, Enums.IS_LOG_IN.name(), true);
+                                    SharedHelper.putKey(RegisterActivity.this, Enums.NAME.name(), loginRespons.getUser().getUsername());
+                                    SharedHelper.putKey(RegisterActivity.this, Enums.DateOfBirth.name(), loginRespons.getUser().getDateOfBirth());
+                                    SharedHelper.putKey(RegisterActivity.this, Enums.City.name(), loginRespons.getUser().getCity());
+                                    SharedHelper.putKey(RegisterActivity.this, Enums.Gender.name(), loginRespons.getUser().getGender());
+                                    SharedHelper.putKey(RegisterActivity.this, Enums.Country.name(), loginRespons.getUser().getCountry());
+                                    SharedHelper.putKey(RegisterActivity.this, Enums.KnownAs.name(), loginRespons.getUser().getKnownAs());
+                                    SharedHelper.putKey(RegisterActivity.this, Enums.PhotoUrl.name(), loginRespons.getUser().getPhotoUrl());
+                                    SharedHelper.putKey(RegisterActivity.this, Enums.Age.name(), String.valueOf(loginRespons.getUser().getAge()));
+                                    SharedHelper.putKey(RegisterActivity.this, Enums.UserType.name(), String.valueOf(loginRespons.getUser().getUserType()));
+                                    SharedHelper.putKey(RegisterActivity.this, Enums.Spetialization.name(), String.valueOf(loginRespons.getUser().getSpecialization()));
+//                    String onsignalid = OneSignal.getPermissionSubscriptionState().getSubscriptionStatus().getUserId();
+//                    while (onsignalid == null) {
+//                        onsignalid = null;
+//                    }
+//                    Log.d(TAG, "onResponse: " + onsignalid);
+                                    startActivity(new Intent(RegisterActivity.this, HomeActivity.class));
+                                    finish();
+                                } else {
+                                    hideProgress();
+                                    if (response.toString().contains("Unauthorized")) {
+                                        noInternetDialog = Dialogs.getInstance().showWorningDialog(RegisterActivity.this, getString(R.string.login_fail_type));
+                                    } else
+                                        noInternetDialog = Dialogs.getInstance().showWorningDialog(RegisterActivity.this, response.toString());
+                                    Log.d(TAG, "onResponse: body is null");
+                                }
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                                hideProgress();
+                                if (t.getMessage().contains("Unauthorized")) {
+                                    noInternetDialog = Dialogs.getInstance().showWorningDialog(RegisterActivity.this, getString(R.string.login_fail_type));
+                                } else
+                                    noInternetDialog = Dialogs.getInstance().showWorningDialog(RegisterActivity.this, t.getMessage());
+                                Log.d(TAG, "onFailure: " + t.getMessage());
+                            }
+                        });
                     }
                 }
             }
@@ -95,7 +213,7 @@ public class RegisterActivity extends AppCompatActivity  {
             @Override
             public void onFailure(Call<RegisterResponse> call, Throwable t) {
                 hideProgress();
-                Toast.makeText(RegisterActivity.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+
             }
         });
 
