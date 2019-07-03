@@ -12,7 +12,6 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import com.facebook.drawee.drawable.ScalingUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.ibnsaad.thedcc.R;
 import com.ibnsaad.thedcc.activities.ChatActivity;
@@ -73,10 +72,9 @@ public class UsersAdapterGridScrollProgress extends RecyclerView.Adapter<Recycle
         final User s = items.get(position);
         if (holder instanceof OriginalViewHolder) {
             OriginalViewHolder view = (OriginalViewHolder) holder;
-            if (SharedHelper.getKey(ctx,Enums.UserType.name()).equals(ctx.getString(R.string.doctors)))
-            {
+            if (SharedHelper.getKey(ctx, Enums.UserType.name()).equals(ctx.getString(R.string.doctors))) {
                 view.image.getHierarchy().setPlaceholderImage(ctx.getDrawable(R.drawable.doctor));
-            }else {
+            } else {
                 view.image.getHierarchy().setPlaceholderImage(ctx.getDrawable(R.drawable.patient));
             }
             view.image.setImageURI(s.getPhotoUrl());
@@ -95,7 +93,7 @@ public class UsersAdapterGridScrollProgress extends RecyclerView.Adapter<Recycle
                 @Override
                 public void onClick(View view) {
                     if (mOnItemClickListener == null) return;
-                    mOnItemClickListener.onItemClick(view, s.getId().toString(), position);
+                    mOnItemClickListener.onItemClick(view, s.getId(), position);
                 }
             });
             view.like.setOnClickListener(new View.OnClickListener() {
@@ -123,7 +121,9 @@ public class UsersAdapterGridScrollProgress extends RecyclerView.Adapter<Recycle
                     });
                 }
             });
+
             view.user_name.setText(s.getKnownAs());
+            view.specialization.setText(s.getSpecialization());
             view.likes.setText("" + s.getLikerCount());
             setAnimation(view.itemView, position);
         } else {
@@ -238,6 +238,11 @@ public class UsersAdapterGridScrollProgress extends RecyclerView.Adapter<Recycle
         this.items = items;
     }
 
+    public void clear() {
+        items.clear();
+        notifyDataSetChanged();
+    }
+
     public interface OnItemClickListener {
         void onItemClick(View view, String id, int position);
     }
@@ -260,14 +265,14 @@ public class UsersAdapterGridScrollProgress extends RecyclerView.Adapter<Recycle
         View like, message;
         View parent;
         TextView user_name, likes;
-        TextView bio;
+        TextView specialization;
 
         public OriginalViewHolder(View v) {
             super(v);
             parent = v;
             image = v.findViewById(R.id.user_image);
             user_name = v.findViewById(R.id.user_name);
-            bio = v.findViewById(R.id.bio);
+            specialization = v.findViewById(R.id.specialization);
 
             message = v.findViewById(R.id.message);
             like = v.findViewById(R.id.like);

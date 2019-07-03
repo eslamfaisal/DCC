@@ -128,4 +128,15 @@
     <string name="country_is_required">Country is required</string>
     <string name="userType_is_required">User type is required</string>
     <string name="user_name_is_required">User name is required</string>
+    <string name="last_active">Last Active</string>
+    <string name="newest_members">Newest Members</string>
+    <string name="top_rating">TOP Rating</string>
+    <string name="low_rating">Low Rating</string>
+    <string name="bones_doctor">Bones Doctor</string>
+    <string name="all">All</string>
+    <string name="heart_doctor">Heart\'s Doctor</string>
+    <string name="internal_doctor">Internal Doctor</string>
+    <string name="dermatologist">Dermatologist</string>
+    <string name="feminine_doctor">Feminine Doctor</string>
+    <string name="pediatrician">Pediatrician</string>
 </resources>

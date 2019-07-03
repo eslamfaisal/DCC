@@ -99,14 +99,7 @@ public class LoginActivity extends AppCompatActivity {
         OneSignal.sendTag("user_name", email.getText().toString());
         String email_ = email.getText().toString();
         String password_ = password.getText().toString();
-
-        if (password_.equals("")) {
-            password.setError(getString(R.string.password_is_required));
-            Dialogs.getInstance().showSnack(LoginActivity.this, getString(R.string.password_is_required));
-            Log.d(TAG, "creatNewUser: " + getString(R.string.password_is_required));
-            return;
-        }
-
+z
         showProgress();
 
         JsonObject jsonObject1 = new JsonObject();

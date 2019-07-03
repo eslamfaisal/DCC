@@ -37,11 +37,10 @@
             android:textColor="@color/grey_90" />
 
         <TextView
-            android:id="@+id/bio"
+            android:id="@+id/specialization"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/spacing_middle"
-            android:text="Android developer"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/grey_40" />
 

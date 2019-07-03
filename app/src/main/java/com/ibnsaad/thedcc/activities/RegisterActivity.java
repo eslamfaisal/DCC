@@ -30,7 +30,9 @@ import com.ibnsaad.thedcc.utils.Dialogs;
 import com.ibnsaad.thedcc.utils.Tools;
 import com.ibnsaad.thedcc.widget.EslamDatePickerDialog;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.IntPredicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -61,6 +63,16 @@ public class RegisterActivity extends AppCompatActivity {
         initComponent();
     }
 
+    private boolean checkIfContainLowerChar(String string){
+        String chars = "abcdefghijklmnopqrstuvwxyz";
+        for (int i=0;i <string.length();i++){
+            if (chars.contains(""+string.charAt(i))){
+                return true;
+            }
+        }
+        return false;
+    }
+
     private boolean validations() {
 
         String name = userName.getText().toString().trim();
@@ -69,20 +81,17 @@ public class RegisterActivity extends AppCompatActivity {
         String user_gender = userGender.getText().toString().trim();
         String email_ = email.getText().toString().trim();
 
-        Pattern p = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
-        Matcher m = p.matcher(passwordTesxt);
-
         if (email_.equals("")) {
             scrollToView(email);
             email.setError(getString(R.string.user_name_is_required));
             Dialogs.getInstance().showSnack(RegisterActivity.this, getString(R.string.not_valid_email));
             Log.d(TAG, "creatNewUser: " + getString(R.string.not_valid_email));
             return false;
-        } else if (passwordTesxt.equals("") && passwordTesxt.length() >= 6&&m.matches()) {
+        }
+        else if (passwordTesxt.equals("")|| passwordTesxt.length() < 6|| !checkIfContainLowerChar(passwordTesxt)) {
             scrollToView(password);
             password.setError(getString(R.string.password_is_required));
             noInternetDialog = Dialogs.getInstance().showWorningDialog(RegisterActivity.this, getString(R.string.password_is_required));
-
             Dialogs.getInstance().showSnack(RegisterActivity.this, getString(R.string.password_is_required));
             Log.d(TAG, "creatNewUser: " + getString(R.string.password_is_required));
             return false;
@@ -142,7 +151,7 @@ public class RegisterActivity extends AppCompatActivity {
         jsonObject1.addProperty("country", country.getText().toString().trim());
         jsonObject1.addProperty("created", "2019-06-12T20:55:50.063Z");
         jsonObject1.addProperty("lastActive", "2019-06-12T20:55:50.063Z");
-        jsonObject1.addProperty("userType", userType.getText().toString().trim());
+        jsonObject1.addProperty("typeOfUser", userType.getText().toString().trim());
         if (userType.getText().toString().trim().equals(getString(R.string.doctors)))
             jsonObject1.addProperty("specialization", specialization.getText().toString().trim());
         else
@@ -178,32 +187,23 @@ public class RegisterActivity extends AppCompatActivity {
                                     SharedHelper.putKey(RegisterActivity.this, Enums.Age.name(), String.valueOf(loginRespons.getUser().getAge()));
                                     SharedHelper.putKey(RegisterActivity.this, Enums.UserType.name(), String.valueOf(loginRespons.getUser().getUserType()));
                                     SharedHelper.putKey(RegisterActivity.this, Enums.Spetialization.name(), String.valueOf(loginRespons.getUser().getSpecialization()));
-//                    String onsignalid = OneSignal.getPermissionSubscriptionState().getSubscriptionStatus().getUserId();
-//                    while (onsignalid == null) {
-//                        onsignalid = null;
-//                    }
-//                    Log.d(TAG, "onResponse: " + onsignalid);
+
                                     startActivity(new Intent(RegisterActivity.this, HomeActivity.class));
                                     finish();
                                 } else {
                                     hideProgress();
-                                    if (response.toString().contains("Unauthorized")) {
-                                        noInternetDialog = Dialogs.getInstance().showWorningDialog(RegisterActivity.this, getString(R.string.login_fail_type));
-                                    } else
-                                        noInternetDialog = Dialogs.getInstance().showWorningDialog(RegisterActivity.this, response.toString());
-                                    Log.d(TAG, "onResponse: body is null");
+                                    if(response.body().toString().contains("PasswordRequiresLower")) {
+                                        noInternetDialog = Dialogs.getInstance().showWorningDialog(RegisterActivity.this, getString(R.string.password_is_required));
+                                    }
                                 }
 
                             }
 
                             @Override
                             public void onFailure(Call<LoginResponse> call, Throwable t) {
-                                hideProgress();
-                                if (t.getMessage().contains("Unauthorized")) {
-                                    noInternetDialog = Dialogs.getInstance().showWorningDialog(RegisterActivity.this, getString(R.string.login_fail_type));
-                                } else
-                                    noInternetDialog = Dialogs.getInstance().showWorningDialog(RegisterActivity.this, t.getMessage());
-                                Log.d(TAG, "onFailure: " + t.getMessage());
+                                if(t.getMessage().contains("PasswordRequiresLower")) {
+                                    noInternetDialog = Dialogs.getInstance().showWorningDialog(RegisterActivity.this, getString(R.string.password_is_required));
+                                }
                             }
                         });
                     }
@@ -213,6 +213,9 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<RegisterResponse> call, Throwable t) {
                 hideProgress();
+                if(t.getMessage().contains("PasswordRequiresLower")) {
+                    noInternetDialog = Dialogs.getInstance().showWorningDialog(RegisterActivity.this, getString(R.string.password_is_required));
+                }
 
             }
         });
@@ -309,7 +312,7 @@ public class RegisterActivity extends AppCompatActivity {
                 goLogIn();
             }
         });
-        getSpecialization();
+        specializations = specializationsList();
         specialization.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -397,6 +400,16 @@ public class RegisterActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
+    private List<String> specializationsList() {
+        List<String> specializationsList = new ArrayList<>();
+        specializationsList.add(getString(R.string.bones_doctor));
+        specializationsList.add(getString(R.string.heart_doctor));
+        specializationsList.add(getString(R.string.internal_doctor));
+        specializationsList.add(getString(R.string.dermatologist));
+        specializationsList.add(getString(R.string.feminine_doctor));
+        specializationsList.add(getString(R.string.pediatrician));
+        return specializationsList;
+    }
     private void showSpecialDialog(final View v) {
 
         final String[] array = new String[specializations.size()];

@@ -24,7 +24,6 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.google.android.material.snackbar.Snackbar;
 import com.ibnsaad.thedcc.R;
 import com.ibnsaad.thedcc.adapter.AdapterListExpand;
 import com.ibnsaad.thedcc.enums.Enums;
@@ -64,6 +63,8 @@ public class FragmentBottomSheetDialogFull extends BottomSheetDialogFragment {
 
     private RecyclerView recyclerView;
     private AdapterListExpand mAdapter;
+    private int mLastTouchEvent = -1;
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -73,7 +74,8 @@ public class FragmentBottomSheetDialogFull extends BottomSheetDialogFragment {
         initViews(view);
         setlistener();
         setBodyArea(bodyAreaEnum);
-        showBodyDetectionDialog();
+        if (getActivity() != null)
+            showBodyDetectionDialog();
         return dialog;
     }
 
@@ -112,7 +114,7 @@ public class FragmentBottomSheetDialogFull extends BottomSheetDialogFragment {
 
             }
         });
-        recyclerView = (RecyclerView) view.findViewById(R.id.drugs_recycler_view);
+        recyclerView = view.findViewById(R.id.drugs_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addItemDecoration(new LineItemDecoration(getActivity(), LinearLayout.VERTICAL));
         recyclerView.setHasFixedSize(true);
@@ -143,53 +145,63 @@ public class FragmentBottomSheetDialogFull extends BottomSheetDialogFragment {
         bodyView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
 
-                    float[] point = new float[]{event.getX(), event.getY()};
+                switch (event.getActionMasked()) {
+                    case MotionEvent.ACTION_DOWN:
+                        mLastTouchEvent = MotionEvent.ACTION_DOWN;
+                        break;
 
-                    Matrix inverse = new Matrix();
-                    bodyView.getImageMatrix().invert(inverse);
-                    inverse.mapPoints(point);
+                    case MotionEvent.ACTION_MOVE:
+                        mLastTouchEvent = MotionEvent.ACTION_MOVE;
+                        break;
 
-                    float density = getResources().getDisplayMetrics().density;
+                    case MotionEvent.ACTION_UP:
+                        if (mLastTouchEvent == MotionEvent.ACTION_DOWN) {
 
-                    float x = point[0] /= density;
-                    float y = point[1] /= density;
+                            float[] point = new float[]{event.getX(), event.getY()};
 
-                    Log.d(TAG, "touch inverse=" + x + " - " + y);
+                            Matrix inverse = new Matrix();
+                            bodyView.getImageMatrix().invert(inverse);
+                            inverse.mapPoints(point);
 
-                    // check legs
-                    if (x >= 420 && x <= 580 && y >= 520 && y <= 930) {
-                        bodyView.setImageDrawable(getResources().getDrawable(R.drawable.legs_pain));
-                        changeBodyAreaListener.setBodyArea(Enums.Legs);
-                        shap_body_area_btn.setSelection(2);
-                    } else if (x >= 420 && x <= 580 && y >= 320 && y <= 520) {
-                        bodyView.setImageDrawable(getResources().getDrawable(R.drawable.stomach));
-                        changeBodyAreaListener.setBodyArea(Enums.Stomach);
-                        shap_body_area_btn.setSelection(4);
-                    } else if (x >= 420 && x <= 580 && y >= 215 && y <= 320) {
-                        bodyView.setImageDrawable(getResources().getDrawable(R.drawable.chest));
-                        changeBodyAreaListener.setBodyArea(Enums.Chest);
-                        shap_body_area_btn.setSelection(3);
-                    } else if (x >= 350 && x <= 420 && y >= 210 && y <= 580) {
-                        bodyView.setImageDrawable(getResources().getDrawable(R.drawable.arms));
-                        changeBodyAreaListener.setBodyArea(Enums.Arms);
-                        shap_body_area_btn.setSelection(1);
-                    } else if (x >= 580 && x <= 650 && y >= 210 && y <= 580) {
-                        bodyView.setImageDrawable(getResources().getDrawable(R.drawable.arms));
-                        changeBodyAreaListener.setBodyArea(Enums.Arms);
-                        shap_body_area_btn.setSelection(1);
-                    } else if (x >= 450 && x <= 550 && y >= 70 && y <= 200) {
-                        bodyView.setImageDrawable(getResources().getDrawable(R.drawable.head_pain));
-                        changeBodyAreaListener.setBodyArea(Enums.Head);
-                        shap_body_area_btn.setSelection(0);
-                    }
+                            float density = getResources().getDisplayMetrics().density;
 
-                    return true;
-                } else {
-                    return false;
+                            float x = point[0] /= density;
+                            float y = point[1] /= density;
+
+                            Log.d(TAG, "touch inverse=" + x + " - " + y);
+
+                            // check legs
+                            if (x >= 420 && x <= 580 && y >= 520 && y <= 930) {
+                                bodyView.setImageDrawable(getResources().getDrawable(R.drawable.legs_pain));
+                                changeBodyAreaListener.setBodyArea(Enums.Legs);
+                                shap_body_area_btn.setSelection(2);
+                            } else if (x >= 420 && x <= 580 && y >= 320 && y <= 520) {
+                                bodyView.setImageDrawable(getResources().getDrawable(R.drawable.stomach));
+                                changeBodyAreaListener.setBodyArea(Enums.Stomach);
+                                shap_body_area_btn.setSelection(4);
+                            } else if (x >= 420 && x <= 580 && y >= 215 && y <= 320) {
+                                bodyView.setImageDrawable(getResources().getDrawable(R.drawable.chest));
+                                changeBodyAreaListener.setBodyArea(Enums.Chest);
+                                shap_body_area_btn.setSelection(3);
+                            } else if (x >= 350 && x <= 420 && y >= 210 && y <= 580) {
+                                bodyView.setImageDrawable(getResources().getDrawable(R.drawable.arms));
+                                changeBodyAreaListener.setBodyArea(Enums.Arms);
+                                shap_body_area_btn.setSelection(1);
+                            } else if (x >= 580 && x <= 650 && y >= 210 && y <= 580) {
+                                bodyView.setImageDrawable(getResources().getDrawable(R.drawable.arms));
+                                changeBodyAreaListener.setBodyArea(Enums.Arms);
+                                shap_body_area_btn.setSelection(1);
+                            } else if (x >= 450 && x <= 550 && y >= 70 && y <= 200) {
+                                bodyView.setImageDrawable(getResources().getDrawable(R.drawable.head_pain));
+                                changeBodyAreaListener.setBodyArea(Enums.Head);
+                                shap_body_area_btn.setSelection(0);
+                            }
+
+                        }
+                        break;
                 }
-
+                return true;
             }
         });
     }
@@ -294,24 +306,27 @@ public class FragmentBottomSheetDialogFull extends BottomSheetDialogFragment {
                 if (response.body() != null) {
                     bodyAreasResponseList = response.body();
                     List<String> list = new ArrayList<>();
-                    for (BodyAreasResponse bodyAreasResponse :response.body()){
+                    for (BodyAreasResponse bodyAreasResponse : response.body()) {
                         list.add(bodyAreasResponse.getNameArea());
                     }
-                    ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, list);
-                    dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    spinnerbodyAreas.setAdapter(dataAdapter);
-                    Log.d(TAG, "onResponse: " + bodyAreasResponseList.toString());
-                    spinnerbodyAreas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            getSypmotByBodyAreasId(position+1);
-                        }
+                    if (getActivity() != null) {
+                        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, list);
+                        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinnerbodyAreas.setAdapter(dataAdapter);
+                        Log.d(TAG, "onResponse: " + bodyAreasResponseList.toString());
+                        spinnerbodyAreas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                getSypmotByBodyAreasId(position + 1);
+                            }
 
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
 
-                        }
-                    });
+                            }
+                        });
+                    }
+
                 }
             }
 
@@ -333,24 +348,27 @@ public class FragmentBottomSheetDialogFull extends BottomSheetDialogFragment {
             public void onResponse(Call<List<SymptomByIdResponse>> call, Response<List<SymptomByIdResponse>> response) {
                 if (response.body() != null) {
                     List<String> list = new ArrayList<>();
-                    for (SymptomByIdResponse symptomByIdResponse :response.body()){
+                    for (SymptomByIdResponse symptomByIdResponse : response.body()) {
                         list.add(symptomByIdResponse.getSymptomName());
                     }
-                    ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, list);
-                    dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    symptomsSpinner.setAdapter(dataAdapter);
+                    if (getActivity() != null) {
+                        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, list);
+                        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        symptomsSpinner.setAdapter(dataAdapter);
 
-                    symptomsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            getDrugBySyptomId(position+1);
-                        }
+                        symptomsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                getDrugBySyptomId(position + 1);
+                            }
 
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
 
-                        }
-                    });
+                            }
+                        });
+                    }
+
                 }
 
             }
@@ -373,25 +391,28 @@ public class FragmentBottomSheetDialogFull extends BottomSheetDialogFragment {
                 if (response.body() != null) {
 
                     List<String> list = new ArrayList<>();
-                    for (DrugsResponse drugsResponse :response.body()){
+                    for (DrugsResponse drugsResponse : response.body()) {
                         list.add(drugsResponse.getDrugName());
                     }
-                    ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, list);
-                    dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    spinner_drugs.setAdapter(dataAdapter);
-                    spinner_drugs.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    if (getActivity() != null) {
+                        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, list);
+                        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner_drugs.setAdapter(dataAdapter);
+                        spinner_drugs.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                        }
+                            }
 
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
 
-                        }
-                    });
+                            }
+                        });
 
-                    mAdapter.setItems(response.body());
+                        mAdapter.setItems(response.body());
+                    }
+
                 }
             }
 

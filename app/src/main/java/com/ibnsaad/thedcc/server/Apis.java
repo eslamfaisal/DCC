@@ -46,13 +46,27 @@ public interface Apis {
     Call<List<User>> getUsers(@Header("Authorization") String header);
 
     @GET("api/Users/getPaging")
-    Call<List<User>> getUsersPaging(@Header("Authorization") String header, @Query("PageNumber") int PageNumber, @Query("PageSize") int PageSize);
+    Call<List<User>> getUsersPaging(@Header("Authorization") String header,
+                                    @Query("PageNumber") int PageNumber,
+                                    @Query("PageSize") int PageSize,
+                                    @Query("OrderBy") String OrderBy,
+                                    @Query("Specialization") String Specialization
+
+    );
+
+    @GET("api/Users/getPaging")
+    Call<List<User>> getUsersPagingPatient(@Header("Authorization") String header,
+                                    @Query("PageNumber") int PageNumber,
+                                    @Query("PageSize") int PageSize,
+                                    @Query("OrderBy") String OrderBy
+
+    );
 
     @GET("api/Users/{id}")
     Call<ProfileResponse> getProfile(@Header("Authorization") String header, @Path("id") String id);
 
     @PUT("api/Users/{id}")
-    Call<ProfileResponse> updateProfile(@Header("Authorization") String header, @Path("id") String  id, @Body JsonObject body);
+    Call<ProfileResponse> updateProfile(@Header("Authorization") String header, @Path("id") String id, @Body JsonObject body);
 
     @Multipart
     @POST("api/users/{userId}/photos")
@@ -81,7 +95,7 @@ public interface Apis {
 
     //for message with user id and message id
     @GET("api/users/{userId}/Messages/{id}")
-    Call<ResponseMessagesWithId> getMessages(@Path("userId") String  userId,
+    Call<ResponseMessagesWithId> getMessages(@Path("userId") String userId,
                                              @Path("id") int idMessage);
 
     //for sent message with content
@@ -91,11 +105,11 @@ public interface Apis {
 
     @GET("api/users/{userId}/Messages/thread/{recipientId}")
     Call<List<Message>> getAllMessages(@Header("Authorization") String header, @Path("userId") String userId,
-                                       @Path("recipientId") String  recipientId);
+                                       @Path("recipientId") String recipientId);
 
     @POST("api/Users/{id}/like/{recipientId}")
     Call<Void> like(@Header("Authorization") String header
-            , @Path("id") String  userId, @Path("recipientId") String  recipientId);
+            , @Path("id") String userId, @Path("recipientId") String recipientId);
 
 
     // diagonsis

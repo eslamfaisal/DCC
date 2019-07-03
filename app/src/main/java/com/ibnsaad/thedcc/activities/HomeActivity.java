@@ -20,7 +20,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.ibnsaad.thedcc.R;
 import com.ibnsaad.thedcc.adapter.UsersAdapterGridScrollProgress;
 import com.ibnsaad.thedcc.enums.Enums;
-import com.ibnsaad.thedcc.fragments.DoctorsFragment;
+import com.ibnsaad.thedcc.fragments.UsersFragment;
 import com.ibnsaad.thedcc.fragments.PatientHomeFragment;
 import com.ibnsaad.thedcc.fragments.ProfileFragment;
 import com.ibnsaad.thedcc.heper.SharedHelper;
@@ -47,9 +47,8 @@ public class HomeActivity extends SplashActivity {
         initNavigationMenu();
         // initComponent();
         if (SharedHelper.getKey(this, Enums.UserType.name()).equals(getString(R.string.doctors))) {
-            replaceFragment(DoctorsFragment.getInstance());
+            replaceFragment(UsersFragment.getInstance());
         } else {
-
             replaceFragment(PatientHomeFragment.getInstance());
         }
 
@@ -119,7 +118,7 @@ public class HomeActivity extends SplashActivity {
 
             case R.id.nav_home:
                 if (SharedHelper.getKey(this, Enums.UserType.name()).equals(getString(R.string.doctors))) {
-                    replaceFragment(DoctorsFragment.getInstance());
+                    replaceFragment(UsersFragment.getInstance());
                 } else {
                     replaceFragment(PatientHomeFragment.getInstance());
                 }

@@ -64,6 +64,8 @@ public class DiagnosisFragment extends Fragment implements ChangeBodyAreaListene
         return inflater.inflate(R.layout.fragment_diagnosis, container, false);
     }
 
+    private int mLastTouchEvent = -1;
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -81,47 +83,57 @@ public class DiagnosisFragment extends Fragment implements ChangeBodyAreaListene
         bodyView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
 
+                switch (event.getActionMasked()) {
+                    case MotionEvent.ACTION_DOWN:
+                        mLastTouchEvent = MotionEvent.ACTION_DOWN;
+                        break;
 
-                    float[] point = new float[]{event.getX(), event.getY()};
+                    case MotionEvent.ACTION_MOVE:
+                        mLastTouchEvent = MotionEvent.ACTION_MOVE;
+                        break;
 
-                    Matrix inverse = new Matrix();
-                    bodyView.getImageMatrix().invert(inverse);
-                    inverse.mapPoints(point);
+                    case MotionEvent.ACTION_UP:
+                        if (mLastTouchEvent == MotionEvent.ACTION_DOWN)  {
 
-                    float density = getResources().getDisplayMetrics().density;
+                            float[] point = new float[]{event.getX(), event.getY()};
+                            Matrix inverse = new Matrix();
+                            bodyView.getImageMatrix().invert(inverse);
+                            inverse.mapPoints(point);
+                            float density = getResources().getDisplayMetrics().density;
+                            float x = point[0] /= density;
+                            float y = point[1] /= density;
 
-                    float x = point[0] /= density;
-                    float y = point[1] /= density;
+                            Log.d(TAG, "touch inverse=" + x + " - " + y);
 
-                    Log.d(TAG, "touch inverse=" + x + " - " + y);
+                            // check legs
+                            if (x >= 420 && x <= 580 && y >= 520 && y <= 930) {
+                                bodyView.setImageDrawable(getResources().getDrawable(R.drawable.legs_pain));
+                                showBottomSheetDialog(Enums.Legs);
+                            } else if (x >= 420 && x <= 580 && y >= 320 && y <= 520) {
+                                bodyView.setImageDrawable(getResources().getDrawable(R.drawable.stomach));
+                                showBottomSheetDialog(Enums.Stomach);
+                            } else if (x >= 420 && x <= 580 && y >= 215 && y <= 320) {
+                                bodyView.setImageDrawable(getResources().getDrawable(R.drawable.chest));
+                                showBottomSheetDialog(Enums.Chest);
+                            } else if (x >= 350 && x <= 420 && y >= 210 && y <= 580) {
+                                bodyView.setImageDrawable(getResources().getDrawable(R.drawable.arms));
+                                showBottomSheetDialog(Enums.Arms);
+                            } else if (x >= 580 && x <= 650 && y >= 210 && y <= 580) {
+                                bodyView.setImageDrawable(getResources().getDrawable(R.drawable.arms));
+                                showBottomSheetDialog(Enums.Arms);
+                            } else if (x >= 450 && x <= 550 && y >= 70 && y <= 200) {
+                                bodyView.setImageDrawable(getResources().getDrawable(R.drawable.head_pain));
+                                showBottomSheetDialog(Enums.Head);
+                            }
 
-                    // check legs
-                    if (x >= 420 && x <= 580 && y >= 520 && y <= 930) {
-                        bodyView.setImageDrawable(getResources().getDrawable(R.drawable.legs_pain));
-                        showBottomSheetDialog(Enums.Legs);
-                    } else if (x >= 420 && x <= 580 && y >= 320 && y <= 520) {
-                        bodyView.setImageDrawable(getResources().getDrawable(R.drawable.stomach));
-                        showBottomSheetDialog(Enums.Stomach);
-                    } else if (x >= 420 && x <= 580 && y >= 215 && y <= 320) {
-                        bodyView.setImageDrawable(getResources().getDrawable(R.drawable.chest));
-                        showBottomSheetDialog(Enums.Chest);
-                    } else if (x >= 350 && x <= 420 && y >= 210 && y <= 580) {
-                        bodyView.setImageDrawable(getResources().getDrawable(R.drawable.arms));
-                        showBottomSheetDialog(Enums.Arms);
-                    } else if (x >= 580 && x <= 650 && y >= 210 && y <= 580) {
-                        bodyView.setImageDrawable(getResources().getDrawable(R.drawable.arms));
-                        showBottomSheetDialog(Enums.Arms);
-                    } else if (x >= 450 && x <= 550 && y >= 70 && y <= 200) {
-                        bodyView.setImageDrawable(getResources().getDrawable(R.drawable.head_pain));
-                        showBottomSheetDialog(Enums.Head);
-                    }
+                            return true;
+                        }
 
-                    return true;
-                } else {
-                    return false;
+                        break;
                 }
+
+                return true;
 
             }
         });

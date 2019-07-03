@@ -68,7 +68,7 @@ public class PatientHomeFragment extends Fragment {
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getChildFragmentManager());
 
 
-        adapter.addFragment(DoctorsFragment.getInstance(), getString(R.string.talk_to));
+        adapter.addFragment(UsersFragment.getInstance(), getString(R.string.talk_to));
         adapter.addFragment(DiagnosisFragment.getInstance(), getString(R.string.diagnosis));
 
         viewPager.setAdapter(adapter);
