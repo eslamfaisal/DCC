@@ -3,7 +3,7 @@ package com.ibnsaad.thedcc.utils;
 import android.app.Activity;
 import android.app.Dialog;
 import android.graphics.Color;
-import android.support.design.widget.Snackbar;
+import com.google.android.material.snackbar.Snackbar;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;

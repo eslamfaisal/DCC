@@ -23,6 +23,11 @@ public class Photo implements Serializable {
     @Expose
     private Boolean isMain;
 
+    @SerializedName("publicId")
+    @Expose
+    private String publicId;
+
+
     public Integer getId() {
         return id;
     }
@@ -63,6 +68,22 @@ public class Photo implements Serializable {
         this.isMain = isMain;
     }
 
+    public Boolean getMain() {
+        return isMain;
+    }
+
+    public void setMain(Boolean main) {
+        isMain = main;
+    }
+
+    public String getPublicId() {
+        return publicId;
+    }
+
+    public void setPublicId(String publicId) {
+        this.publicId = publicId;
+    }
+
     @Override
     public String toString() {
         return "Photo{" +
@@ -71,6 +92,7 @@ public class Photo implements Serializable {
                 ", description=" + description +
                 ", dateAdded='" + dateAdded + '\'' +
                 ", isMain=" + isMain +
+                ", publicId='" + publicId + '\'' +
                 '}';
     }
 }

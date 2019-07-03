@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="AppTheme" parent="BaseTheme" />
 
@@ -9,7 +9,7 @@
         <item name="android:dialogTheme">@style/Dialog.Theme</item>
     </style>
     <style name="AppTheme.SplashScreen" parent="AppTheme">
-        <item name="android:windowBackground">@drawable/doctor</item>
+        <item name="android:windowBackground">@drawable/splash</item>
     </style>
 
     <style name="AppTheme.SplashScreen.Base" parent="AppTheme.SplashScreen" />
@@ -261,5 +261,30 @@
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
     </style>
+    <style name="UCrop" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:windowActivityTransitions" tools:ignore="NewApi">true</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
 
+    </style>
+
+    <style name="fab_buttons_CardView_Style">
+        <item name="android:visibility">gone</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/spacing_middle</item>
+    </style>
+
+
+    <style name="fab_buttons_TextView_Style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body2</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
 </resources>

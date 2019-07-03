@@ -5,7 +5,7 @@
     <!-- common -->
     <string name="error_user_token">Some thing wrong please try again</string>
     <string name="no_internet_connection">No internet connection</string>
-    <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
+    <string name="appbar_scrolling_view_behavior" translatable="false">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
 
     <!--login activity-->
     <string name="email">Email</string>
@@ -20,7 +20,7 @@
     <string name="country">Country</string>
     <string name="name_is_required">Name is required</string>
     <string name="age_is_required">Age is required</string>
-    <string name="password_is_required">Password is required</string>
+    <string name="password_is_required">You must specify a password between 6 and 14 characters and have at least one lowercase (a-z) </string>
     <string name="rePassword_is_required">Re enter the password is required</string>
     <string name="user_gender">Gender is required</string>
     <string name="password_not_confirmed_right">Password does not match</string>
@@ -99,5 +99,44 @@
     <string name="introduction">Introduction</string>
     <string name="looking_for">Looking For</string>
     <string name="interests">Interests</string>
-
+    <string name="specialization">Specialization</string>
+    <string name="userType">User Type</string>
+    <string name="set_main">Set Main</string>
+    <string name="like">Like</string>
+    <string name="message">Message</string>
+    <string name="write_a_message">Write a message...</string>
+    <string name="just_now">Right now</string>
+    <string name="a_min_ago">1 minute ago</string>
+    <string name="mins_ago">" minutes ago"</string>
+    <string name="a_hour_ago">1 hour ago</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="days_ago">" days ago"</string>
+    <string name="week_ago">" week ago"</string>
+    <string name="weeks_ago">" weeks ago"</string>
+    <string name="username">Username</string>
+    <string name="head">Head</string>
+    <string name="arms">Arms</string>
+    <string name="legs">Legs</string>
+    <string name="chest">Chest</string>
+    <string name="stomach">Stomach</string>
+    <string name="composition">Composition</string>
+    <string name="indications">Indications</string>
+    <string name="dosing">Dosing</string>
+    <string name="sideEffects">Side Effects</string>
+    <string name="login_fail_type">UnCorrect UserName Or Password</string>
+    <string name="city_is_required">City is required</string>
+    <string name="country_is_required">Country is required</string>
+    <string name="userType_is_required">User type is required</string>
+    <string name="user_name_is_required">User name is required</string>
+    <string name="last_active">Last Active</string>
+    <string name="newest_members">Newest Members</string>
+    <string name="top_rating">TOP Rating</string>
+    <string name="low_rating">Low Rating</string>
+    <string name="bones_doctor">Bones Doctor</string>
+    <string name="all">All</string>
+    <string name="heart_doctor">Heart\'s Doctor</string>
+    <string name="internal_doctor">Internal Doctor</string>
+    <string name="dermatologist">Dermatologist</string>
+    <string name="feminine_doctor">Feminine Doctor</string>
+    <string name="pediatrician">Pediatrician</string>
 </resources>

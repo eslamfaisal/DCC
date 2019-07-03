@@ -1,13 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parent_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.DoctorsFragment">
+    android:background="@android:color/white"
+    android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:elevation="16dp">
+
+        <HorizontalScrollView
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/grey_5"
+            android:minHeight="?attr/actionBarSize"
+            android:scrollbars="none"
+            app:contentInsetStartWithNavigation="0dp"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:theme="@style/Toolbar.Light">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="@dimen/spacing_middle"
+                    android:layout_height="0dp" />
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/spinner_specialization"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/spacing_xmlarge"
+                    android:background="@drawable/tab_rounded_accent"
+                    android:paddingLeft="@dimen/spacing_xlarge"
+                    android:popupBackground="@color/white"
+                    android:paddingRight="@dimen/spacing_xlarge">
+
+                </androidx.appcompat.widget.AppCompatSpinner>
+                <Button
+                    android:id="@+id/last_active"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/spacing_xmlarge"
+                    android:background="@drawable/tab_rounded_accent"
+                    android:paddingLeft="@dimen/spacing_xlarge"
+                    android:paddingRight="@dimen/spacing_xlarge"
+                    android:text="@string/last_active"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white" />
+
+                <Button
+                    android:id="@+id/newest_members"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/spacing_xmlarge"
+                    android:background="@drawable/tab_rounded_accent"
+                    android:paddingLeft="@dimen/spacing_xlarge"
+                    android:paddingRight="@dimen/spacing_xlarge"
+                    android:text="@string/newest_members"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white" />
+
+
+                <Button
+                    android:id="@+id/top_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/spacing_xmlarge"
+                    android:background="@drawable/tab_rounded_accent"
+                    android:paddingLeft="@dimen/spacing_xlarge"
+                    android:paddingRight="@dimen/spacing_xlarge"
+                    android:text="@string/top_rating"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white" />
+
+                <Button
+                    android:id="@+id/low_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/spacing_xmlarge"
+                    android:background="@drawable/tab_rounded_accent"
+                    android:paddingLeft="@dimen/spacing_xlarge"
+                    android:paddingRight="@dimen/spacing_xlarge"
+                    android:text="@string/low_rating"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white" />
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,6 +105,6 @@
         android:scrollingCache="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
-</FrameLayout>

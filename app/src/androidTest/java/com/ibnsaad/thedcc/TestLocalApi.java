@@ -1,13 +1,13 @@
 package com.ibnsaad.thedcc;
 
 
-import android.support.test.InstrumentationRegistry;
+import androidx.test.InstrumentationRegistry;
 import android.util.Log;
 
 import com.ibnsaad.thedcc.enums.Enums;
 import com.ibnsaad.thedcc.heper.SharedHelper;
 import com.ibnsaad.thedcc.model.User;
-import com.ibnsaad.thedcc.network.RetrofitNetwork.BaseClient;
+import com.ibnsaad.thedcc.server.BaseClient;
 
 import org.junit.Test;
 

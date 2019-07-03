@@ -3,13 +3,14 @@ package com.ibnsaad.thedcc.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class RegisterResponse {
+public class RegisterResponse implements Serializable {
 
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private String id;
     @SerializedName("username")
     @Expose
     private String username;
@@ -46,9 +47,9 @@ public class RegisterResponse {
     @SerializedName("country")
     @Expose
     private String country;
-    @SerializedName("userType")
+    @SerializedName("typeOfUser")
     @Expose
-    private String userType;
+    private String typeOfUser;
     @SerializedName("photoUrl")
     @Expose
     private Object photoUrl;
@@ -62,11 +63,11 @@ public class RegisterResponse {
     @Expose
     private List<Object> photos = null;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -166,12 +167,12 @@ public class RegisterResponse {
         this.country = country;
     }
 
-    public String getUserType() {
-        return userType;
+    public String getTypeOfUser() {
+        return typeOfUser;
     }
 
-    public void setUserType(String userType) {
-        this.userType = userType;
+    public void setTypeOfUser(String typeOfUser) {
+        this.typeOfUser = typeOfUser;
     }
 
     public Object getPhotoUrl() {

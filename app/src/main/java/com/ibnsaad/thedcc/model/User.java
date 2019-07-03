@@ -3,12 +3,15 @@ package com.ibnsaad.thedcc.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
 
     public boolean progress;
+
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private String id;
     @SerializedName("username")
     @Expose
     private String username;
@@ -39,6 +42,15 @@ public class User {
     @SerializedName("photoUrl")
     @Expose
     private String photoUrl;
+    @SerializedName("typeOfUser")
+    @Expose
+    private String typeOfUser;
+    @SerializedName("specialization")
+    @Expose
+    private String specialization;
+    @SerializedName("likerCount")
+    @Expose
+    private Integer likerCount;
 
     public User(boolean progress) {
         this.progress = progress;
@@ -51,11 +63,35 @@ public class User {
         this.knownAs = knownAs;
     }
 
-    public Integer getId() {
+    public String getUserType() {
+        return typeOfUser;
+    }
+
+    public void setUserType(String userType) {
+        this.typeOfUser = userType;
+    }
+
+    public String getSpecialization() {
+        return specialization;
+    }
+
+    public void setSpecialization(String specialization) {
+        this.specialization = specialization;
+    }
+
+    public Integer getLikerCount() {
+        return likerCount;
+    }
+
+    public void setLikerCount(Integer likerCount) {
+        this.likerCount = likerCount;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

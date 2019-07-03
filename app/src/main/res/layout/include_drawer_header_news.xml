@@ -20,13 +20,14 @@
 
         <com.facebook.drawee.view.SimpleDraweeView
             xmlns:fresco="http://schemas.android.com/apk/res-auto"
-
             android:id="@+id/user_image"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginBottom="8dp"
             fresco:fadeDuration="300"
-            fresco:placeholderImage="@drawable/ic_dummy_user"
+            fresco:progressBarAutoRotateInterval="1000"
+            fresco:progressBarImage="@drawable/ic_refresh"
+            fresco:backgroundImage="@color/green_100"
             fresco:roundAsCircle="true"
             fresco:roundingBorderColor="@color/white"
             fresco:roundingBorderWidth="2dp" />
@@ -36,14 +37,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/spacing_medium"
-            android:text="Eslam Faisal"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
         <TextView
-            android:id="@+id/email"
+            android:id="@+id/specialization"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Android Developer"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     </LinearLayout>
