@@ -99,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
         OneSignal.sendTag("user_name", email.getText().toString());
         String email_ = email.getText().toString();
         String password_ = password.getText().toString();
-z
+
         showProgress();
 
         JsonObject jsonObject1 = new JsonObject();
