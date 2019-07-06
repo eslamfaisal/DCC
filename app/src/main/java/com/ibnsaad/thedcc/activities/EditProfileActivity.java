@@ -1,5 +1,7 @@
 package com.ibnsaad.thedcc.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -7,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatEditText;
@@ -178,6 +181,10 @@ public class EditProfileActivity extends AppCompatActivity {
         }
     }
 
+    @OnClick(R.id.userType)
+    void setUserType(){
+        showUserTypeDialog(userType);
+    }
     @OnClick(R.id.save)
     void save() {
 
@@ -189,7 +196,7 @@ public class EditProfileActivity extends AppCompatActivity {
         jsonObject.addProperty("lookingFor", looking_for.getText().toString());
         jsonObject.addProperty("interests", interests.getText().toString());
         jsonObject.addProperty("city", city.getText().toString());
-        jsonObject.addProperty("userType", userType.getText().toString());
+        jsonObject.addProperty("typeOfUser", userType.getText().toString());
         jsonObject.addProperty("country", country.getText().toString());
         jsonObject.addProperty("specialization", gender.getText().toString());
 
@@ -283,6 +290,28 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void showUserTypeDialog(final View v) {
+        final String[] array = new String[]{
+                getString(R.string.doctors), getString(R.string.patient)
+        };
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_LIGHT);
+        builder.setTitle(getString(R.string.accunt_type));
+        builder.setSingleChoiceItems(array, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                ((AppCompatEditText) v).setText(array[i]);
+                if (array[i].equals(getString(R.string.patient))) {
+                    specialization.setVisibility(View.GONE);
+                } else {
+                    specialization.setVisibility(View.VISIBLE);
+                }
+                dialogInterface.dismiss();
+            }
+        });
+        builder.create();
+        builder.show();
     }
 
     @Override

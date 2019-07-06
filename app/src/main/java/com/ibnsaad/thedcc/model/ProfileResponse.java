@@ -47,7 +47,7 @@ public class ProfileResponse implements Serializable {
     @SerializedName("country")
     @Expose
     private String country;
-    @SerializedName("userType")
+    @SerializedName("typeOfUser")
     @Expose
     private String userType;
     @SerializedName("photoUrl")

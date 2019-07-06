@@ -24,6 +24,8 @@ import com.ibnsaad.thedcc.model.Message;
 import com.ibnsaad.thedcc.model.User;
 import com.ibnsaad.thedcc.server.BaseClient;
 import com.ibnsaad.thedcc.utils.Tools;
+import com.microsoft.signalr.HubConnection;
+import com.microsoft.signalr.HubConnectionBuilder;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,7 +40,6 @@ import retrofit2.Response;
 
 public class ChatActivity extends AppCompatActivity {
 
-
     public static String dateFormat = "dd-MM-yyyy hh:mm";
     private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
     private final String TAG = "ChatActivity";
@@ -52,7 +53,7 @@ public class ChatActivity extends AppCompatActivity {
     private TextView userName;
     private SimpleDraweeView userImage;
     private FloatingActionButton sendBtn;
-
+    HubConnection hubConnection;
     public static String ConvertMilliSecondsToFormattedDate(String milliSeconds) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(Long.parseLong(milliSeconds));
@@ -71,12 +72,18 @@ public class ChatActivity extends AppCompatActivity {
         userName.setText(user.getKnownAs());
         userImage.setImageURI(user.getPhotoUrl());
         getOldMessages();
-//        HubConnection hubConnection = HubConnectionBuilder.create(input).build();
-//        hubConnection.send("eslam",new Message());
-//        hubConnection.on("Send", (message) -> {
-//            System.out.println("New Message: " + message.getMessageSent());
-//        }, Message.class);
 
+        hubConnection = HubConnectionBuilder.create("http://27ea9525.ngrok.io/chats").build();
+        hubConnection.start();
+
+
+        hubConnection.on("ReceiveMessage", (message) -> {
+            adapter.insertItem(message);
+            recycler_view.scrollToPosition(adapter.getItemCount() - 1);
+            Log.d(TAG, "onCreate: "+message.getMessageSent());
+
+        }, Message.class);
+        Log.d(TAG, "onCreate: "+hubConnection.getConnectionState().name());
     }
 
     private void getOldMessages() {
@@ -201,7 +208,8 @@ public class ChatActivity extends AppCompatActivity {
                         Toast.makeText(ChatActivity.this, "Try Again", Toast.LENGTH_SHORT).show();
                     }
                 });
-
+       hubConnection.send("ReceiveMessage",message);
+        Log.d(TAG, "makeMessage: "+hubConnection.getConnectionState().name());
     }
 
 

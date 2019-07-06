@@ -97,13 +97,13 @@ public class LoginActivity extends AppCompatActivity {
 
     private void login() {
         OneSignal.sendTag("user_name", email.getText().toString());
-        String email_ = email.getText().toString();
+        String username = email.getText().toString();
         String password_ = password.getText().toString();
 
         showProgress();
 
         JsonObject jsonObject1 = new JsonObject();
-        jsonObject1.addProperty("username", email_);
+        jsonObject1.addProperty("username", username);
         jsonObject1.addProperty("password", password_);
 
         BaseClient.getApi().logIn(jsonObject1).enqueue(new Callback<LoginResponse>() {

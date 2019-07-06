@@ -41,6 +41,8 @@ public class Message implements Serializable {
     @Expose
     private String messageSent;
 
+    public Message() {
+    }
 
     public Message(String  senderId, String recipientId,
                    String messageSent, String content ) {
