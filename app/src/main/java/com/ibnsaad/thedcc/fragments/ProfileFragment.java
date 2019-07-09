@@ -94,7 +94,7 @@ public class ProfileFragment extends Fragment {
                 userId).enqueue(new Callback<ProfileResponse>() {
             @Override
             public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
-                Log.d(TAG, "onResponse: " + response.body().toString());
+
                 profileResponse = response.body();
                 image.setImageURI(profileResponse.getPhotoUrl());
                 name.setText(profileResponse.getKnownAs());

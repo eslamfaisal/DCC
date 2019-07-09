@@ -12,8 +12,9 @@
         <item name="android:windowBackground">@drawable/splash</item>
     </style>
 
-    <style name="AppTheme.SplashScreen.Base" parent="AppTheme.SplashScreen" />
-
+    <style name="AppTheme.SplashScreen.Base" parent="AppTheme.SplashScreen" >
+        <item name="android:homeAsUpIndicator">@drawable/ic_arrow_back_black_24dp</item>
+    </style>
     <style name="Widget.Sphinx.ActionBar.Solid" parent="@android:style/Widget.Holo.ActionBar.Solid">
         <item name="android:background">#FFA500</item>
     </style>

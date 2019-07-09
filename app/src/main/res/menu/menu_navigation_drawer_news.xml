@@ -12,14 +12,15 @@
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_account"
             android:title="Profile" />
+        <item
+            android:id="@+id/nav_chats"
+            android:icon="@android:drawable/sym_action_chat"
+            android:title="Chats" />
     </group>
     <group
         android:id="@+id/grp_2"
         android:checkableBehavior="none">
-        <item
-            android:id="@+id/nav_settings"
-            android:icon="@drawable/ic_settings"
-            android:title="Settings" />
+
         <item
             android:id="@+id/nav_out"
             android:icon="@drawable/ic_logout"

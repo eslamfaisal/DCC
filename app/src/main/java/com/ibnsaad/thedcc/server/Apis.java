@@ -133,4 +133,8 @@ public interface Apis {
     Call<List<SymptomByIdResponse>> getSympotByBodyAreasId(@Header("Authorization") String header, @Query("BodyId") int BodyId);
 
 
+    @GET("api/users/{userId}/Messages")
+    Call<List<Message>> getChatsHeads(@Header("Authorization") String header, @Path("userId") String userId);
+
+
 }

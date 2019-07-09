@@ -42,6 +42,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 public class Tools {
@@ -128,22 +129,22 @@ public class Tools {
     }
 
     public String getFormattedDateShort(Long dateTime) {
-        SimpleDateFormat newFormat = new SimpleDateFormat("MMM dd, yyyy");
+        SimpleDateFormat newFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.US);
         return newFormat.format(new Date(dateTime));
     }
 
     public static String getFormattedDateSimple(Long dateTime) {
-        SimpleDateFormat newFormat = new SimpleDateFormat("MMMM dd, yyyy");
+        SimpleDateFormat newFormat = new SimpleDateFormat("MMMM dd, yyyy", Locale.US);
         return newFormat.format(new Date(dateTime));
     }
 
     public String getFormattedDateEvent(Long dateTime) {
-        SimpleDateFormat newFormat = new SimpleDateFormat("EEE, MMM dd yyyy");
+        SimpleDateFormat newFormat = new SimpleDateFormat("EEE, MMM dd yyyy", Locale.US);
         return newFormat.format(new Date(dateTime));
     }
 
     public static String getFormattedTimeEvent(Long time) {
-        SimpleDateFormat newFormat = new SimpleDateFormat("h:mm a");
+        SimpleDateFormat newFormat = new SimpleDateFormat("h:mm a", Locale.US);
         return newFormat.format(new Date(time));
     }
 

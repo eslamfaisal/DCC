@@ -198,7 +198,7 @@ public class EditProfileActivity extends AppCompatActivity {
         jsonObject.addProperty("city", city.getText().toString());
         jsonObject.addProperty("typeOfUser", userType.getText().toString());
         jsonObject.addProperty("country", country.getText().toString());
-        jsonObject.addProperty("specialization", gender.getText().toString());
+        jsonObject.addProperty("specialization", specialization.getText().toString());
 
         BaseClient.getApi().updateProfile(
                 SharedHelper.getKey(this, Enums.AUTH_TOKEN.name()),

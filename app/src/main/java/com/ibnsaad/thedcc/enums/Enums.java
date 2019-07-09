@@ -20,9 +20,10 @@ public enum Enums {
     Spetialization,
     UserType,
     Head,
-    Arms,
-    Legs,
     Stomach,
+    Eye,
+    ENT,
+    Bones,
     Chest;
 }
 

@@ -50,11 +50,26 @@ public class AdapterListExpand extends RecyclerView.Adapter<RecyclerView.ViewHol
             final Holder view = (Holder) holder;
 
             final DrugsResponse drugs = items.get(position);
-            view.name.setText(drugs.getDrugName());
-            view.composition.setText(drugs.getTreatmentBulletin().getComposition());
-            view.dosing.setText(drugs.getTreatmentBulletin().getDosing());
-            view.indications.setText(drugs.getTreatmentBulletin().getIndications());
-            view.sideEffects.setText(drugs.getTreatmentBulletin().getSideEffects());
+            if (drugs.getDrugName() != null)
+                view.name.setText(drugs.getDrugName());
+            if (drugs.getTreatmentBulletin() != null){
+
+                if (drugs.getTreatmentBulletin().getComposition() != null)
+                    view.composition.setText(drugs.getTreatmentBulletin().getComposition());
+                if (drugs.getTreatmentBulletin().getDosing() != null)
+                    view.dosing.setText(drugs.getTreatmentBulletin().getDosing());
+                if (drugs.getTreatmentBulletin().getIndications() != null)
+                    view.indications.setText(drugs.getTreatmentBulletin().getIndications());
+                if (drugs.getTreatmentBulletin().getSideEffects() != null)
+                    view.sideEffects.setText(drugs.getTreatmentBulletin().getSideEffects());
+                view.bt_expand.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        boolean show = toggleLayoutExpand(!drugs.expanded, v, view.lyt_expand);
+                        items.get(position).expanded = show;
+                    }
+                });
+            }
             view.lyt_parent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -99,12 +114,22 @@ public class AdapterListExpand extends RecyclerView.Adapter<RecyclerView.ViewHol
         return items.size();
     }
 
+    public void setItems(List<DrugsResponse> items) {
+        this.items = items;
+        notifyDataSetChanged();
+    }
+
+    public void clear() {
+        items.clear();
+        notifyDataSetChanged();
+    }
+
     public interface OnItemClickListener {
         void onItemClick(View view, Social obj, int position);
     }
 
     public class Holder extends RecyclerView.ViewHolder {
-        public TextView name,composition,indications,dosing,sideEffects;
+        public TextView name, composition, indications, dosing, sideEffects;
         public ImageButton bt_expand;
         public View lyt_expand;
         public View lyt_parent;
@@ -120,14 +145,5 @@ public class AdapterListExpand extends RecyclerView.Adapter<RecyclerView.ViewHol
             lyt_expand = v.findViewById(R.id.lyt_expand);
             lyt_parent = v.findViewById(R.id.lyt_parent);
         }
-    }
-
-    public void setItems(List<DrugsResponse> items) {
-        this.items = items;
-        notifyDataSetChanged();
-    }
-    public void clear(){
-        items.clear();
-        notifyDataSetChanged();
     }
 }

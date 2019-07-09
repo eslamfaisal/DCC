@@ -59,6 +59,12 @@ public class User implements Serializable {
     public User() {
     }
 
+    public User(String id, String knownAs, String photoUrl) {
+        this.id = id;
+        this.knownAs = knownAs;
+        this.photoUrl = photoUrl;
+    }
+
     public User(String knownAs) {
         this.knownAs = knownAs;
     }

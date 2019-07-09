@@ -108,8 +108,8 @@ public class DiagnosisFragment extends Fragment implements ChangeBodyAreaListene
 
                             // check legs
                             if (x >= 420 && x <= 580 && y >= 520 && y <= 930) {
-                                bodyView.setImageDrawable(getResources().getDrawable(R.drawable.legs_pain));
-                                showBottomSheetDialog(Enums.Legs);
+                                bodyView.setImageDrawable(getResources().getDrawable(R.drawable.bones));
+                                showBottomSheetDialog(Enums.Bones);
                             } else if (x >= 420 && x <= 580 && y >= 320 && y <= 520) {
                                 bodyView.setImageDrawable(getResources().getDrawable(R.drawable.stomach));
                                 showBottomSheetDialog(Enums.Stomach);
@@ -117,11 +117,11 @@ public class DiagnosisFragment extends Fragment implements ChangeBodyAreaListene
                                 bodyView.setImageDrawable(getResources().getDrawable(R.drawable.chest));
                                 showBottomSheetDialog(Enums.Chest);
                             } else if (x >= 350 && x <= 420 && y >= 210 && y <= 580) {
-                                bodyView.setImageDrawable(getResources().getDrawable(R.drawable.arms));
-                                showBottomSheetDialog(Enums.Arms);
+                                bodyView.setImageDrawable(getResources().getDrawable(R.drawable.bones));
+                                showBottomSheetDialog(Enums.Bones);
                             } else if (x >= 580 && x <= 650 && y >= 210 && y <= 580) {
-                                bodyView.setImageDrawable(getResources().getDrawable(R.drawable.arms));
-                                showBottomSheetDialog(Enums.Arms);
+                                bodyView.setImageDrawable(getResources().getDrawable(R.drawable.bones));
+                                showBottomSheetDialog(Enums.Bones);
                             } else if (x >= 450 && x <= 550 && y >= 70 && y <= 200) {
                                 bodyView.setImageDrawable(getResources().getDrawable(R.drawable.head_pain));
                                 showBottomSheetDialog(Enums.Head);
@@ -271,14 +271,18 @@ public class DiagnosisFragment extends Fragment implements ChangeBodyAreaListene
     public void setBodyArea(Enums enums) {
         if (enums.equals(Enums.Head)) {
             bodyView.setImageDrawable(getResources().getDrawable(R.drawable.head_pain));
-        } else if (enums.equals(Enums.Arms)) {
-            bodyView.setImageDrawable(getResources().getDrawable(R.drawable.arms));
+        } else if (enums.equals(Enums.Bones)) {
+            bodyView.setImageDrawable(getResources().getDrawable(R.drawable.bones));
         } else if (enums.equals(Enums.Stomach)) {
             bodyView.setImageDrawable(getResources().getDrawable(R.drawable.stomach));
         } else if (enums.equals(Enums.Chest)) {
             bodyView.setImageDrawable(getResources().getDrawable(R.drawable.chest));
-        } else if (enums.equals(Enums.Legs)) {
-            bodyView.setImageDrawable(getResources().getDrawable(R.drawable.legs_pain));
+        } else if (enums.equals(Enums.Bones)) {
+            bodyView.setImageDrawable(getResources().getDrawable(R.drawable.bones));
+        }else if (enums.equals(Enums.Eye)) {
+            bodyView.setImageDrawable(getResources().getDrawable(R.drawable.eyes));
+        }else if (enums.equals(Enums.ENT)) {
+            bodyView.setImageDrawable(getResources().getDrawable(R.drawable.nose_ear_throat));
         }
     }
 }

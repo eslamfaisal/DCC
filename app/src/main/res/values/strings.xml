@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DDC</string>
+    <string name="app_name">ECMC</string>
     <string name="admob_app_id" translatable="false">ca-app-pub-5857470349008729~8413259913</string>
 
     <!-- common -->
@@ -118,7 +118,7 @@
     <string name="arms">Arms</string>
     <string name="legs">Legs</string>
     <string name="chest">Chest</string>
-    <string name="stomach">Stomach</string>
+    <string name="stomach">Gastrointestinal tract</string>
     <string name="composition">Composition</string>
     <string name="indications">Indications</string>
     <string name="dosing">Dosing</string>
@@ -139,4 +139,7 @@
     <string name="dermatologist">Dermatologist</string>
     <string name="feminine_doctor">Feminine Doctor</string>
     <string name="pediatrician">Pediatrician</string>
+    <string name="eyes">Eye</string>
+    <string name="ent">ENT(Ear,Nois,Throat)</string>
+    <string name="bones">Bones</string>
 </resources>

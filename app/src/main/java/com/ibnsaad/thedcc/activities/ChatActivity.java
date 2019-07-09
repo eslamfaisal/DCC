@@ -30,9 +30,12 @@ import com.microsoft.signalr.HubConnectionBuilder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -53,13 +56,14 @@ public class ChatActivity extends AppCompatActivity {
     private TextView userName;
     private SimpleDraweeView userImage;
     private FloatingActionButton sendBtn;
-    HubConnection hubConnection;
+
     public static String ConvertMilliSecondsToFormattedDate(String milliSeconds) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(Long.parseLong(milliSeconds));
         return simpleDateFormat.format(calendar.getTime());
     }
 
+    Timer timer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,19 +75,34 @@ public class ChatActivity extends AppCompatActivity {
         user = (User) intent.getSerializableExtra(Enums.USER.name());
         userName.setText(user.getKnownAs());
         userImage.setImageURI(user.getPhotoUrl());
-        getOldMessages();
-
-        hubConnection = HubConnectionBuilder.create("http://27ea9525.ngrok.io/chats").build();
-        hubConnection.start();
 
 
-        hubConnection.on("ReceiveMessage", (message) -> {
-            adapter.insertItem(message);
-            recycler_view.scrollToPosition(adapter.getItemCount() - 1);
-            Log.d(TAG, "onCreate: "+message.getMessageSent());
 
-        }, Message.class);
-        Log.d(TAG, "onCreate: "+hubConnection.getConnectionState().name());
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (timer==null){
+            timer = new Timer();
+            timer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    getOldMessages();
+                }
+            },0,3000);
+
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (timer!=null){
+            timer.cancel();
+            timer=null;
+        }
     }
 
     private void getOldMessages() {
@@ -100,7 +119,9 @@ public class ChatActivity extends AppCompatActivity {
                 if (response.body() != null) {
 
                     Log.d(TAG, "onResponse: " + response.body().toString());
-                    adapter.setItems(response.body());
+                    List<Message> reversedList = response.body();
+                    Collections.reverse(reversedList);
+                    adapter.setItems(reversedList);
 
                 } else {
                     Log.d(TAG, "onResponse: " + response.toString());
@@ -181,7 +202,7 @@ public class ChatActivity extends AppCompatActivity {
 
 
         String recipientId = user.getId();
-        SimpleDateFormat output = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm", Locale.getDefault());
+        SimpleDateFormat output = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm", Locale.US);
         String time = output.format(new Date());
 
         Message message = new Message(SharedHelper.getKey(this, Enums.ID.name()),
@@ -208,8 +229,7 @@ public class ChatActivity extends AppCompatActivity {
                         Toast.makeText(ChatActivity.this, "Try Again", Toast.LENGTH_SHORT).show();
                     }
                 });
-       hubConnection.send("ReceiveMessage",message);
-        Log.d(TAG, "makeMessage: "+hubConnection.getConnectionState().name());
+
     }
 
 

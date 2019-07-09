@@ -55,7 +55,6 @@ public class FragmentBottomSheetDialogFull extends BottomSheetDialogFragment {
     private ChangeBodyAreaListener changeBodyAreaListener;
     private Enums bodyAreaEnum;
     private AppCompatSpinner shap_body_area_btn;
-    private AppCompatSpinner spinnerbodyAreas;
     private AppCompatSpinner symptomsSpinner;
     private AppCompatSpinner spinner_drugs;
     private ImageButton btn_close;
@@ -73,9 +72,11 @@ public class FragmentBottomSheetDialogFull extends BottomSheetDialogFragment {
         dialog.setContentView(view);
         initViews(view);
         setlistener();
-        setBodyArea(bodyAreaEnum);
+
         if (getActivity() != null)
-            showBodyDetectionDialog();
+            setShap_body_area_spinner();
+
+        setBodyArea(bodyAreaEnum);
         return dialog;
     }
 
@@ -85,14 +86,14 @@ public class FragmentBottomSheetDialogFull extends BottomSheetDialogFragment {
         bodyView = view.findViewById(R.id.bodyView);
         space = view.findViewById(R.id.lyt_spacer);
         shap_body_area_btn = view.findViewById(R.id.spinner_body_area);
-        spinnerbodyAreas = view.findViewById(R.id.bodyAreasResponseList);
+
         symptomsSpinner = view.findViewById(R.id.symptomsSpinner);
         spinner_drugs = view.findViewById(R.id.spinner_drugs);
         app_bar_layout = view.findViewById(R.id.app_bar_layout);
         btn_close = view.findViewById(R.id.bt_close);
         space.setMinimumHeight(Tools.getScreenHeight() / 3);
         hideView(app_bar_layout);
-        setShap_body_area_spinner();
+//        setShap_body_area_spinner();
 
         mBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
@@ -173,9 +174,9 @@ public class FragmentBottomSheetDialogFull extends BottomSheetDialogFragment {
 
                             // check legs
                             if (x >= 420 && x <= 580 && y >= 520 && y <= 930) {
-                                bodyView.setImageDrawable(getResources().getDrawable(R.drawable.legs_pain));
-                                changeBodyAreaListener.setBodyArea(Enums.Legs);
-                                shap_body_area_btn.setSelection(2);
+                                bodyView.setImageDrawable(getResources().getDrawable(R.drawable.bones));
+                                changeBodyAreaListener.setBodyArea(Enums.Bones);
+                                shap_body_area_btn.setSelection(5);
                             } else if (x >= 420 && x <= 580 && y >= 320 && y <= 520) {
                                 bodyView.setImageDrawable(getResources().getDrawable(R.drawable.stomach));
                                 changeBodyAreaListener.setBodyArea(Enums.Stomach);
@@ -185,13 +186,13 @@ public class FragmentBottomSheetDialogFull extends BottomSheetDialogFragment {
                                 changeBodyAreaListener.setBodyArea(Enums.Chest);
                                 shap_body_area_btn.setSelection(3);
                             } else if (x >= 350 && x <= 420 && y >= 210 && y <= 580) {
-                                bodyView.setImageDrawable(getResources().getDrawable(R.drawable.arms));
-                                changeBodyAreaListener.setBodyArea(Enums.Arms);
-                                shap_body_area_btn.setSelection(1);
+                                bodyView.setImageDrawable(getResources().getDrawable(R.drawable.bones));
+                                changeBodyAreaListener.setBodyArea(Enums.Bones);
+                                shap_body_area_btn.setSelection(5);
                             } else if (x >= 580 && x <= 650 && y >= 210 && y <= 580) {
-                                bodyView.setImageDrawable(getResources().getDrawable(R.drawable.arms));
-                                changeBodyAreaListener.setBodyArea(Enums.Arms);
-                                shap_body_area_btn.setSelection(1);
+                                bodyView.setImageDrawable(getResources().getDrawable(R.drawable.bones));
+                                changeBodyAreaListener.setBodyArea(Enums.Bones);
+                                shap_body_area_btn.setSelection(5);
                             } else if (x >= 450 && x <= 550 && y >= 70 && y <= 200) {
                                 bodyView.setImageDrawable(getResources().getDrawable(R.drawable.head_pain));
                                 changeBodyAreaListener.setBodyArea(Enums.Head);
@@ -209,10 +210,12 @@ public class FragmentBottomSheetDialogFull extends BottomSheetDialogFragment {
     public void setShap_body_area_spinner() {
         List<String> bodyAreaList = new ArrayList<>();
         bodyAreaList.add(getString(R.string.head));
-        bodyAreaList.add(getString(R.string.arms));
-        bodyAreaList.add(getString(R.string.legs));
+        bodyAreaList.add(getString(R.string.eyes));
+        bodyAreaList.add(getString(R.string.ent));
         bodyAreaList.add(getString(R.string.chest));
         bodyAreaList.add(getString(R.string.stomach));
+        bodyAreaList.add(getString(R.string.bones));
+
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, bodyAreaList);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         shap_body_area_btn.setAdapter(dataAdapter);
@@ -226,25 +229,33 @@ public class FragmentBottomSheetDialogFull extends BottomSheetDialogFragment {
                     }
                     break;
                     case 1: {
-                        changeBodyAreaListener.setBodyArea(Enums.Arms);
-                        bodyView.setImageDrawable(getResources().getDrawable(R.drawable.arms));
+                        changeBodyAreaListener.setBodyArea(Enums.Eye);
+                        bodyView.setImageDrawable(getResources().getDrawable(R.drawable.eyes));
                     }
                     break;
-                    case 2:
-                        changeBodyAreaListener.setBodyArea(Enums.Legs);
-                        bodyView.setImageDrawable(getResources().getDrawable(R.drawable.legs_pain));
-                        break;
-                    case 3: {
+                    case 2: {
+                        changeBodyAreaListener.setBodyArea(Enums.ENT);
+                        bodyView.setImageDrawable(getResources().getDrawable(R.drawable.nose_ear_throat));
+                    }
+                    break;
+                    case 3:{
+
                         changeBodyAreaListener.setBodyArea(Enums.Chest);
                         bodyView.setImageDrawable(getResources().getDrawable(R.drawable.chest));
                     }
-                    break;
+                        break;
                     case 4: {
                         changeBodyAreaListener.setBodyArea(Enums.Stomach);
                         bodyView.setImageDrawable(getResources().getDrawable(R.drawable.stomach));
                     }
                     break;
+                    case 5: {
+                        changeBodyAreaListener.setBodyArea(Enums.Bones);
+                        bodyView.setImageDrawable(getResources().getDrawable(R.drawable.bones));
+                    }
+                    break;
                 }
+                getSypmotByBodyAreasId(position + 1);
             }
 
             @Override
@@ -257,18 +268,15 @@ public class FragmentBottomSheetDialogFull extends BottomSheetDialogFragment {
         if (enums.equals(Enums.Head)) {
             bodyView.setImageDrawable(getResources().getDrawable(R.drawable.head_pain));
             shap_body_area_btn.setSelection(0);
-        } else if (enums.equals(Enums.Arms)) {
-            bodyView.setImageDrawable(getResources().getDrawable(R.drawable.arms));
-            shap_body_area_btn.setSelection(1);
+        } else if (enums.equals(Enums.Bones)) {
+            bodyView.setImageDrawable(getResources().getDrawable(R.drawable.bones));
+            shap_body_area_btn.setSelection(5);
         } else if (enums.equals(Enums.Stomach)) {
             bodyView.setImageDrawable(getResources().getDrawable(R.drawable.stomach));
             shap_body_area_btn.setSelection(4);
         } else if (enums.equals(Enums.Chest)) {
             bodyView.setImageDrawable(getResources().getDrawable(R.drawable.chest));
             shap_body_area_btn.setSelection(3);
-        } else if (enums.equals(Enums.Legs)) {
-            bodyView.setImageDrawable(getResources().getDrawable(R.drawable.legs_pain));
-            shap_body_area_btn.setSelection(2);
         }
     }
 
@@ -295,47 +303,47 @@ public class FragmentBottomSheetDialogFull extends BottomSheetDialogFragment {
         int size = (int) styledAttributes.getDimension(0, 0);
         return size;
     }
-
-    private void showBodyDetectionDialog() {
-
-        BaseClient.getApi().getBodyAreas(
-                SharedHelper.getKey(getActivity(), Enums.AUTH_TOKEN.name())
-        ).enqueue(new Callback<List<BodyAreasResponse>>() {
-            @Override
-            public void onResponse(Call<List<BodyAreasResponse>> call, Response<List<BodyAreasResponse>> response) {
-                if (response.body() != null) {
-                    bodyAreasResponseList = response.body();
-                    List<String> list = new ArrayList<>();
-                    for (BodyAreasResponse bodyAreasResponse : response.body()) {
-                        list.add(bodyAreasResponse.getNameArea());
-                    }
-                    if (getActivity() != null) {
-                        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, list);
-                        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        spinnerbodyAreas.setAdapter(dataAdapter);
-                        Log.d(TAG, "onResponse: " + bodyAreasResponseList.toString());
-                        spinnerbodyAreas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                            @Override
-                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                getSypmotByBodyAreasId(position + 1);
-                            }
-
-                            @Override
-                            public void onNothingSelected(AdapterView<?> parent) {
-
-                            }
-                        });
-                    }
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<BodyAreasResponse>> call, Throwable t) {
-
-            }
-        });
-    }
+//
+//    private void showBodyDetectionDialog() {
+//
+//        BaseClient.getApi().getBodyAreas(
+//                SharedHelper.getKey(getActivity(), Enums.AUTH_TOKEN.name())
+//        ).enqueue(new Callback<List<BodyAreasResponse>>() {
+//            @Override
+//            public void onResponse(Call<List<BodyAreasResponse>> call, Response<List<BodyAreasResponse>> response) {
+//                if (response.body() != null) {
+//                    bodyAreasResponseList = response.body();
+//                    List<String> list = new ArrayList<>();
+//                    for (BodyAreasResponse bodyAreasResponse : response.body()) {
+//                        list.add(bodyAreasResponse.getNameArea());
+//                    }
+//                    if (getActivity() != null) {
+//                        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, list);
+//                        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//                        spinnerbodyAreas.setAdapter(dataAdapter);
+//                        Log.d(TAG, "onResponse: " + bodyAreasResponseList.toString());
+//                        spinnerbodyAreas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//                            @Override
+//                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                                getSypmotByBodyAreasId(position + 1);
+//                            }
+//
+//                            @Override
+//                            public void onNothingSelected(AdapterView<?> parent) {
+//
+//                            }
+//                        });
+//                    }
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<BodyAreasResponse>> call, Throwable t) {
+//
+//            }
+//        });
+//    }
 
 
     private void getSypmotByBodyAreasId(int bodyArea) {

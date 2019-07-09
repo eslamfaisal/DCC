@@ -260,7 +260,7 @@ public class UsersFragment extends Fragment {
         ).enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                if (response.body().size() > 0)
+                if (response.body().size() <= 0)
                     doneLoadAllPages = true;
                 recyclerView.post(new Runnable() {
                     @Override

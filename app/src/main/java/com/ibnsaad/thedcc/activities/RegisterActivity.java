@@ -151,9 +151,12 @@ public class RegisterActivity extends AppCompatActivity {
         jsonObject1.addProperty("country", country.getText().toString().trim());
         jsonObject1.addProperty("created", "2019-06-12T20:55:50.063Z");
         jsonObject1.addProperty("lastActive", "2019-06-12T20:55:50.063Z");
-        jsonObject1.addProperty("typeOfUser", userType.getText().toString().trim());
+
         if (userType.getText().toString().trim().equals(getString(R.string.doctors)))
+        {
+            jsonObject1.addProperty("typeOfUser", userType.getText().toString().trim());
             jsonObject1.addProperty("specialization", specialization.getText().toString().trim());
+        }
         else
             jsonObject1.addProperty("specialization", "Patient");
         BaseClient.getApi().registerNewUser(jsonObject1).enqueue(new Callback<RegisterResponse>() {

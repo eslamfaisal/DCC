@@ -20,6 +20,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.ibnsaad.thedcc.R;
 import com.ibnsaad.thedcc.adapter.UsersAdapterGridScrollProgress;
 import com.ibnsaad.thedcc.enums.Enums;
+import com.ibnsaad.thedcc.fragments.ChatHeadFragment;
 import com.ibnsaad.thedcc.fragments.UsersFragment;
 import com.ibnsaad.thedcc.fragments.PatientHomeFragment;
 import com.ibnsaad.thedcc.fragments.ProfileFragment;
@@ -126,6 +127,9 @@ public class HomeActivity extends SplashActivity {
                 break;
             case R.id.nav_profile:
                 replaceFragment(new ProfileFragment(SharedHelper.getKey(this, Enums.ID.name()), true));
+                break;
+            case R.id.nav_chats:
+                replaceFragment(new ChatHeadFragment());
                 break;
             case R.id.nav_out:
                 SharedHelper.clearSharedPreferences(this);
